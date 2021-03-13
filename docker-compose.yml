@@ -1,0 +1,32 @@
+version: "3.4"
+
+services:
+  web:
+    image: node:lts-alpine3.13
+    ports: [8000:3000]
+    volumes:
+      - ./web:/app
+    working_dir: /app/
+    command: sh -c "yarn && yarn dev"
+
+  api_users:
+    image: node:lts-alpine3.13
+    ports: [3000:3000]
+    volumes:
+      - ./api_users:/app
+    working_dir: /app/
+    command: sh -c "yarn"
+
+  db_users:
+    image: postgres:9.6.21-alpine
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: goodfood
+    # TODO: script to build the DB
+
+  # TODO: set as development container only
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
