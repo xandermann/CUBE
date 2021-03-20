@@ -1,32 +1,63 @@
 version: "3.4"
 
 services:
-  web:
-    image: node:lts-alpine3.13
-    ports: [8000:3000]
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+    working_dir: /backend/
     volumes:
-      - ./web:/app
-    working_dir: /app/
-    command: sh -c "yarn && yarn dev"
+      - ./backend/:/backend/
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+      - database
+      - mail
+    links:
+      - php
 
-  api_users:
-    image: node:lts-alpine3.13
-    ports: [3000:3000]
-    volumes:
-      - ./api_users:/app
-    working_dir: /app/
-    command: sh -c "yarn"
-
-  db_users:
+  database:
     image: postgres:9.6.21-alpine
     restart: always
     environment:
-      POSTGRES_PASSWORD: goodfood
-    # TODO: script to build the DB
+      POSTGRES_PASSWORD: example
 
-  # TODO: set as development container only
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/backend
+    links:
+      - mail
+    #    ports:
+    #      - "9000:9000"
+
+  composer:
+    image: composer:latest
+    volumes:
+      - ./backend:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - php
+
+  mail:
+    image: maildev/maildev
+    ports:
+      - "1080:80"
+    #      - "1025:25"
+
+  # TODO dev
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
+
+  alpine:
+    image: composer:latest
+    restart: always
+    volumes:
+      - ./:/src
+    command: tail -f /dev/null
+    working_dir: /src/

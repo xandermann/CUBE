@@ -1,9 +1,15 @@
 # GoodFood
 
-## web
+## frontend
 
 Contient l'application React
 
-## api_users
+## backend
 
-Contient le code de l'API utililsateur
+Contient l'API
+
+database
+postgres
+example
+
+chown -R www-data:www-data /backend/
