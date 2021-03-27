@@ -1,6 +1,13 @@
 import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const router = useRouter();
+  const { defaultLocale, locale } = router;
+
+  // console.log(defaultLocale, locale, router);
+
   return (
     <>
       <Head>
@@ -11,7 +18,7 @@ export default function Home() {
       <div className="px-4 py-5 my-5 text-center">
         <img
           className="d-block mx-auto mb-4"
-          src="/docs/5.0/assets/brand/bootstrap-logo.svg"
+          src="/todo-lien-logo-image"
           alt=""
           width="72"
           height="57"
@@ -41,6 +48,22 @@ export default function Home() {
             </button>
           </div>
         </div>
+      </div>
+
+      <div className="text-center">
+        <hr />
+
+        <Link href="/" locale="fr">
+          <a>Français</a>
+        </Link>
+        <Link href="/" locale="en">
+          <a>Anglais</a>
+        </Link>
+
+        <p>La langue par defaut est {defaultLocale}</p>
+        <p>
+          La langue choisie est <strong>{locale}</strong>
+        </p>
       </div>
     </>
   );

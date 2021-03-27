@@ -34,7 +34,7 @@ export function Navbar() {
             </li>
           </ul>
 
-          <form class="d-flex">
+          <form className="d-flex">
             <Link href="/connexion">
               <a className="btn btn-primary">Connexion</a>
             </Link>
