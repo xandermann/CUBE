@@ -71,4 +71,4 @@ services:
     volumes:
       - ./frontend:/app
     working_dir: /app/
-    command: sh -c "([ ! -d 'node_modules' ] && yarn) || yarn dev"
+    command: sh -c "([ ! -d 'node_modules' ] && yarn) ; yarn dev"
