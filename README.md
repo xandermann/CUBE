@@ -30,3 +30,12 @@ docker-compose down
 docker-compose up -d
 
 ```
+
+-
+
+May be usefull:
+
+```
+SESSION_DOMAIN=localhost
+SANCTUM_STATEFUL_DOMAINS=localhost
+```
