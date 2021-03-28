@@ -30,3 +30,14 @@ docker-compose down
 docker-compose up -d
 
 ```
+
+-
+
+May be usefull:
+
+```
+SESSION_DOMAIN=localhost // Laravel domain
+SANCTUM_STATEFUL_DOMAINS=localhost:8000 // SPA domain
+
+SESSION_DRIVER=cookie
+```
