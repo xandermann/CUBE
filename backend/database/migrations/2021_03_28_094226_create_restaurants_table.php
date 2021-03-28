@@ -16,12 +16,7 @@ class CreateRestaurantsTable extends Migration
         Schema::create('restaurants', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name');
-            $table->string('country');
-            $table->string('city');
-            $table->string('postcode');
-            $table->string('street');
-            $table->string('language');
+            $table->foreignId('user_id')->constrained('users');
         });
     }
 
