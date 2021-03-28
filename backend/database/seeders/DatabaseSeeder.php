@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'postcode' => 54000,
             'street' => 'a',
             'language' => 'fr',
-            'isAdmin' => true,
+            'is_admin' => true,
         ]);
     }
 }
