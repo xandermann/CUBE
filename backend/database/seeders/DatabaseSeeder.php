@@ -19,13 +19,14 @@ class DatabaseSeeder extends Seeder
         User::insert([
             'email' => 'a@a.a',
             'password' => '$2y$10$VBhMtl0miG1TQqCm39Lrv.hpmr8OErTyEcoFyOILFv3VLDYDR/kwO',
-            'name' => 'a', // TODO : change into "lastname"
+            'lastname' => 'a',
             'firstname' => 'a',
             'country' => 'France',
             'city' => 'Nancy',
             'postcode' => 54000,
             'street' => 'a',
-            'language' => 'fr'
+            'language' => 'fr',
+            'isAdmin' => true,
         ]);
     }
 }
