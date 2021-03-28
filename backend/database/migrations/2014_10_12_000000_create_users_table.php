@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('postcode');
             $table->string('street');
             $table->string('language');
+            $table->boolean('isAdmin');
             $table->rememberToken();
             $table->timestamps();
         });
