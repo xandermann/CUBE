@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrderableTable extends Migration
+class CreateRequestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,17 @@ class CreateOrderableTable extends Migration
      */
     public function up()
     {
-        Schema::create('orderable', function (Blueprint $table) {
+        Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name');
-            $table->decimal('price', 10, 2);
-            $table->string('sauce');
-            $table->string('size');
-            $table->string('extras');
-            $table->string('drinks');
+            $table->date('date');
+            $table->string('instructions');
+            $table->decimal('total');
+            $table->date('request_date');
+            $table->date('delivery_date');
             $table->foreignId('restaurants_id')->constrained('restaurants');
+            $table->foreignId('deliverer_id')->constrained('deliverers');
+            $table->foreignId('orderable_id')->constrained('orderable');
         });
     }
 
@@ -33,6 +34,6 @@ class CreateOrderableTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orderable');
+        Schema::dropIfExists('requests');
     }
 }
