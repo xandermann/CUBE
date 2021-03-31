@@ -41,3 +41,13 @@ SANCTUM_STATEFUL_DOMAINS=localhost:8000 // SPA domain
 
 SESSION_DRIVER=cookie
 ```
+
+# Production
+
+docker-compose -f docker-compose.prod.yml up -d
+
+**Attention**: la configuration utilisée est propre au serveur de pré-production car nous utilisons un serveur proxy externe à l'application. Le proxy permet de réaliser des redirections automatiques, gérer les requêtes HTTP 2, gère les requêtes HTTPS, et génère automatiquement les certificats HTTPS aux domaines correspondants.
+
+Cette partie est externalisée car elle ne fait pas partie en elle même de l'application, et contient des secrets propre à la configuration utilisée.
+
+Elle n'est pas requise pour le bon fonctionnement du projet. Elle est cependant gardée dans le code source (et non ignorée) pour contextualiser le projet CUBE / CESI, et justifier comment il fonctionne.

@@ -13,8 +13,6 @@ services:
       - php
       - database
       - mail
-    links:
-      - php
 
   database:
     image: postgres:9.6.21-alpine
