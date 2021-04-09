@@ -1,6 +1,10 @@
 import Link from "next/link";
+import { useContext } from "react";
+import { AuthContext } from "../pages/_app";
 
 export function Navbar() {
+  const [{ id, firstname, lastname }] = useContext(AuthContext);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -34,14 +38,22 @@ export function Navbar() {
             </li>
           </ul>
 
-          <form className="d-flex">
-            <Link href="/connexion">
-              <a className="btn btn-primary">Connexion</a>
+          {!id ? (
+            <form className="d-flex">
+              <Link href="/connexion">
+                <a className="btn btn-primary">Connexion</a>
+              </Link>
+              <Link href="/inscription">
+                <a className="btn btn-outline-primary">Inscription</a>
+              </Link>
+            </form>
+          ) : (
+            <Link href="/">
+              <a href="#">
+                {firstname} {lastname}
+              </a>
             </Link>
-            <Link href="/inscription">
-              <a className="btn btn-outline-primary">Inscription</a>
-            </Link>
-          </form>
+          )}
         </div>
       </div>
     </nav>
