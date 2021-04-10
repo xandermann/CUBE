@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Restaurant;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,6 +29,11 @@ class DatabaseSeeder extends Seeder
             'street' => 'a',
             'language' => 'fr',
             'is_admin' => true,
+        ]);
+
+        Restaurant::insert([
+            'user_id' => 1,
+            'is_franchisees' => false
         ]);
     }
 }

@@ -15,9 +15,7 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        // TODO
-        return [];
-        // return Restaurant::all();
+        return Restaurant::all();
     }
 
     /**
@@ -28,7 +26,7 @@ class RestaurantController extends Controller
      */
     public function store(RestaurantRequest $request)
     {
-        // TODO
+        Restaurant::create($request->all());
     }
 
     /**
@@ -39,7 +37,7 @@ class RestaurantController extends Controller
      */
     public function show($id)
     {
-        // TODO
+        return Restaurant::find($id);
     }
 
     /**
@@ -51,7 +49,8 @@ class RestaurantController extends Controller
      */
     public function update(RestaurantRequest $request, $id)
     {
-        //
+        $restaurant = Restaurant::find($id);
+        $restaurant->update($request->all());
     }
 
     /**
@@ -62,6 +61,7 @@ class RestaurantController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $restaurant = Restaurant::find($id);
+        $restaurant->delete();
     }
 }
