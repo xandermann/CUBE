@@ -20,7 +20,7 @@ class CreateDiscountCouponsTable extends Migration
             $table->decimal('value');
             $table->date('expiration');
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('request_id')->constrained('requests');
+            $table->foreignId('orderable_request_id')->constrained('orderable_requests');
         });
     }
 

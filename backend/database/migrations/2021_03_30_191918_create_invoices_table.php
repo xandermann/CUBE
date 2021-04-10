@@ -18,7 +18,7 @@ class CreateInvoicesTable extends Migration
             $table->timestamps();
             $table->date('date');
             $table->decimal('total');
-            $table->foreignId('request_id')->constrained('requests');
+            $table->foreignId('orderable_request_id')->constrained('orderable_requests');
         });
     }
 
