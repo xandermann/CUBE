@@ -15,20 +15,23 @@ export default function Connexion() {
 
     async function f() {
       const tokenResponse = await axios.get(
-        "http://localhost/sanctum/csrf-cookie"
+        `${process.env.NEXT_PUBLIC_API_URL}/sanctum/csrf-cookie`
       );
 
       try {
-        const token = await axios.post("http://localhost/login", {
-          email,
-          password,
-        });
+        const token = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_URL}/login`,
+          {
+            email,
+            password,
+          }
+        );
       } catch (e) {
         return setError(true);
       }
 
       axios
-        .get("http://localhost/api/user")
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/api/user`)
         .then((response) => response.data)
         .then(setAuth);
 

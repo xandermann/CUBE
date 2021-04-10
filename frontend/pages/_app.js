@@ -14,7 +14,7 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     axios
-      .get("http://localhost/api/user")
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/user`)
       .then((response) => response.data)
       .then(setAuth)
       .then(() => console.log("authentifié"))
