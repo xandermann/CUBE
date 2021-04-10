@@ -14,10 +14,6 @@ export default function Connexion() {
     e.preventDefault();
 
     async function f() {
-      const tokenResponse = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_URL}/sanctum/csrf-cookie`
-      );
-
       try {
         const token = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL}/login`,

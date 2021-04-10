@@ -1,9 +1,20 @@
+import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useContext } from "react";
 import { AuthContext } from "../pages/_app";
 
 export function Navbar() {
-  const [{ id, firstname, lastname }] = useContext(AuthContext);
+  const router = useRouter();
+  const [{ id, firstname, lastname }, setAuth] = useContext(AuthContext);
+
+  const handleLogout = () => {
+    axios
+      .post("http://localhost/logout")
+      .then(() => setAuth(false))
+      .then(() => router.push("/"))
+      .catch(console.log("erreur logout"));
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -32,9 +43,9 @@ export function Navbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">
-                Lien
-              </a>
+              <Link href="/restaurants">
+                <a className="nav-link">Liste des restaurants</a>
+              </Link>
             </li>
           </ul>
 
@@ -48,11 +59,18 @@ export function Navbar() {
               </Link>
             </form>
           ) : (
-            <Link href="/">
-              <a href="#">
-                {firstname} {lastname}
-              </a>
-            </Link>
+            <>
+              <Link href="/profile">
+                <a className="btn btn-primary">
+                  {firstname} {lastname}
+                </a>
+              </Link>
+              <Link href="">
+                <div className="btn btn-secondary" onClick={handleLogout}>
+                  Se déconnecter
+                </div>
+              </Link>
+            </>
           )}
         </div>
       </div>
