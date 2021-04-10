@@ -57,7 +57,6 @@ services:
   #   ports:
   #     - 8080:8080
 
-
   react:
     build:
       context: .
@@ -67,6 +66,8 @@ services:
     working_dir: /app/
     command: sh -c "([ ! -d 'node_modules' ] && yarn) ; yarn dev"
     networks: [traefik_web]
+    env_file:
+      - frontend/.env
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.goodfood.rule=Host(`goodfood.alexandre-hublau.com`)"
