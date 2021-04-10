@@ -1,13 +1,33 @@
+import axios from "axios";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Restaurant() {
+  const [restaurants, setRestaurants] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/restaurants`)
+      .then((response) => response.data)
+      .then((data) => setRestaurants(data))
+      .catch(console.error);
+  }, []);
+
   return (
     <>
-      <div class="col-md-6 mx-auto">
+      <div className="col-md-6 mx-auto">
         <h1>Liste des restaurants</h1>
       </div>
 
-      <div class="col-md-6 mx-auto">
+      <div className="col-md-6 mx-auto">
+        <code>
+          {restaurants.map((r) => (
+            <pre key={r.id}>{JSON.stringify(r)}</pre>
+          ))}
+        </code>
+      </div>
+
+      <div className="col-md-6 mx-auto">
         <h2>Restaurant 1</h2>
         <p>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic animi
@@ -15,7 +35,7 @@ export default function Restaurant() {
           laudantium exercitationem nam impedit? Labore dolores iure voluptate
           provident quo aspernatur.
         </p>
-        <ul class="icon-list">
+        <ul className="icon-list">
           <li>
             <Link href="#">
               <a rel="noopener" target="_blank">
@@ -26,7 +46,7 @@ export default function Restaurant() {
         </ul>
       </div>
 
-      <div class="col-md-6 mx-auto">
+      <div className="col-md-6 mx-auto">
         <h2>Restaurant 2</h2>
         <p>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic animi
@@ -34,7 +54,7 @@ export default function Restaurant() {
           laudantium exercitationem nam impedit? Labore dolores iure voluptate
           provident quo aspernatur.
         </p>
-        <ul class="icon-list">
+        <ul className="icon-list">
           <li>
             <Link href="#">
               <a rel="noopener" target="_blank">
