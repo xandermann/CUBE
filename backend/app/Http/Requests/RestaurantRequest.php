@@ -13,7 +13,9 @@ class RestaurantRequest extends FormRequest
      */
     public function authorize()
     {
-        return false; // TODO - Corentin => quelle permission faut-il pour créer un restaurant ?
+        //return false; // TODO - Corentin => quelle permission faut-il pour créer un restaurant ?
+        //true pour l'instant pour les tests
+        return true;
     }
 
     /**
