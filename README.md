@@ -4,6 +4,9 @@
 
 Contient l'application React
 
+cp .env.example .env
+vim .env
+
 ## backend
 
 Contient l'API
