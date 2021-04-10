@@ -27,7 +27,7 @@ export default function Connexion() {
       }
 
       axios
-        .get(`${process.env.NEXT_PUBLIC_API_URL}/api/user`)
+        .get(`${process.env.NEXT_PUBLIC_API_URL}/api/user`, { withCredentials: true })
         .then((response) => response.data)
         .then(setAuth);
 
