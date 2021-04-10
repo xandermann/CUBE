@@ -17,9 +17,9 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     async function f() {
       if (!Cookie.get("XSRF-TOKEN")) {
-        const tokenResponse = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_URL}/sanctum/csrf-cookie`
-        );
+        const tokenResponse = await axios
+          .get(`${process.env.NEXT_PUBLIC_API_URL}/sanctum/csrf-cookie`)
+          .catch(console.log);
       }
     }
     f();
