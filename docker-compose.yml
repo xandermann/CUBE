@@ -42,9 +42,6 @@ services:
       - ./backend:/var/www/html
     working_dir: /var/www/html
     command: sh -c "wait-for-it.sh database:5432 -- php artisan migrate:fresh --seed && tail -f /dev/null"
-    depends_on:
-      database:
-        condition: service_healthy
 
   mail:
     image: maildev/maildev
