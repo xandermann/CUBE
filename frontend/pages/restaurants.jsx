@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 
 export default function Restaurant() {
   const [restaurants, setRestaurants] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios
       .get(`${process.env.NEXT_PUBLIC_API_URL}/api/restaurants`)
       .then((response) => response.data)
       .then((data) => setRestaurants(data))
+      .then(() => setLoading(false))
       .catch(console.error);
   }, []);
 
@@ -20,15 +22,21 @@ export default function Restaurant() {
       </div>
 
       <div className="col-md-6 mx-auto">
-        <code>
-          {restaurants.map((r) => (
-            <pre key={r.id}>{JSON.stringify(r)}</pre>
-          ))}
-        </code>
+        {loading ? (
+          <>Chargement des restaurants...</>
+        ) : (
+          <code>
+            {restaurants.map((r) => (
+              <pre key={r.id}>{JSON.stringify(r)}</pre>
+            ))}
+          </code>
+        )}
       </div>
 
+      <hr style={{ marginTop: "100px", marginBottom: "100px" }} />
+
       <div className="col-md-6 mx-auto">
-        <h2>Restaurant 1</h2>
+        <h2>Restaurant 1 (exemple)</h2>
         <p>
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Hic animi
           odio, harum eaque assumenda, ullam, nihil distinctio alias voluptas
