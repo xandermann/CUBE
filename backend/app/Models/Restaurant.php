@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Supplier;
+use App\Models\Franchise;
 
 class Restaurant extends Model
 {
@@ -13,6 +13,6 @@ class Restaurant extends Model
     protected $fillable = ['nomRestaurant', 'adresseRestaurant', 'numRestaurant', 'idFranchise'];
 
     public function supplier() {
-        return $this->belongsTo(Supplier::class);
+        return $this->belongsTo(Franchise::class);
     }
 }
