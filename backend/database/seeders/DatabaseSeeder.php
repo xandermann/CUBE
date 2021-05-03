@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Restaurant;
+use App\Models\Supplier;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -19,21 +20,25 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
 
         User::insert([
-            'email' => 'a@a',
-            'password' => Hash::make('a'),
-            'lastname' => 'a',
-            'firstname' => 'a',
-            'country' => 'France',
-            'city' => 'Nancy',
-            'postcode' => 54000,
-            'street' => 'a',
-            'language' => 'fr',
-            'is_admin' => true,
+            'emailUtilisateur' => 'a@a',
+            'mdpUtilisateur' => Hash::make('a'),
+            'nomUtilisateur' => 'a',
+            'admin' => true
         ]);
 
+        
+        Supplier::insert([
+            'nomFournisseur' => 'jean-mi',
+            'adresseFournisseur' => 'petaoushnock',
+            'categorieFournisseur' => 'nourriture'
+        ]);
+
+        
         Restaurant::insert([
-            'user_id' => 1,
-            'is_franchisees' => false
+            'nomRestaurant' => 'la bouffe',
+            'adresseRestaurant' => 'adresse de la rue du resto',
+            'numRestaurant' => 'numTest',
+            'idFranchise' => Supplier::where('nomFournisseur', 'jean-mi')->first()->value('id')
         ]);
     }
 }

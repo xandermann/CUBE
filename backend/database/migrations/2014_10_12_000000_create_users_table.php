@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('emailUtilisateur', 50)->unique();
             $table->string('nomUtilisateur', 10);
-            $table->string('mdpUtilisateur', 50);
+            $table->string('mdpUtilisateur');
             $table->boolean('admin');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

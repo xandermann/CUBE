@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RestaurantRequest;
 use App\Models\Restaurant;
-use App\Models\User;
+use App\Models\Supplier;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
@@ -16,7 +16,7 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        return Restaurant::with('user')->get();
+        return Restaurant::with('supplier')->get();
     }
 
     /**
