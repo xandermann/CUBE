@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOpinionsTable extends Migration
+class CreatePlaceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateOpinionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('opinions', function (Blueprint $table) {
-            $table->id();
+        Schema::create('place', function (Blueprint $table) {
             $table->timestamps();
-            $table->decimal('note', 2, 1);
-            $table->string('commentaire');
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('orderable_id')->constrained('orderable');
+            $table->foreignId('idCommande')->constrained('orders');
+            $table->foreignId('idClient')->constrained('customers');
+            $table->primary(['idCommande', 'idClient']);
         });
     }
 
@@ -30,6 +28,6 @@ class CreateOpinionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('opinions');
+        Schema::dropIfExists('place');
     }
 }

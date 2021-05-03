@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDeliverersTable extends Migration
+class CreateIsComposedTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateDeliverersTable extends Migration
      */
     public function up()
     {
-        Schema::create('deliverers', function (Blueprint $table) {
-            $table->id();
+        Schema::create('is_composed', function (Blueprint $table) {
             $table->timestamps();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('idPlat')->constrained('dishes');
+            $table->foreignId('idIngredient')->constrained('ingredients');
+            $table->primary(['idPlat', 'idIngredient']);
         });
     }
 
@@ -27,6 +28,6 @@ class CreateDeliverersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('deliverers');
+        Schema::dropIfExists('is_composed');
     }
 }

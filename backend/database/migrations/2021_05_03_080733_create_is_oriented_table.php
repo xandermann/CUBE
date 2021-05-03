@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInvoicesTable extends Migration
+class CreateIsOrientedTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateInvoicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('invoices', function (Blueprint $table) {
-            $table->id();
+        Schema::create('is_oriented', function (Blueprint $table) {
             $table->timestamps();
-            $table->date('date');
-            $table->decimal('total');
-            $table->foreignId('orderable_request_id')->constrained('orderable_requests');
+            $table->foreignId('idRestaurant')->constrained('restaurants');
+            $table->foreignId('idUtilisateur')->constrained('users');
+            $table->primary(['idRestaurant', 'idUtilisateur']);
         });
     }
 
@@ -29,6 +28,6 @@ class CreateInvoicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoices');
+        Schema::dropIfExists('is_oriented');
     }
 }

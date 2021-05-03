@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateComplaintsTable extends Migration
+class CreateProvideTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateComplaintsTable extends Migration
      */
     public function up()
     {
-        Schema::create('complaints', function (Blueprint $table) {
-            $table->id();
+        Schema::create('provide', function (Blueprint $table) {
             $table->timestamps();
-            $table->string('message');
-            $table->date('date');
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('restaurants_id')->constrained('restaurants');
+            $table->foreignId('idIngredient')->constrained('ingredients');
+            $table->foreignId('idFournisseur')->constrained('suppliers');
+            $table->primary(['idIngredient', 'idFournisseur']);
         });
     }
 
@@ -30,6 +28,6 @@ class CreateComplaintsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('complaints');
+        Schema::dropIfExists('provide');
     }
 }

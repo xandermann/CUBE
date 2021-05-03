@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFranchiseeCandidaciesTable extends Migration
+class CreateCanBeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateFranchiseeCandidaciesTable extends Migration
      */
     public function up()
     {
-        Schema::create('franchisee_candidacies', function (Blueprint $table) {
-            $table->id();
+        Schema::create('can_be', function (Blueprint $table) {
             $table->timestamps();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('idRestaurant')->constrained('restaurants');
+            $table->foreignId('idGroupement')->constrained('groups');
+            $table->primary(['idRestaurant', 'idGroupement']);
         });
     }
 
@@ -27,6 +28,6 @@ class CreateFranchiseeCandidaciesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('franchisee_candidacies');
+        Schema::dropIfExists('can_be');
     }
 }

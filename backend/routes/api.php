@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\DelivererController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResources([
-    'restaurants' => RestaurantController::class,
+    'restaurants' => RestaurantController::class
     // Autres controlleurs ici
 ]);
