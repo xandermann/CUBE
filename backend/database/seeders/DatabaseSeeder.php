@@ -32,7 +32,8 @@ class DatabaseSeeder extends Seeder
             'postcode' => '54000',
             'street' => 'rue blabla',
             'language' => 'fr',
-            'is_admin' => '1'
+            'is_admin' => '1',
+            "email_verified_at" => now(),
         ]);
 
 
