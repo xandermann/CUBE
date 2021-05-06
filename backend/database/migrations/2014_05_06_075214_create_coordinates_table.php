@@ -15,13 +15,13 @@ class CreateCoordinatesTable extends Migration
     {
         Schema::create('coordinates', function (Blueprint $table) {
             $table->id();
-            $table->string('full_address', 150);
+            $table->string('full_address', 150)->nullable();
             $table->string('city', 100);
-            $table->integer('postal_code');
-            $table->double('lat_address', 20, 5);
-            $table->double('lng_address', 20, 5);
-            $table->integer('number_phone');
-            $table->integer('country_code');
+            $table->string('postal_code');
+            $table->double('lat_address', 20, 5)->nullable();
+            $table->double('lng_address', 20, 5)->nullable();
+            $table->string('number_phone')->nullable();
+            $table->string('country');
             $table->timestamps();
         });
     }

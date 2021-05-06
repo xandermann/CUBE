@@ -4,15 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Franchise;
+use App\Models\Coordinate;
 
 class Restaurant extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nomRestaurant', 'adresseRestaurant', 'numRestaurant', 'idFranchise'];
+    protected $fillable = ['name', 'coordinate_id'];
 
     public function franchise() {
-        return $this->belongsTo(Franchise::class);
+        return $this->belongsTo(Coordinate::class);
     }
 }

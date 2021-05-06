@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Restaurant;
+use App\Models\Coordinate;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class RestaurantFactory extends Factory
@@ -23,9 +24,8 @@ class RestaurantFactory extends Factory
     {
 
         return [
-            'nomRestaurant' => $this->faker->name(),
-            'adresseRestaurant' => $this->faker->address(),
-            'numRestaurant' => $this->faker->phoneNumber()
+            'name' => $this->faker->company(),
+            'coordinate_id' => Coordinate::factory()
         ];
     }
 }
