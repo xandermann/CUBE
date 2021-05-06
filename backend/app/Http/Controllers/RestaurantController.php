@@ -26,7 +26,8 @@ class RestaurantController extends Controller
      */
     public function store(RestaurantRequest $request)
     {
-        Restaurant::create($request->all());
+        $restaurant = Restaurant::create($request->all());
+        $restaurant->coordinate()->create($request->all());
     }
 
     /**
@@ -37,7 +38,7 @@ class RestaurantController extends Controller
      */
     public function show($id)
     {
-        return Restaurant::find($id);
+        return Restaurant::with('coordinate')->findOrFail($id);
     }
 
     /**
@@ -50,7 +51,18 @@ class RestaurantController extends Controller
     public function update(RestaurantRequest $request, $id)
     {
         $restaurant = Restaurant::find($id);
-        $restaurant->update($request->all());
+        $restaurant->coordinate()->update([
+            'full_address' => $request->full_address,
+            'city' => $request->city,
+            'postal_code' => $request->postal_code,
+            'lat_address' => $request->lat_address,
+            'lng_address' => $request->lng_address,
+            'number_phone' => $request->number_phone,
+            'country' => $request->country
+        ]);
+        $restaurant->update([
+            'name' => $request->name
+        ]);
     }
 
     /**
@@ -62,6 +74,7 @@ class RestaurantController extends Controller
     public function destroy($id)
     {
         $restaurant = Restaurant::find($id);
+        $restaurant->coordinate()->delete();
         $restaurant->delete();
     }
 }

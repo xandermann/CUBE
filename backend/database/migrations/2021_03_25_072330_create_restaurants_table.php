@@ -17,7 +17,7 @@ class CreateRestaurantsTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name', 50)->nullable();
-            $table->foreignId('coordinate_id')->constrained('coordinates');
+            $table->foreignId('coordinate_id')->constrained('coordinates')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
