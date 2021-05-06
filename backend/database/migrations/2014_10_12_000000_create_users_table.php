@@ -15,10 +15,10 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('emailUtilisateur', 50)->unique();
-            $table->string('nomUtilisateur', 16);
-            $table->string('mdpUtilisateur');
-            $table->boolean('admin');
+            $table->string('user_name', 16);
+            $table->string('user_email', 50)->unique();
+            $table->string('user_mdp');
+            $table->integer('user_role');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

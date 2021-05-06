@@ -16,9 +16,9 @@ class CreateDishesTable extends Migration
         Schema::create('dishes', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('nomPlat', 50);
-            $table->double('prixPlat', 15, 3);
-            $table->foreignId('idMenu')->constrained('menus');
+            $table->string('dishe_name', 50);
+            $table->double('dishe_price', 15, 3);
+            $table->foreignId('menu_id')->constrained('menus');
         });
     }
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePlaceTable extends Migration
+class CreateGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreatePlaceTable extends Migration
      */
     public function up()
     {
-        Schema::create('place', function (Blueprint $table) {
+        Schema::create('groups', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
-            $table->foreignId('idCommande')->constrained('orders');
-            $table->foreignId('idClient')->constrained('customers');
-            $table->primary(['idCommande', 'idClient']);
+            $table->string('group_name', 50);
         });
     }
 
@@ -28,6 +27,6 @@ class CreatePlaceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('place');
+        Schema::dropIfExists('groups');
     }
 }

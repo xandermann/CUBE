@@ -16,11 +16,12 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('titreCommentaire', 10);
-            $table->string('contenuCommentaire', 50);
-            $table->integer('note');
-            $table->string('langueCommentaire', 2);
-            $table->foreignId('idUtilisateur')->constrained('users');
+            $table->string('comment_title', 10);
+            $table->string('comment_content', 255);
+            $table->integer('comment_note');
+            $table->string('comment_language', 2);
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('restaurant_id')->constrained('restaurants');
         });
     }
 

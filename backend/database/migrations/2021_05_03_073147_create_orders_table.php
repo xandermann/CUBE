@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCanBeTable extends Migration
+class CreateOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateCanBeTable extends Migration
      */
     public function up()
     {
-        Schema::create('can_be', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
+            $table->id();
             $table->timestamps();
-            $table->foreignId('idRestaurant')->constrained('restaurants');
-            $table->foreignId('idGroupement')->constrained('groups');
-            $table->primary(['idRestaurant', 'idGroupement']);
+            $table->integer('order_number');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('restaurant_id')->constrained('restaurants');
         });
     }
 
@@ -28,6 +29,6 @@ class CreateCanBeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('can_be');
+        Schema::dropIfExists('orders');
     }
 }

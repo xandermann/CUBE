@@ -15,9 +15,10 @@ class CreateProvideTable extends Migration
     {
         Schema::create('provide', function (Blueprint $table) {
             $table->timestamps();
-            $table->foreignId('idIngredient')->constrained('ingredients');
-            $table->foreignId('idFournisseur')->constrained('suppliers');
-            $table->primary(['idIngredient', 'idFournisseur']);
+            $table->integer('quantity');
+            $table->foreignId('ingredient_id')->constrained('ingredients');
+            $table->foreignId('supplier_id')->constrained('suppliers');
+            $table->primary(['ingredient_id', 'supplier_id']);
         });
     }
 

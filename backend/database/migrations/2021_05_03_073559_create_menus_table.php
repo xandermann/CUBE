@@ -16,9 +16,9 @@ class CreateMenusTable extends Migration
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('nomMenu', 10);
-            $table->double('prixMenu', 15, 3);
-            $table->foreignId('idRestaurant')->constrained('restaurants');
+            $table->string('menu_name', 10);
+            $table->double('menu_price', 15, 3);
+            $table->foreignId('restaurant_id')->constrained('restaurants');
         });
     }
 

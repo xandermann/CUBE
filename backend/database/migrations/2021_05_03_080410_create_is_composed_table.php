@@ -15,9 +15,9 @@ class CreateIsComposedTable extends Migration
     {
         Schema::create('is_composed', function (Blueprint $table) {
             $table->timestamps();
-            $table->foreignId('idPlat')->constrained('dishes');
-            $table->foreignId('idIngredient')->constrained('ingredients');
-            $table->primary(['idPlat', 'idIngredient']);
+            $table->foreignId('dishe_id')->constrained('dishes');
+            $table->foreignId('ingredient_id')->constrained('ingredients');
+            $table->primary(['dishe_id', 'ingredient_id']);
         });
     }
 

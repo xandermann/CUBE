@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         User::factory(100)->create();
         Franchise::factory()->count(100)->create();
 
+        /*
         User::insert([
             'emailUtilisateur' => 'a@a',
             'mdpUtilisateur' => Hash::make('a'),
@@ -48,7 +49,7 @@ class DatabaseSeeder extends Seeder
             'numRestaurant' => 'numTest',
             'idFranchise' => 1
         ]);
-
+        */
 
 
     }

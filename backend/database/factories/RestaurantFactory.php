@@ -21,8 +21,11 @@ class RestaurantFactory extends Factory
      */
     public function definition()
     {
+
         return [
-            //
+            'nomRestaurant' => $this->faker->name(),
+            'adresseRestaurant' => $this->faker->address(),
+            'numRestaurant' => $this->faker->phoneNumber()
         ];
     }
 }

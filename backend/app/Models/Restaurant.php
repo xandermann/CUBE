@@ -12,7 +12,7 @@ class Restaurant extends Model
 
     protected $fillable = ['nomRestaurant', 'adresseRestaurant', 'numRestaurant', 'idFranchise'];
 
-    public function supplier() {
+    public function franchise() {
         return $this->belongsTo(Franchise::class);
     }
 }
