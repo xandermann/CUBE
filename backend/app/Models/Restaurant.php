@@ -12,7 +12,7 @@ class Restaurant extends Model
 
     protected $fillable = ['name', 'coordinate_id'];
 
-    public function franchise() {
+    public function coordinate() {
         return $this->belongsTo(Coordinate::class);
     }
 }
