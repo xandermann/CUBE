@@ -19,28 +19,35 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(100)->create();
-        Franchise::factory()->count(100)->create();
+        // User::factory(100)->create();
+        // Franchise::factory()->count(100)->create();
 
         /*
         User::insert([
-            'emailUtilisateur' => 'a@a',
-            'mdpUtilisateur' => Hash::make('a'),
-            'nomUtilisateur' => 'a',
-            'admin' => '1'
+            'email' => 'a@a',
+            'password' => Hash::make('a'),
+            'lastname' => 'a',
+            'firstname' => 'a',
+            'country' => 'France',
+            'city' => 'Nancy',
+            'postcode' => '54000',
+            'street' => 'rue blabla',
+            'language' => 'fr',
+            'is_admin' => '1',
+            "email_verified_at" => now(),
         ]);
 
 
-        Supplier::insert([
-            'nomFournisseur' => 'jean-mi',
-            'adresseFournisseur' => 'petaoushnock',
-            'categorieFournisseur' => 'nourriture'
-        ]);
+        // Supplier::insert([
+        //     'nomFournisseur' => 'jean-mi',
+        //     'adresseFournisseur' => 'petaoushnock',
+        //     'categorieFournisseur' => 'nourriture'
+        // ]);
 
 
-        Franchise::insert([
-            'franchise' => '1'
-        ]);
+        // Franchise::insert([
+        //     'franchise' => '1'
+        // ]);
 
 
         Restaurant::insert([

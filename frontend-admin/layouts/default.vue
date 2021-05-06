@@ -1,9 +1,15 @@
 <template>
   <div>
-    <Nuxt />
+    <NavBar />
+    <b-container fluid>
+      <b-row>
+        <b-col class="pl-0 pr-0">
+          <Nuxt />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
-
 <style>
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
