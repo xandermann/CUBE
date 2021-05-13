@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RestaurantRequest;
 use App\Models\Restaurant;
+use App\Models\Coordinate;
 use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
@@ -26,8 +27,20 @@ class RestaurantController extends Controller
      */
     public function store(RestaurantRequest $request)
     {
-        $restaurant = Restaurant::create($request->all());
-        $restaurant->coordinate()->create($request->all());
+        $coordinate = Coordinate::create([
+            'full_address' => $request->full_address,
+            'city' => $request->city,
+            'postal_code' => $request->postal_code,
+            'lat_address' => $request->lat_address,
+            'lng_address' => $request->lng_address,
+            'number_phone' => $request->number_phone,
+            'country' => $request->country
+        ]);
+
+        Restaurant::create([
+            'name' => $request->name,
+            'coordinate_id' => $coordinate->id
+        ]);
     }
 
     /**
