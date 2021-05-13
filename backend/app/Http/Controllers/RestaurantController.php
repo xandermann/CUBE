@@ -63,7 +63,7 @@ class RestaurantController extends Controller
      */
     public function update(RestaurantRequest $request, $id)
     {
-        $restaurant = Restaurant::find($id);
+        $restaurant = Restaurant::findOrFail($id);
         $restaurant->coordinate()->update([
             'full_address' => $request->full_address,
             'city' => $request->city,
@@ -86,7 +86,7 @@ class RestaurantController extends Controller
      */
     public function destroy($id)
     {
-        $restaurant = Restaurant::find($id);
+        $restaurant = Restaurant::findOrFail($id);
         $restaurant->coordinate()->delete();
         $restaurant->delete();
     }

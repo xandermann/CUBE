@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Restaurant;
-use Database\Factories\FranchiseFactory;
+use App\Models\Ingredient;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(100)->create();
         
         Restaurant::factory()->count(100)->create();
+        Ingredient::factory()->count(50)->create();
 
         /*
         User::insert([
