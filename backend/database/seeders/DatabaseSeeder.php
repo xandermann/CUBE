@@ -19,8 +19,15 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(100)->create();
         
-        Restaurant::factory()->count(100)->create();
-        Ingredient::factory()->count(50)->create();
+        //population des ingrédients
+        Ingredient::factory()->count(20)->create();
+
+        //population des restaurants avec les ingrédients liés (random)
+        $ids = range(1, 20);
+        Restaurant::factory()->count(100)->create()->each(function ($restaurant) use($ids) {
+            shuffle($ids);
+            $restaurant->ingredients()->attach(array_slice($ids, 0, rand(1, 3)), ['quantity' => rand(0, 100)]);
+        });
 
         /*
         User::insert([
