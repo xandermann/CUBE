@@ -51,7 +51,7 @@ class RestaurantController extends Controller
      */
     public function show($id)
     {
-        return Restaurant::with('coordinate')->findOrFail($id);
+        return Restaurant::with('coordinate')->with('ingredients')->findOrFail($id);
     }
 
     /**
