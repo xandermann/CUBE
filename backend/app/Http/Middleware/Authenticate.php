@@ -14,8 +14,14 @@ class Authenticate extends Middleware
      */
     protected function redirectTo($request)
     {
+        // if (! $request->expectsJson()) {
+        //     return route('login');
+        // }
+
+        // TODO : change localhost by env var
         if (! $request->expectsJson()) {
-            return route('login');
+            return 'http://localhost:8000';
         }
+
     }
 }
