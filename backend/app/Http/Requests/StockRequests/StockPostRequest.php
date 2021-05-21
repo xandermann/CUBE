@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\StockRequests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\FormRequest;
 
 class StockPostRequest extends FormRequest
 {
@@ -26,6 +26,22 @@ class StockPostRequest extends FormRequest
         return [
             'ingredient_id' => 'required|integer|exists:ingredients,id',
             'quantity' => 'required|integer'
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'quantity.required'  => 'A quantity is required',
+            'quantity.integer' => 'The quantity must be an integer',
+            'ingredient_id.required' => 'A ingredient id is required',
+            'ingredient_id.integer' => 'A ingredient id must be an integer',
+            'ingredient_id.exists' => "The ingredient id don't exist",
         ];
     }
 }
