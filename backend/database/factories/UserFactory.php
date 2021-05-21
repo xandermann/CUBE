@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Coordinate;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -26,10 +27,12 @@ class UserFactory extends Factory
         $email = $this->faker->email;
 
         return [
-            'emailUtilisateur' => $email,
-            'mdpUtilisateur' => $email, // The password is the same than email
-            'nomUtilisateur' => substr($email, 0, 10),
-            'admin' => '1'
+            'email' => $email,
+            'password' => $email, // The password is the same than email
+            'firstname' => substr($email, 0, 10),
+            'lastname' => substr($email, 0, 10),
+            'is_admin' => '1',
+            'coordinate_id' => Coordinate::factory()
         ];
     }
 
