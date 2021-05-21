@@ -7,7 +7,6 @@ use App\Models\Coordinate;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use App\Models\Coordinate;
 
 class UserFactory extends Factory
 {
