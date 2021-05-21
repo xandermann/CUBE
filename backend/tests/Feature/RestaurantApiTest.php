@@ -71,13 +71,11 @@ class RestaurantApiTest extends TestCase
      */
     public function update()
     {
-        $id = Restaurant::latest()->first()->id;
         $name = $this->faker->company() . uniqid();
         $city = $this->faker->city() . uniqid();
 
-        $response = $this->put("/api/restaurants/$id", [
+        $response = $this->put("/api/restaurants/1", [
             'name' => $name,
-
             'full_address' => $this->faker->address(),
             'city' => $city,
             'postal_code' => $this->faker->postcode(),
@@ -87,7 +85,7 @@ class RestaurantApiTest extends TestCase
             'country' => $this->faker->country(),
         ]);
 
-        $restaurant = Restaurant::latest()->first();
+        $restaurant = Restaurant::find(1);
 
         $this->assertEquals($restaurant->name, $name, 'Restaurant should be updated');
         $this->assertEquals($restaurant->coordinate->city, $city, 'Coordinate should be updated');
@@ -102,13 +100,14 @@ class RestaurantApiTest extends TestCase
     public function destroy() {
 
         $restaurant = Restaurant::factory()->create();
+        $coordinateId = $restaurant->coordinate->id;
 
         $response = $this->delete("/api/restaurants/{$restaurant->id}");
 
         $response->assertStatus(200);
 
         $this->assertNull(Restaurant::find($restaurant->id), 'The restaurant shouldn\'t be found');
-        $this->assertNull(Coordinate::find($restaurant->coordinate->id), 'The coordinates should be destroyed');
+        $this->assertNull(Coordinate::find($coordinateId), 'The coordinates should be destroyed');
 
     }
 }
