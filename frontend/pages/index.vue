@@ -15,17 +15,16 @@ import axios from 'axios'
 
 export default {
   methods: {
-    async fetch_token() {
-      const res = await axios
+    fetch_token() {
+      axios
         .get('http://localhost/sanctum/csrf-cookie', {
           withCredentials: true,
         })
+        .then(console.log)
         .catch(console.error)
-
-      console.log(res)
     },
-    async login() {
-      const res = await axios
+    login() {
+      axios
         .post(
           'http://localhost/login',
           {
@@ -36,21 +35,19 @@ export default {
             withCredentials: true,
           }
         )
+        .then(console.log)
         .catch(console.error)
-
-      console.log(res)
     },
-    async fetch_user() {
-      const res = await axios
+    fetch_user() {
+      axios
         .get('http://localhost/api/user', {
           withCredentials: true,
         })
+        .then(console.log)
         .catch(console.error)
-
-      console.log(res.data)
     },
-    async logout() {
-      const res = await axios
+    logout() {
+      axios
         .post(
           'http://localhost/logout',
           {},
@@ -58,9 +55,8 @@ export default {
             withCredentials: true,
           }
         )
+        .then(console.log)
         .catch(console.error)
-
-      console.log(res)
     },
   },
 }
