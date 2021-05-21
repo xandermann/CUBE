@@ -30,7 +30,7 @@ fresh: ## php artisan migrate:fresh --seed
 
 
 .PHONY: bash
-bash: ## Go in container
+bash: ## Open bash terminal in composer container
 	docker-compose exec composer bash
 
 .PHONY: test

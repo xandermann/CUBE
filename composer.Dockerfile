@@ -1,4 +1,4 @@
-FROM composer:latest
+FROM composer:2.0.13
 
 RUN apk add libpq postgresql-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \

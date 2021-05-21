@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
   nginx:
-    image: nginx:stable-alpine
+    image: nginx:1.20.0-alpine
     ports:
       - "80:80"
     working_dir: /backend/
@@ -57,14 +57,6 @@ services:
     restart: always
     ports:
       - 8080:8080
-
-  alpine:
-    image: composer:latest
-    restart: always
-    volumes:
-      - ./:/src
-    command: tail -f /dev/null
-    working_dir: /src/
 
   # ----------------
 
