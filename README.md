@@ -1,53 +1,19 @@
 # GoodFood
 
-## frontend
+## Installation:
 
-Contient l'application React
+    Linux: (peut prendre longtemps selon les connexions)
 
-    cp .env.example .env
-    vim .env
+    $ make install && docker-compose down && docker-compose up -d
+    $ make test
 
-## backend
+## Commandes utiles
 
-Contient l'API
+    $ make
 
-    docker exec -ti cube_composer_1 bash
-    composer install
-    cp .env.example .env
-    vi .env
+## Production
 
-# Mettre:
-
-    DB_CONNECTION=pgsql
-    DB_HOST=database
-    DB_PORT=5432
-    DB_DATABASE=postgres
-    DB_USERNAME=postgres
-    DB_PASSWORD=example
-
-    ...
-
-    SESSION_DRIVER=cookie
-
-    ...
-
-    SESSION_DOMAIN=localhost // Laravel domain
-    SANCTUM_STATEFUL_DOMAINS=localhost:8000 // SPA domains
-
-    php artisan key:generate
-
-    chown -R www-data:www-data .
-
-    docker-compose down
-    docker-compose up -d
-
-# Commandes utiles
-
-    make
-
-# Production
-
-    docker-compose -f docker-compose.prod.yml up -d
+    $ make prod
 
 **Attention**: la configuration utilisée est propre au serveur de pré-production car nous utilisons un serveur proxy externe à l'application. Le proxy permet de réaliser des redirections automatiques, gérer les requêtes HTTP 2, gère les requêtes HTTPS, et génère automatiquement les certificats HTTPS aux domaines correspondants.
 
