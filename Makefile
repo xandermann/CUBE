@@ -15,7 +15,7 @@ install: ## Install the depedencies (composer install & node_modules install)
 	Green='\033[0;32m'
 	BGreen='\033[1;32m'
 	NC='\033[0m' # No Color
-	echo -e "${Green}Done ! If everything's fine, begin the development now ! ${BGreen}Happy coding !${NC}"
+	echo -e "${Green}Installation is done! Check the README for more informations. ${BGreen}Happy coding ! ${NC}"
 
 
 
@@ -36,6 +36,9 @@ bash: ## Open bash terminal in composer container
 .PHONY: test
 test: ## Run tests
 	docker-compose exec composer php artisan test
+	docker-compose exec frontend yarn test
+	docker-compose exec frontend-admin yarn test
+
 
 .PHONY: route
 route: ## Print the route list
