@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\StockRequests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StockDeleteRequest extends FormRequest
+class StockPostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class StockDeleteRequest extends FormRequest
     public function rules()
     {
         return [
-            'ingredient_id' => 'required|integer|exists:ingredients,id'
+            'ingredient_id' => 'required|integer|exists:ingredients,id',
+            'quantity' => 'required|integer'
         ];
     }
 }
