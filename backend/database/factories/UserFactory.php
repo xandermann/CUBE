@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\Coordinate;
 
 class UserFactory extends Factory
 {
@@ -23,13 +24,26 @@ class UserFactory extends Factory
      */
     public function definition()
     {
+        $coordinate = Coordinate::create([
+            'full_address' => 'Nancy, rue X no 1',
+            'city' => 'Nancy',
+            'postal_code' => '54000',
+            'lat_address' => null,
+            'lng_address' => null,
+            'number_phone' => null,
+            'country' => 'France',
+        ]);
+
         $email = $this->faker->email;
 
         return [
-            'emailUtilisateur' => $email,
-            'mdpUtilisateur' => $email, // The password is the same than email
-            'nomUtilisateur' => substr($email, 0, 10),
-            'admin' => '1'
+            'email' => $email,
+            'password' => Hash::make($email),
+            'lastname' => substr($email, 0, 10),
+            'firstname' => substr($email, 0, 10),
+            'is_admin' => false,
+            'coordinate_id' => $coordinate->id,
+            'email_verified_at' => now()->yesterday(),
         ];
     }
 
