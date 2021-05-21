@@ -2,9 +2,16 @@
 
 ## Installation:
 
-    Linux: (peut prendre longtemps selon les connexions)
+    $ make install # (peut prendre longtemps selon les connexions)
 
-    $ make install && docker-compose down && docker-compose up -d
+    $ vi backend/.env
+
+    $ docker-compose down && docker-compose up -d # Recharge le fichier .env
+
+    $ make migrate
+    * ou *
+    $ make fresh
+
     $ make test
 
 ## Commandes utiles
