@@ -5,7 +5,7 @@ help: ## Print this help page
 
 
 .PHONY: install
-install: ## Install the depedencies (composer install & node_modules install)
+install: ## Install the depedencies (vendors & node_modules)
 	docker-compose exec composer composer install
 	docker-compose exec frontend yarn
 	docker-compose exec frontend-admin yarn
@@ -20,11 +20,11 @@ install: ## Install the depedencies (composer install & node_modules install)
 
 
 .PHONY: migrate
-migrate: ## Update the database
+migrate: ## Migrate the database
 	docker-compose exec composer php artisan migrate
 
 .PHONY: fresh
-fresh: ## php artisan migrate:fresh --seed
+fresh: ## Migrate and seed the database
 	docker-compose exec composer php artisan migrate:fresh --seed
 
 
@@ -33,11 +33,23 @@ fresh: ## php artisan migrate:fresh --seed
 bash: ## Open bash terminal in composer container
 	docker-compose exec composer bash
 
+
+
 .PHONY: test
-test: ## Run tests
+test: test-backend test-frontend test-frontend-admin ## Run all tests
+
+.PHONY: test-backend
+test-backend: ## Run backend tests
 	docker-compose exec composer php artisan test
+
+.PHONY: test-frontend
+test-frontend: ## Run frontend tests
 	docker-compose exec frontend yarn test
+
+.PHONY: test-frontend-admin
+test-frontend-admin: ## Run frontend-admin tests
 	docker-compose exec frontend-admin yarn test
+
 
 
 .PHONY: route
@@ -45,10 +57,16 @@ route: ## Print the route list
 	docker-compose exec composer php artisan route:list
 
 
+
 .PHONY: fix_permissions
-fix_permissions: ## Fix the permissions
+fix_permissions: ## Fix the permissions (sudo needed)
 	echo "TODO"
 
+
+
+.PHONY: dev
+dev: ## Run in development
+	docker-compose up -d
 
 .PHONY: prod
 prod: ## Run in production
