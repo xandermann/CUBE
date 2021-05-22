@@ -11,7 +11,7 @@ install: ## Install the docker images & depedencies (vendors & node_modules)
 	docker-compose exec composer composer install
 	docker-compose exec frontend yarn
 	docker-compose exec frontend-admin yarn
-	docker-compose exec composer cp .env.example ./
+	docker-compose exec composer cp .env.example .env
 	docker-compose exec composer php artisan key:generate
 
 	Green='\033[0;32m'
@@ -41,7 +41,7 @@ bash: ## Open bash terminal in composer container
 test: test-backend test-frontend test-frontend-admin ## Run all tests
 
 .PHONY: test-backend
-test-backend: ## Run backend tests
+test-backend: fresh ## Run backend tests
 	docker-compose exec composer php artisan test
 
 .PHONY: test-frontend

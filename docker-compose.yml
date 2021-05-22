@@ -8,7 +8,7 @@ services:
     working_dir: /backend/
     volumes:
       - ./backend/:/backend/
-      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
       - database
@@ -30,7 +30,7 @@ services:
   php:
     build:
       context: .
-      dockerfile: php.Dockerfile
+      dockerfile: ./docker/php.Dockerfile
     volumes:
       - ./backend:/backend
     #    ports:
@@ -39,7 +39,7 @@ services:
   composer:
     build:
       context: .
-      dockerfile: composer.Dockerfile
+      dockerfile: ./docker/composer.Dockerfile
     volumes:
       - ./backend:/var/www/html
     working_dir: /var/www/html
