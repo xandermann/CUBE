@@ -50,12 +50,14 @@ services:
       - ./backend:/var/www/html
     working_dir: /var/www/html
     # TODO: remove :fresh --seed in real production
-    command: bash -c "./wait-for-it.sh database:5432 -- php artisan migrate:fresh --seed && tail -f /dev/null"
+    command: bash -c "wait-for-it.sh database:5432 -- php artisan migrate:fresh --seed && tail -f /dev/null"
 
-  # mail:
-  #   image: maildev/maildev
-  #   #      - "1025:25"
-  #   networks: [traefik_web, default]
+  # TODO
+  # Email account
+  mail:
+    image: maildev/maildev
+    #      - "1025:25"
+    networks: [traefik_web, default]
 
   # adminer:
   #   image: adminer
@@ -63,28 +65,51 @@ services:
   #   ports:
   #     - 8080:8080
 
+  frontend:
+    image: cube_frontend_prod
+    build:
+      context: ./frontend
+      dockerfile: frontend.prod.Dockerfile
+    ports: [8000:3000]
+    volumes:
+      - ./frontend:/var/www/app
+    working_dir: /var/www/app
+    command: yarn dev
+    environment:
+      - HOST=0.0.0.0
+
+  # frontend-admin:
+  #   image: node:lts-alpine3.13
+  #   ports: [8000:3000]
+  #   volumes:
+  #     - ./frontend-admin:/var/www/app
+  #   working_dir: /var/www/app
+  #   command: yarn dev
+  #   environment:
+  #     - HOST=0.0.0.0
+
   # Commentaires temporaires
   # react:
-    # build:
-      # context: .
-      # dockerfile: next.Dockerfile
-    # volumes:
-      # - ./frontend:/app
-    # working_dir: /app/
-    # command: sh -c "([ ! -d 'node_modules' ] && yarn) ; yarn dev"
-    # networks: [traefik_web]
-    # env_file:
-      # - frontend/.env
-    # labels:
-      # - "traefik.enable=true"
-      # - "traefik.http.routers.goodfood.rule=Host(`goodfood.alexandre-hublau.com`)"
-      # - "traefik.http.routers.goodfood.entrypoints=http"
- 
-      # - "traefik.http.routers.goodfood-secured.rule=Host(`goodfood.alexandre-hublau.com`)"
-      # - "traefik.http.routers.goodfood-secured.entrypoints=https"
-      # - "traefik.http.routers.goodfood-secured.tls.certresolver=tls"
- 
-      # - "traefik.http.services.goodfood-secured.loadbalancer.server.port=3000"
+  # build:
+  # context: .
+  # dockerfile: next.Dockerfile
+  # volumes:
+  # - ./frontend:/app
+  # working_dir: /app/
+  # command: sh -c "([ ! -d 'node_modules' ] && yarn) ; yarn dev"
+  # networks: [traefik_web]
+  # env_file:
+  # - frontend/.env
+  # labels:
+  # - "traefik.enable=true"
+  # - "traefik.http.routers.goodfood.rule=Host(`goodfood.alexandre-hublau.com`)"
+  # - "traefik.http.routers.goodfood.entrypoints=http"
 
-      # - "traefik.http.routers.goodfood-secured.middlewares=beta-prefix@docker"
-      # - "traefik.http.middlewares.beta-prefix.stripprefix.prefixes=/beta"
+  # - "traefik.http.routers.goodfood-secured.rule=Host(`goodfood.alexandre-hublau.com`)"
+  # - "traefik.http.routers.goodfood-secured.entrypoints=https"
+  # - "traefik.http.routers.goodfood-secured.tls.certresolver=tls"
+
+  # - "traefik.http.services.goodfood-secured.loadbalancer.server.port=3000"
+
+  # - "traefik.http.routers.goodfood-secured.middlewares=beta-prefix@docker"
+  # - "traefik.http.middlewares.beta-prefix.stripprefix.prefixes=/beta"

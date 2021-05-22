@@ -5,7 +5,9 @@ help: ## Print this help page
 
 
 .PHONY: install
-install: ## Install the depedencies (vendors & node_modules)
+install: ## Install the docker images & depedencies (vendors & node_modules)
+	docker-compose up -d # Install the images and run the containers
+
 	docker-compose exec composer composer install
 	docker-compose exec frontend yarn
 	docker-compose exec frontend-admin yarn
