@@ -1,7 +1,6 @@
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
-
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'goodfood-admin',
@@ -12,13 +11,12 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
-
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
-
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
+  css: [
+    '~/assets/css/dist/main.css',
+    '@fortawesome/fontawesome-free/css/all.css',
   ],
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -41,26 +39,35 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    proxy: true,
+  },
+  proxy: {
+    '/api/': { target: process.env.API_URL, pathRewrite: { '^/api/': '' } },
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en',
+      lang: 'fr',
     },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   router: {
-    middleware: ['auth']
+    //middleware: ['auth']
   },
-  auth:{
-    strategies:{
-      'laravelSanctum':{
+  auth: {
+    strategies: {
+      laravelSanctum: {
         provider: 'laravel/sanctum',
-        url : 'http://localhost:8090'
-      }
-    }
-  }
+        url: process.env.API_URL,
+      },
+    },
+  },
+  publicRuntimeConfig: {
+    apiURL: process.env.API_URL,
+  },
+  privateRuntimeConfig: {},
 }

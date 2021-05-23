@@ -43,7 +43,7 @@ export default {
         data: {
           email: this.form.email,
           password: this.form.password,
-        }.then(() => this.$toast.success('Logged In!')),
+        },
       })
     },
   },

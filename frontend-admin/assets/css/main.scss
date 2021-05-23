@@ -1,0 +1,31 @@
+@import './bootstrap-override.scss';
+@import './sidebar.scss';
+@import './animations.scss';
+@import './variables.scss';
+
+html {
+  height: 100vh;
+}
+body {
+  display: flex;
+  flex-direction: column;
+}
+.navbar {
+  height: $navbarHeight !important;
+}
+.content {
+  height: calc(100vh - #{$navbarHeight}) !important;
+  .data {
+    height: 100%;
+    overflow: scroll;
+  }
+}
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.25s ease-out;
+}
+.page-enter,
+.page-leave-active {
+  opacity: 0;
+  transform-origin: 50% 50%;
+}

@@ -1,8 +1,6 @@
 <template>
   <b-container fluid>
-    <div>
-      <Logo />
-    </div>
+    <div></div>
   </b-container>
 </template>
 

@@ -14,12 +14,8 @@
 export default {
   data() {
     return {
-      pageProps: { title: 'Offres' },
-      items: [
-        { url: '/offres/ingredients', title: 'Ingrédients' },
-        { url: '/offres/plats', title: 'Plats' },
-        { url: '/offres/menus', title: 'Menus' },
-      ],
+      pageProps: { title: 'Utilisateurs' },
+      items: [{ url: '/utilisateurs/liste', title: 'Liste' }],
     }
   },
 }
