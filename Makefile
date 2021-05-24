@@ -5,14 +5,16 @@ help: ## Print this help page
 
 
 .PHONY: install
-install: ## Install the docker images & depedencies (vendors & node_modules)
-	docker-compose up -d # Install the images and run the containers
+install: ## Install the docker images & depedencies
+	docker-compose pull
+	docker-compose build
 
-	docker-compose exec composer composer install
-	docker-compose exec frontend yarn
-	docker-compose exec frontend-admin yarn
-	docker-compose exec composer cp .env.example .env
-	docker-compose exec composer php artisan key:generate
+	docker-compose run --rm composer composer install
+	docker-compose run --rm frontend yarn
+	docker-compose run --rm frontend-admin yarn
+
+	docker-compose run --rm composer cp .env.example .env
+	docker-compose run --rm composer php artisan key:generate
 
 	Green='\033[0;32m'
 	BGreen='\033[1;32m'
@@ -23,16 +25,16 @@ install: ## Install the docker images & depedencies (vendors & node_modules)
 
 .PHONY: migrate
 migrate: ## Migrate the database
-	docker-compose exec composer php artisan migrate
+	docker-compose run --rm composer php artisan migrate
 
 .PHONY: fresh
 fresh: ## Migrate and seed the database
-	docker-compose exec composer php artisan migrate:fresh --seed
+	docker-compose run --rm composer php artisan migrate:fresh --seed
 
 
 
-.PHONY: bash
-bash: ## Open bash terminal in composer container
+.PHONY: artisan
+artisan: ## Open bash terminal in composer container
 	docker-compose exec composer bash
 
 
@@ -41,16 +43,16 @@ bash: ## Open bash terminal in composer container
 test: test-backend test-frontend test-frontend-admin ## Run all tests
 
 .PHONY: test-backend
-test-backend: fresh ## Run backend tests
-	docker-compose exec composer php artisan test
+test-backend: ## Run backend tests
+	docker-compose run --rm composer php artisan test
 
 .PHONY: test-frontend
 test-frontend: ## Run frontend tests
-	docker-compose exec frontend yarn test
+	docker-compose run --rm frontend yarn test
 
 .PHONY: test-frontend-admin
 test-frontend-admin: ## Run frontend-admin tests
-	docker-compose exec frontend-admin yarn test
+	docker-compose run --rm frontend-admin yarn test
 
 
 
@@ -60,14 +62,14 @@ route: ## Print the route list
 
 
 
-.PHONY: fix_permissions
-fix_permissions: ## Fix the permissions (sudo needed)
+.PHONY: fix-permissions
+fix-permissions: ## Fix the permissions (sudo needed)
 	echo "TODO"
 
 
 
 .PHONY: dev
-dev: ## Run in development
+dev: ## Run in development (run "make install" if first time)
 	docker-compose up -d
 
 .PHONY: prod
