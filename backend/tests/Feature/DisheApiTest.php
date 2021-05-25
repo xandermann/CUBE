@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\Restaurant;
+use App\Models\Ingredient;
+use App\Models\Dishe;
 use Faker\Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -13,19 +15,55 @@ class DisheApiTest extends TestCase
     
     use WithFaker;
 
+    protected $restaurant;
+    protected $ingredient_1;
+    protected $ingredient_2;
+    protected $ingredient_3;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->restaurant = Restaurant::factory()->create();
+        $this->ingredient_1 = Ingredient::factory()->create();
+        $this->ingredient_2 = Ingredient::factory()->create();
+        $this->ingredient_3 = Ingredient::factory()->create();
+    }
+
     /**
      * @test
      */
     public function store()
     {
+        $name = $this->faker->word();
+        $price = $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100);
 
-        $response = $this->post('/api/restaurants/1/dishes', [
-            'name' => 'test',
-            'price' => 15.56,
-            'ingredients' => [['id' => 3, 'quantity' => 5], ['id' => 6, 'quantity' => 5], ['id' => 10, 'quantity' => 5]]
+        $response = $this->post("/api/restaurants/{$this->restaurant->id}/dishes", [
+            'name' => $name,
+            'price' => $price,
+            'ingredients' => [
+                ['id' => $this->ingredient_1->id, 'quantity' => 50], 
+                ['id' => $this->ingredient_2->id, 'quantity' => 50], 
+                ['id' => $this->ingredient_3->id, 'quantity' => 50]
+            ]
         ]);
 
         $response->assertStatus(200);
+
+        /*
+         * Check if the dishe exist in stock
+         */
+
+        $dishe = $this->restaurant->dishes()->first();
+        $this->assertEquals($dishe->name, $name, 'Dishe name should be defined');
+        $this->assertEquals($dishe->price, $price, 'Dishe price should be defined');
+
+        /*
+         * Clean the dishes of this restaurant
+         */
+
+        $dishe = Dishe::find($dishe->id);
+        $this->restaurant->ingredients()->detach();
+        $dishe->delete();
     }
 
      /**
@@ -33,14 +71,47 @@ class DisheApiTest extends TestCase
      */
     public function update()
     {
+        $dishe = Dishe::factory()->create();
+        $dishe->ingredients()->attach([
+            $this->ingredient_1->id,
+            $this->ingredient_2->id,
+            $this->ingredient_3->id
+        ], ['quantity' => 50]);
 
-        $response = $this->put('/api/restaurants/1/dishes', [
-            'dishe_id' => Restaurant::find(1)->dishes->first()->id,
-            'name' => 'updateTest',
-            'price' => $this->faker->randomFloat($nbMaxDecimals = 3, $min = 0, $max = 100),
-            'ingredients' => [['id' => 1, 'quantity' => 2], ['id' => 10, 'quantity' => 5]]
+        $this->restaurant->dishes()->attach($dishe->id);
+
+        $response = $this->put("/api/restaurants/{$this->restaurant->id}/dishes", [
+            'dishe_id' => $dishe->id,
+            'name' => "update",
+            'price' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100),
+            'ingredients' => [
+                ['id' => $this->ingredient_1->id, 'quantity' => 100]
+            ]
         ]);
 
         $response->assertStatus(200);
+
+        /*
+         * Check if the dishe has been updated
+         */
+
+        $dishe = Dishe::find($dishe->id);
+        $this->assertEquals($dishe->name, "update", 'Dishe name should be updated');
+
+        /*
+         * Clean the dishes of this restaurant
+         */
+
+        $this->restaurant->ingredients()->detach();
+        $dishe->delete();
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        $this->restaurant->delete();
+        $this->ingredient_1->delete();
+        $this->ingredient_2->delete();
+        $this->ingredient_3->delete();
     }
 }
