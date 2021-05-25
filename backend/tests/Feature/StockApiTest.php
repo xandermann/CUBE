@@ -221,6 +221,91 @@ class StockApiTest extends TestCase
         $this->restaurant->ingredients()->detach();
     }
 
+    /**
+     * @test
+     */
+    public function delete_Ingredient() {
+
+        //we add one ingredient to restaurant
+        $this->restaurant->ingredients()->attach($this->ingredient->id, ['quantity' => 100]);
+
+        /*
+         * delete ingredient
+         */
+
+        $response = $this->delete("/api/restaurants/{$this->restaurant->id}/stock", [
+            'ingredient_id' => $this->ingredient->id
+        ]);
+
+        $response->assertStatus(200);
+
+        /*
+         * Check if the ingredient has been deleted
+         */
+        $ingredientNotFind = $this->restaurant->ingredients->find($this->ingredient->id);
+        $this->assertEquals($ingredientNotFind, null, 'Ingredient should be remove');
+    }
+
+    /**
+     * @test
+     */
+    public function delete_IngredientWhoDontExistInStock() {
+
+        /*
+         * try to delete an ingredient who don't exist in stock of the restaurant but exist in ingredient table
+         */
+
+        $response = $this->delete("/api/restaurants/{$this->restaurant->id}/stock", [
+            'ingredient_id' => $this->ingredient->id
+        ]);
+        $response->assertStatus(422);
+    }
+
+    /**
+     * @test
+     */
+    public function delete_IngredientWhoDontExistInDatabase() {
+
+        /*
+         * try to delete an ingredient who don't exist in database
+         */
+
+        $response = $this->delete("/api/restaurants/{$this->restaurant->id}/stock", [
+            'ingredient_id' => 10000000
+        ]);
+        $response->assertStatus(422);
+    }
+
+    /**
+     * @test
+     */
+    public function delete_IngredientWithNullObjectInsteadIdIngredient() {
+        
+        /*
+         * try to delete an null object instead of ingredient
+         */
+
+        $response = $this->delete("/api/restaurants/{$this->restaurant->id}/stock", [
+            'ingredient_id' => null
+        ]);
+        $response->assertStatus(422);
+    }
+
+    /**
+     * @test
+     */
+    public function delete_IngredientWithStringInsteadIdIngredient() {
+        
+        /*
+         * try to delete an string instead of ingredient
+         */
+
+        $response = $this->delete("/api/restaurants/{$this->restaurant->id}/stock", [
+            'ingredient_id' => "string"
+        ]);
+        $response->assertStatus(422);
+    }
+
     public function tearDown(): void
     {
         parent::tearDown();
