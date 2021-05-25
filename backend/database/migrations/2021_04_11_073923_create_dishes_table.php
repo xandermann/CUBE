@@ -17,7 +17,7 @@ class CreateDishesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name', 50);
-            $table->double('price', 15, 3);
+            $table->double('price', 15, 2);
         });
     }
 
