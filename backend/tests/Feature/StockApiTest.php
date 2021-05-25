@@ -198,6 +198,29 @@ class StockApiTest extends TestCase
     /**
      * @test
      */
+    public function add_IngredientWithNegativeIngredientQuantity() {
+        
+        $restaurant = Restaurant::latest('id')->first();
+
+        //we delete all the already ingredients in the stock of this restaurant
+        $restaurant->ingredients()->detach();
+
+        $ingredientId = rand(1, 20);
+
+        /*
+         * try to insert an negative ingredient quantity
+         */
+
+        $response = $this->post("/api/restaurants/{$restaurant->id}/stock", [
+            'ingredient_id' => $ingredientId,
+            'quantity' => -50
+        ]);
+        $response->assertStatus(422);
+    }
+
+    /**
+     * @test
+     */
     public function add_Quantity() {
 
         $restaurant = Restaurant::latest('id')->first();
