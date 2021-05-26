@@ -37,9 +37,15 @@
       </div>
     </b-form>
 
+    <div class="m-4"></div>
+
     <div v-if="restaurants === null">Chargement...</div>
 
-    <div v-for="restaurant in restaurants" :key="restaurant.id" class="mt-4">
+    <a
+      v-for="restaurant in restaurants"
+      :key="restaurant.id"
+      :href="`/restaurants/${restaurant.id}/menus`"
+    >
       <div>
         <div style="height: 180px; background-color: #ccc"></div>
 
@@ -54,7 +60,7 @@
           <b-col>Note: 4/5</b-col>
         </b-row>
       </div>
-    </div>
+    </a>
   </div>
 </template>
 

@@ -8,7 +8,7 @@
       <b-collapse id="nav-collapse" is-nav>
         <client-only>
           <b-navbar-nav v-if="loggedIn">
-            <b-nav-item href="restaurants">Liste des restaurants</b-nav-item>
+            <b-nav-item href="/restaurants">Liste des restaurants</b-nav-item>
             <!--
           <b-nav-item href="#" disabled>Disabled</b-nav-item>
         -->
@@ -45,14 +45,14 @@
                   <em>{{ user.email }}</em>
                 </template>
                 <b-dropdown-item href="#">Mon compte</b-dropdown-item>
-                <b-dropdown-item href="logout">Se déconnecter</b-dropdown-item>
+                <b-dropdown-item href="/logout">Se déconnecter</b-dropdown-item>
               </b-nav-item-dropdown>
             </template>
 
             <template v-if="!loggedIn">
               <b-navbar-nav right>
-                <b-nav-item href="login">Connexion</b-nav-item>
-                <b-nav-item href="#">Inscription</b-nav-item>
+                <b-nav-item href="/login">Connexion</b-nav-item>
+                <b-nav-item href="/signup">Inscription</b-nav-item>
               </b-navbar-nav>
             </template>
           </client-only>
@@ -99,3 +99,12 @@ export default {
   },
 }
 </script>
+
+<style>
+a,
+a:hover,
+a:visited {
+  color: black;
+  text-decoration: inherit;
+}
+</style>
