@@ -9,12 +9,22 @@ use Illuminate\Http\Request;
 class DisheController extends Controller
 {
     /**
+     * Affiche tous les plats.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return Dishe::with('ingredients')->paginate(10);
+    }
+
+    /**
      * Affiche les différents plats d'un restaurant.
      *
      * @param  int  $id restaurant
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index_restaurant($id)
     {
         return Restaurant::findOrFail($id)->dishes()->with('ingredients')->get();
     }
