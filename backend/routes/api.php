@@ -6,6 +6,7 @@ use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\DisheController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +47,11 @@ Route::prefix('restaurants')->group(function () {
 
 Route::prefix('dishes')->group(function () {
     Route::get('/', [DisheController::class, 'index']);
+});
+
+Route::prefix('orders')->group(function () {
+    Route::get('/{user}', [OrderController::class, 'index_user'])->where('user', '[0-9]+');
+    Route::post('/', [OrderController::class, 'store']);
 });
 
 Route::apiResources([
