@@ -70,8 +70,10 @@ fix-permissions: ## Fix the permissions (sudo needed)
 
 .PHONY: dev
 dev: ## Run in development (run "make install" if first time)
+	docker-compose down
 	docker-compose up -d
 
 .PHONY: prod
 prod: ## Run in production
+	docker-compose down
 	docker-compose -f docker-compose.prod.yml up -d
