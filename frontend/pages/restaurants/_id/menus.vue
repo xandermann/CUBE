@@ -32,7 +32,9 @@
 
     <div class="mt-4"></div>
 
-    <b-button variant="success" href="/basket">Passer la commande</b-button>
+    <nuxt-link to="/basket">
+      <b-button variant="success">Passer la commande</b-button>
+    </nuxt-link>
   </div>
 </template>
 
@@ -46,7 +48,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get('http://localhost/api/restaurants/1')
+      .get(`http://localhost/api/restaurants/1`)
       .then((response) => response.data)
       .then((restaurant) => (this.restaurant = restaurant))
       .catch(console.error)
