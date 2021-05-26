@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Dishe;
+use App\Models\Menu;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class DisheFactory extends Factory
+class MenuFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Dishe::class;
+    protected $model = Menu::class;
 
     /**
      * Define the model's default state.
@@ -23,7 +23,7 @@ class DisheFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'price' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100) 
+            'price' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100)
         ];
     }
 }

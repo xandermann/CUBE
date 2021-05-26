@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RestaurantRequest;
+use App\Http\Requests\RestaurantRequests\RestaurantPostRequest;
 use App\Models\Restaurant;
 use App\Models\Coordinate;
 use Illuminate\Http\Request;
@@ -22,10 +22,10 @@ class RestaurantController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\RestaurantRequest  $request
+     * @param  \App\Http\Requests\RestaurantRequests\RestaurantPostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RestaurantRequest $request)
+    public function store(RestaurantPostRequest $request)
     {
         $coordinate = Coordinate::create([
             'full_address' => $request->full_address,
@@ -57,11 +57,11 @@ class RestaurantController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\RestaurantRequest  $request
+     * @param  \App\Http\Requests\RestaurantRequests\RestaurantPostRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RestaurantRequest $request, $id)
+    public function update(RestaurantPostRequest $request, $id)
     {
         $restaurant = Restaurant::findOrFail($id);
         $restaurant->coordinate()->update([
