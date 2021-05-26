@@ -32,8 +32,8 @@ class OrderController extends Controller
 
         //création de la commande
         $order = Order::create([
-            'date' => $request->name,
-            'total_price' => $request->price,
+            'date' => $request->date,
+            'total_price' => $request->total_price,
             'user_id' => $user->id,
             'restaurant_id' => $restaurant->id
         ]);
