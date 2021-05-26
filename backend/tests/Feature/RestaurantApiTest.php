@@ -56,7 +56,7 @@ class RestaurantApiTest extends TestCase
          * Check if the restaurant has been inserted
          */
 
-        $restaurant = Restaurant::latest()->first();
+        $restaurant = Restaurant::latest('id')->first();
         $this->assertEquals($restaurant->name, $name, 'Restaurant should be inserted');
         $this->assertEquals($restaurant->coordinate->city, $city, 'Coordinate should be inserted');
 
@@ -103,8 +103,9 @@ class RestaurantApiTest extends TestCase
          * Check if the restaurant has been updated
          */
 
-        $this->assertEquals($this->restaurant->name, $name, 'Restaurant should be updated');
-        $this->assertEquals($this->restaurant->coordinate->city, $city, 'Coordinate should be updated');
+        $restaurant = Restaurant::find($this->restaurant->id);
+        $this->assertEquals($restaurant->name, $name, 'Restaurant should be updated');
+        $this->assertEquals($restaurant->coordinate->city, $city, 'Coordinate should be updated');
     }
 
     /**
