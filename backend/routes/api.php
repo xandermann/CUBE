@@ -35,9 +35,13 @@ Route::prefix('restaurants')->group(function () {
     Route::delete('/{restaurant}/stock', [StockController::class, 'delete_Ingredient'])->where('restaurant', '[0-9]+');
 
     //partie plat
-    Route::get('/{restaurant}/dishes', [DisheController::class, 'index'])->where('restaurant', '[0-9]+');
+    Route::get('/{restaurant}/dishes', [DisheController::class, 'index_restaurant'])->where('restaurant', '[0-9]+');
     Route::post('/{restaurant}/dishes', [DisheController::class, 'store'])->where('restaurant', '[0-9]+');
     Route::put('/{restaurant}/dishes', [DisheController::class, 'update'])->where('restaurant', '[0-9]+');
+});
+
+Route::prefix('dishes')->group(function () {
+    Route::get('/', [DisheController::class, 'index']);
 });
 
 Route::apiResources([
