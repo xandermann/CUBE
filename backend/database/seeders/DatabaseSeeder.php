@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Restaurant;
 use App\Models\Ingredient;
 use App\Models\Dishe;
+use App\Models\Menu;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -53,12 +54,20 @@ class DatabaseSeeder extends Seeder
             $dishe->ingredients()->attach(array_slice($ids, 0, rand(1, 4)), ['quantity' => rand(0, 5)]);
         });
 
+        //population des menus avec les plats (random)
+        Menu::factory()->count(20)->create()->each(function ($menu) use($ids) {
+            shuffle($ids);
+            $menu->dishes()->attach(array_slice($ids, 0, rand(1, 3)));
+        });
+
         //population des restaurants avec les ingrédients, plats liés (random)
         Restaurant::factory()->count(100)->create()->each(function ($restaurant) use($ids) {
             shuffle($ids);
             $restaurant->ingredients()->attach(array_slice($ids, 0, rand(1, 3)), ['quantity' => rand(0, 100)]);
             shuffle($ids); //on remélange pour les plats
             $restaurant->dishes()->attach(array_slice($ids, 0, rand(1, 3)));
+            shuffle($ids); //on remélange pour les menus
+            $restaurant->menus()->attach(array_slice($ids, 0, rand(1, 3)));
         });
 
         
