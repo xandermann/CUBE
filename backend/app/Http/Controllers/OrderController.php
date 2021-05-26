@@ -28,7 +28,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $restaurant = Restaurant::findOrFail($request->restaurant_id);
-        $user = User::findOrFail($request->user_id)
+        $user = User::findOrFail($request->user_id);
 
         //création de la commande
         $order = Order::create([

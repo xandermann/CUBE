@@ -19,7 +19,7 @@ class StockController extends Controller
      */
     public function index($id)
     {
-        return Restaurant::findOrFail($id)->ingredients;
+        return Restaurant::findOrFail($id)->ingredients()->paginate(10);
     }
 
     /**

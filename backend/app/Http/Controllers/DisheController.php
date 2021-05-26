@@ -26,7 +26,7 @@ class DisheController extends Controller
      */
     public function index_restaurant($id)
     {
-        return Restaurant::findOrFail($id)->dishes()->with('ingredients')->get();
+        return Restaurant::findOrFail($id)->dishes()->with('ingredients')->paginate(10);
     }
 
     /**

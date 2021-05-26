@@ -14,7 +14,7 @@ class IngredientController extends Controller
      */
     public function index()
     {
-        return Ingredient::all();
+        return Ingredient::paginate(10);
     }
 
     /**
