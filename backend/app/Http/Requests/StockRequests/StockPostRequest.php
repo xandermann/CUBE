@@ -25,7 +25,7 @@ class StockPostRequest extends FormRequest
     {
         return [
             'ingredient_id' => 'required|integer|exists:ingredients,id',
-            'quantity' => 'required|integer'
+            'quantity' => 'required|integer|min:0'
         ];
     }
 
@@ -39,6 +39,7 @@ class StockPostRequest extends FormRequest
         return [
             'quantity.required'  => 'A quantity is required',
             'quantity.integer' => 'The quantity must be an integer',
+            'quantity.min' => 'The quantity must be greater than 0',
             'ingredient_id.required' => 'A ingredient id is required',
             'ingredient_id.integer' => 'A ingredient id must be an integer',
             'ingredient_id.exists' => "The ingredient id don't exist",

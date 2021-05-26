@@ -75,6 +75,11 @@ class StockController extends Controller
         $ingredient = Ingredient::findOrFail($request->ingredient_id);
 
         if($restaurant && $ingredient) {
+
+            if($restaurant->ingredients()->find($ingredient->id) == null) {
+                abort(422, "The restaurant does not have this ingredient in its stock.");
+            }
+
             $restaurant->ingredients()->detach($ingredient);
         }
     }

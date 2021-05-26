@@ -23,7 +23,7 @@ class DisheFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'price' => $this->faker->randomFloat($nbMaxDecimals = 3, $min = 0, $max = 100) 
+            'price' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100) 
         ];
     }
 }
