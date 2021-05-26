@@ -14,13 +14,20 @@ class RestaurantApiTest extends TestCase
 
     use WithFaker;
 
+    protected $restaurant;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->restaurant = Restaurant::factory()->create();
+    }
+
     /**
      * @test
      */
     public function index()
     {
         $response = $this->get('/api/restaurants');
-
         $response->assertStatus(200);
     }
 
@@ -29,12 +36,11 @@ class RestaurantApiTest extends TestCase
      */
     public function store() {
 
-        $name = $this->faker->company() . uniqid();
-        $city = $this->faker->city() . uniqid();
+        $name = "Restaurant";
+        $city = "Nancy";
 
         $response = $this->post('/api/restaurants', [
             'name' => $name,
-
             'full_address' => $this->faker->address(),
             'city' => $city,
             'postal_code' => $this->faker->postcode(),
@@ -44,14 +50,21 @@ class RestaurantApiTest extends TestCase
             'country' => $this->faker->country(),
         ]);
 
-        $restaurant = Restaurant::latest()->first();
+        $response->assertStatus(200);
 
+        /*
+         * Check if the restaurant has been inserted
+         */
+
+        $restaurant = Restaurant::latest()->first();
         $this->assertEquals($restaurant->name, $name, 'Restaurant should be inserted');
         $this->assertEquals($restaurant->coordinate->city, $city, 'Coordinate should be inserted');
 
-        $response->assertStatus(200);
+        /*
+         * Clean the restaurant
+         */
 
-        $restaurant->delete(); // clean
+        $restaurant->delete();
     }
 
     /**
@@ -59,8 +72,7 @@ class RestaurantApiTest extends TestCase
      */
     public function show()
     {
-        $response = $this->get('/api/restaurants/1');
-
+        $response = $this->get("/api/restaurants/{$this->restaurant->id}");
         $json = $response->getContent();
 
         $response->assertStatus(200);
@@ -71,10 +83,10 @@ class RestaurantApiTest extends TestCase
      */
     public function update()
     {
-        $name = $this->faker->company() . uniqid();
-        $city = $this->faker->city() . uniqid();
+        $name = "Restaurant";
+        $city = "Nancy";
 
-        $response = $this->put("/api/restaurants/1", [
+        $response = $this->put("/api/restaurants/{$this->restaurant->id}", [
             'name' => $name,
             'full_address' => $this->faker->address(),
             'city' => $city,
@@ -82,16 +94,17 @@ class RestaurantApiTest extends TestCase
             'lat_address' => $this->faker->latitude(),
             'lng_address' => $this->faker->longitude(),
             'number_phone' => $this->faker->e164PhoneNumber(),
-            'country' => $this->faker->country(),
+            'country' => $this->faker->country()
         ]);
-
-        $restaurant = Restaurant::find(1);
-
-        $this->assertEquals($restaurant->name, $name, 'Restaurant should be updated');
-        $this->assertEquals($restaurant->coordinate->city, $city, 'Coordinate should be updated');
 
         $response->assertStatus(200);
 
+        /*
+         * Check if the restaurant has been updated
+         */
+
+        $this->assertEquals($this->restaurant->name, $name, 'Restaurant should be updated');
+        $this->assertEquals($this->restaurant->coordinate->city, $city, 'Coordinate should be updated');
     }
 
     /**
@@ -99,15 +112,24 @@ class RestaurantApiTest extends TestCase
      */
     public function destroy() {
 
-        $restaurant = Restaurant::factory()->create();
-        $coordinateId = $restaurant->coordinate->id;
+        $restaurantId = $this->restaurant->id;
+        $coordinateId = $this->restaurant->coordinate->id;
 
-        $response = $this->delete("/api/restaurants/{$restaurant->id}");
+        $response = $this->delete("/api/restaurants/{$this->restaurant->id}");
 
         $response->assertStatus(200);
 
-        $this->assertNull(Restaurant::find($restaurant->id), 'The restaurant shouldn\'t be found');
-        $this->assertNull(Coordinate::find($coordinateId), 'The coordinates should be destroyed');
+        /*
+         * Check if the restaurant has been deleted
+         */
 
+        $this->assertNull(Restaurant::find($restaurantId), 'The restaurant shouldn\'t be found');
+        $this->assertNull(Coordinate::find($coordinateId), 'The coordinates should be destroyed');
+    }
+
+    public function tearDown(): void
+    {
+        parent::tearDown();
+        $this->restaurant->delete();
     }
 }
