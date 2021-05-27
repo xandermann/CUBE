@@ -40,16 +40,19 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       debugger
-      this.$auth
-        .loginWith('laravelSanctum', {
+      try {
+        const login = await this.$auth.loginWith('laravelSanctum', {
           data: {
             email: this.form.email,
             password: this.form.password,
           },
         })
-        .catch((err) => (this.error = err))
+        alert(login)
+      } catch (e) {
+        alert(e)
+      }
     },
   },
 }
