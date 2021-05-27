@@ -83,7 +83,7 @@ class StockApiTest extends TestCase
             'ingredient_id' => $this->ingredient->id,
             'quantity' => 100
         ]);
-        $response->assertStatus(409);
+        $response->assertStatus(422);
 
         /*
          * Clean the stock of this restaurant
@@ -219,6 +219,22 @@ class StockApiTest extends TestCase
          */
 
         $this->restaurant->ingredients()->detach();
+    }
+
+    /**
+     * @test
+     */
+    public function add_QuantityForIngredientWhoDontExistInStock() {
+
+        /*
+         * add quantity
+         */
+
+        $response = $this->put("/api/restaurants/{$this->restaurant->id}/stock", [
+            'ingredient_id' => $this->ingredient->id,
+            'quantity' => 100
+        ]);
+        $response->assertStatus(422);
     }
 
     /**

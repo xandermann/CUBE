@@ -36,8 +36,8 @@ class StockController extends Controller
 
         if($restaurant && $ingredient) {
 
-            if($restaurant->ingredients()->find($ingredient->id)) {
-                abort(409, 'The restaurant has already this ingredient.');
+            if(!$this->checkIfRestaurantHasAnIngredient($restaurant, $ingredient->id)) {
+                abort(422, "The restaurant has already this ingredient.");
             }
 
             $restaurant->ingredients()->attach($ingredient, ['quantity' => $request->quantity]);
@@ -57,6 +57,11 @@ class StockController extends Controller
         $ingredient = Ingredient::findOrFail($request->ingredient_id);
 
         if($restaurant && $ingredient) {
+
+            if($this->checkIfRestaurantHasAnIngredient($restaurant, $ingredient->id)) {
+                abort(422, "The restaurant does not have this ingredient in its stock.");
+            }
+
             $stock = $restaurant->ingredients()->find($ingredient->id);
             $restaurant->ingredients()->updateExistingPivot($ingredient, ['quantity' => $stock->pivot->quantity + $request->quantity]);
         }
@@ -76,11 +81,23 @@ class StockController extends Controller
 
         if($restaurant && $ingredient) {
 
-            if($restaurant->ingredients()->find($ingredient->id) == null) {
+            if($this->checkIfRestaurantHasAnIngredient($restaurant, $ingredient->id)) {
                 abort(422, "The restaurant does not have this ingredient in its stock.");
             }
 
             $restaurant->ingredients()->detach($ingredient);
         }
+    }
+
+    /**
+     * Check if the restaurant has an ingredient.
+     *
+     * @param  int  $id restaurant
+     * @param  int  $id restaurant
+     * @return boolean
+     */
+    public function checkIfRestaurantHasAnIngredient($restaurant, $ingredient_id)
+    {
+        return $restaurant->ingredients()->find($ingredient_id) == null;
     }
 }
