@@ -40,6 +40,7 @@ Route::prefix('restaurants')->group(function () {
     Route::get('/{restaurant}/dishes', [DisheController::class, 'index_restaurant'])->where('restaurant', '[0-9]+');
     Route::post('/{restaurant}/dishes', [DisheController::class, 'store'])->where('restaurant', '[0-9]+');
     Route::put('/{restaurant}/dishes', [DisheController::class, 'update'])->where('restaurant', '[0-9]+');
+    Route::delete('/{restaurant}/dishes', [DisheController::class, 'delete'])->where('restaurant', '[0-9]+');
 
     //partie menu
     Route::get('/{restaurant}/menus', [MenuController::class, 'index_restaurant'])->where('restaurant', '[0-9]+');
@@ -47,6 +48,10 @@ Route::prefix('restaurants')->group(function () {
 
 Route::prefix('dishes')->group(function () {
     Route::get('/', [DisheController::class, 'index']);
+});
+
+Route::prefix('menus')->group(function () {
+    Route::get('/', [MenuController::class, 'index']);
 });
 
 Route::prefix('orders')->group(function () {

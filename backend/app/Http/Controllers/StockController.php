@@ -63,7 +63,7 @@ class StockController extends Controller
     }
 
     /**
-     * Ajoute un ingrédient dans le stock d'un restaurant.
+     * Supprime un ingrédient dans le stock d'un restaurant.
      *
      * @param  \App\Http\Requests\StockRequests\StockDeleteRequest  $request
      * @param  int  $id restaurant

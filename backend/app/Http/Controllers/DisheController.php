@@ -85,4 +85,23 @@ class DisheController extends Controller
             }
         }
     }
+
+    /**
+     * Un restaurant supprime un de ses plats.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id restaurant
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(Request $request, $id)
+    {
+        $restaurant = Restaurant::findOrFail($id);
+        $dishe = Dishe::findOrFail($request->dishe_id);
+
+        if($restaurant->dishes()->find($dishe->id) == null) {
+            abort(422, "The restaurant does not have this dishe.");
+        }
+
+        $dishe->delete();
+    }
 }
