@@ -16,11 +16,6 @@ install: ## Install the docker images & depedencies
 	docker-compose run --rm composer cp .env.example .env
 	docker-compose run --rm composer php artisan key:generate
 
-	Green='\033[0;32m'
-	BGreen='\033[1;32m'
-	NC='\033[0m' # No Color
-	echo -e "${Green}Installation is done! Check the README for more informations. ${BGreen}Happy coding ! ${NC}"
-
 
 
 .PHONY: migrate
@@ -73,7 +68,22 @@ dev: ## Run in development (run "make install" if first time)
 	docker-compose down
 	docker-compose up -d
 
-.PHONY: prod
-prod: ## Run in production
+
+.PHONY: pre-prod
+pre-prod: ## Run on vps (with docker-compose)
 	docker-compose down
+	docker-compose -f docker-compose.prod.yml down
+
+	docker-compose run --rm frontend rm -rf .nuxt dist
+	docker-compose run --rm frontend-admin rm -rf .nuxt dist
+
+	docker-compose run --rm frontend yarn build
+	docker-compose run --rm frontend-admin yarn build
+
 	docker-compose -f docker-compose.prod.yml up -d
+
+	docker-compose run --rm composer wait-for-it.sh database:5432 -- php artisan migrate
+
+.PHONY: prod
+prod: ## Run in prod
+	echo "TODO (docker swarm / kubernetes)"

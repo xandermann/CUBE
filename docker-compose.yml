@@ -3,6 +3,7 @@ version: "3.4"
 services:
   nginx:
     image: nginx:1.20.0-alpine
+    restart: always
     ports:
       - "80:80"
     working_dir: /backend/
@@ -31,10 +32,10 @@ services:
     build:
       context: .
       dockerfile: ./docker/php.Dockerfile
+    restart: always
     volumes:
       - ./backend:/backend
-    #    ports:
-    #      - "9000:9000"
+    command: sh -c "tail -f /dev/null"
 
   composer:
     build:
@@ -43,25 +44,22 @@ services:
     volumes:
       - ./backend:/var/www/html
     working_dir: /var/www/html
-    command: sh -c "tail -f /dev/null"
 
   mail:
     image: maildev/maildev
+    restart: always
     ports:
       - "1080:80"
-    #      - "1025:25"
 
-  # TODO dev
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
 
-  # ----------------
-
   frontend:
     image: node:lts-alpine3.13
+    restart: always
     ports: [8000:3000]
     volumes:
       - ./frontend:/var/www/app
@@ -72,6 +70,7 @@ services:
 
   frontend-admin:
     image: node:lts-alpine3.13
+    restart: always
     ports: [8001:3000]
     volumes:
       - ./frontend-admin:/var/www/app
