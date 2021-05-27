@@ -188,6 +188,59 @@ class DisheApiTest extends TestCase
         $dishe->delete();
     }
 
+    /**
+     * @test
+     */
+    public function destroy()
+    {
+        $dishe = Dishe::factory()->create();
+        $dishe->ingredients()->attach([
+            $this->ingredient_1->id,
+            $this->ingredient_2->id,
+            $this->ingredient_3->id
+        ], ['quantity' => 50]);
+
+        $this->restaurant->dishes()->attach($dishe->id);
+
+        $response = $this->delete("/api/restaurants/{$this->restaurant->id}/dishes", [
+            'dishe_id' => $dishe->id
+        ]);
+
+        $response->assertStatus(200);
+
+        /*
+         * Check if the dishe has been deleted
+         */
+
+        $this->assertNull($this->restaurant->dishes->find($dishe->id), 'The dishe should be deleted of the restaurant');
+        $this->assertNull(Dishe::find($dishe->id), 'The dishe should be deleted');
+    }
+
+    /**
+     * @test
+     */
+    public function destroy_DisheWhoDontExistInRestaurant()
+    {
+        $dishe = Dishe::factory()->create();
+        $dishe->ingredients()->attach([
+            $this->ingredient_1->id,
+            $this->ingredient_2->id,
+            $this->ingredient_3->id
+        ], ['quantity' => 50]);
+
+        $response = $this->delete("/api/restaurants/{$this->restaurant->id}/dishes", [
+            'dishe_id' => $dishe->id
+        ]);
+
+        $response->assertStatus(422);
+
+        /*
+         * Clean the dishe
+         */
+
+        $dishe->delete();
+    }
+
     public function tearDown(): void
     {
         parent::tearDown();

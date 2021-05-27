@@ -103,7 +103,7 @@ class DisheController extends Controller
      * @param  int  $id restaurant
      * @return \Illuminate\Http\Response
      */
-    public function delete(Request $request, $id)
+    public function destroy(Request $request, $id)
     {
         $restaurant = Restaurant::findOrFail($id);
         $dishe = Dishe::findOrFail($request->dishe_id);
