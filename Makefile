@@ -53,7 +53,11 @@ test-frontend-admin: ## Run frontend-admin tests
 
 .PHONY: route
 route: ## Print the route list
-	docker-compose exec composer php artisan route:list
+	docker-compose run --rm composer php artisan route:list
+
+.PHONY: route-compact
+route-compact: ## Print the route list (compact)
+	docker-compose run --rm composer php artisan route:list --compact
 
 
 
