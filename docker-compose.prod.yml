@@ -7,10 +7,11 @@ networks:
 services:
   nginx:
     image: nginx:stable-alpine
+    restart: always
     working_dir: /backend/
     volumes:
       - ./backend/:/backend/
-      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
       - database
@@ -39,77 +40,63 @@ services:
     build:
       context: .
       dockerfile: php.Dockerfile
+    restart: always
     volumes:
       - ./backend:/backend
 
-  composer:
-    build:
-      context: .
-      dockerfile: composer.Dockerfile
-    volumes:
-      - ./backend:/var/www/html
-    working_dir: /var/www/html
-    # TODO: remove :fresh --seed in real production
-    command: bash -c "wait-for-it.sh database:5432 -- php artisan migrate:fresh --seed && tail -f /dev/null"
-
-  # TODO
-  # Email account
   mail:
     image: maildev/maildev
-    #      - "1025:25"
+    restart: always
     networks: [traefik_web, default]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mail.rule=Host(`mail-goodfood.alexandre-hublau.com`)"
+      - "traefik.http.routers.mail.entrypoints=http"
 
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
+      - "traefik.http.routers.mail-secured.rule=Host(`mail-goodfood.alexandre-hublau.com`)"
+      - "traefik.http.routers.mail-secured.entrypoints=https"
+      - "traefik.http.routers.mail-secured.tls.certresolver=tls"
+
+      - "traefik.http.services.mail-secured.loadbalancer.server.port=80"
 
   frontend:
-    image: cube_frontend_prod
-    build:
-      context: ./frontend
-      dockerfile: frontend.prod.Dockerfile
-    ports: [8000:3000]
+    image: node:lts-alpine3.13
+    restart: always
     volumes:
       - ./frontend:/var/www/app
     working_dir: /var/www/app
-    command: yarn dev
-    environment:
-      - HOST=0.0.0.0
+    command: yarn start
+    # environment:
+    #   - HOST=0.0.0.0
+    networks: [traefik_web, default]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend-goodfood.rule=Host(`goodfood.alexandre-hublau.com`)"
+      - "traefik.http.routers.frontend-goodfood.entrypoints=http"
 
-  # frontend-admin:
-  #   image: node:lts-alpine3.13
-  #   ports: [8000:3000]
-  #   volumes:
-  #     - ./frontend-admin:/var/www/app
-  #   working_dir: /var/www/app
-  #   command: yarn dev
-  #   environment:
-  #     - HOST=0.0.0.0
+      - "traefik.http.routers.frontend-goodfood-secured.rule=Host(`goodfood.alexandre-hublau.com`)"
+      - "traefik.http.routers.frontend-goodfood-secured.entrypoints=https"
+      - "traefik.http.routers.frontend-goodfood-secured.tls.certresolver=tls"
 
-  # Commentaires temporaires
-  # react:
-  # build:
-  # context: .
-  # dockerfile: next.Dockerfile
-  # volumes:
-  # - ./frontend:/app
-  # working_dir: /app/
-  # command: sh -c "([ ! -d 'node_modules' ] && yarn) ; yarn dev"
-  # networks: [traefik_web]
-  # env_file:
-  # - frontend/.env
-  # labels:
-  # - "traefik.enable=true"
-  # - "traefik.http.routers.goodfood.rule=Host(`goodfood.alexandre-hublau.com`)"
-  # - "traefik.http.routers.goodfood.entrypoints=http"
+      - "traefik.http.services.frontend-goodfood-secured.loadbalancer.server.port=3000"
 
-  # - "traefik.http.routers.goodfood-secured.rule=Host(`goodfood.alexandre-hublau.com`)"
-  # - "traefik.http.routers.goodfood-secured.entrypoints=https"
-  # - "traefik.http.routers.goodfood-secured.tls.certresolver=tls"
+  frontend-admin:
+    image: node:lts-alpine3.13
+    restart: always
+    volumes:
+      - ./frontend-admin:/var/www/app
+    working_dir: /var/www/app
+    command: yarn start
+    # environment:
+    #   - HOST=0.0.0.0
+    networks: [traefik_web, default]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend-admin-goodfood.rule=Host(`admin-goodfood.alexandre-hublau.com`)"
+      - "traefik.http.routers.frontend-admin-goodfood.entrypoints=http"
 
-  # - "traefik.http.services.goodfood-secured.loadbalancer.server.port=3000"
+      - "traefik.http.routers.frontend-admin-goodfood-secured.rule=Host(`admin-goodfood.alexandre-hublau.com`)"
+      - "traefik.http.routers.frontend-admin-goodfood-secured.entrypoints=https"
+      - "traefik.http.routers.frontend-admin-goodfood-secured.tls.certresolver=tls"
 
-  # - "traefik.http.routers.goodfood-secured.middlewares=beta-prefix@docker"
-  # - "traefik.http.middlewares.beta-prefix.stripprefix.prefixes=/beta"
+      - "traefik.http.services.frontend-admin-goodfood-secured.loadbalancer.server.port=3000"
