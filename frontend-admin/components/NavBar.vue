@@ -16,7 +16,9 @@
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <div>
-            <p v-if="isUserLoggedIn">Bonjour, {{ user.firstname }}</p>
+            <p v-if="isUserLoggedIn">
+              Bonjour, {{ user.firstname }} {{ user.lastname }}
+            </p>
             <b-button v-on:click="logOut">Deconnexion</b-button>
           </div>
         </b-navbar-nav>
