@@ -36,7 +36,7 @@ class StockController extends Controller
 
         if($restaurant && $ingredient) {
 
-            if(!$this->checkIfRestaurantHasAnIngredient($restaurant, $ingredient->id)) {
+            if($this->checkIfRestaurantHasAnIngredient($restaurant, $ingredient->id)) {
                 abort(422, "The restaurant has already this ingredient.");
             }
 
@@ -58,7 +58,7 @@ class StockController extends Controller
 
         if($restaurant && $ingredient) {
 
-            if($this->checkIfRestaurantHasAnIngredient($restaurant, $ingredient->id)) {
+            if(!$this->checkIfRestaurantHasAnIngredient($restaurant, $ingredient->id)) {
                 abort(422, "The restaurant does not have this ingredient in its stock.");
             }
 
@@ -81,7 +81,7 @@ class StockController extends Controller
 
         if($restaurant && $ingredient) {
 
-            if($this->checkIfRestaurantHasAnIngredient($restaurant, $ingredient->id)) {
+            if(!$this->checkIfRestaurantHasAnIngredient($restaurant, $ingredient->id)) {
                 abort(422, "The restaurant does not have this ingredient in its stock.");
             }
 
@@ -92,12 +92,12 @@ class StockController extends Controller
     /**
      * Check if the restaurant has an ingredient.
      *
-     * @param  int  $id restaurant
-     * @param  int  $id restaurant
+     * @param  App\Models\Restaurant  $restaurant
+     * @param  int  $ingredient_id
      * @return boolean
      */
     public function checkIfRestaurantHasAnIngredient($restaurant, $ingredient_id)
     {
-        return $restaurant->ingredients()->find($ingredient_id) == null;
+        return $restaurant->ingredients()->find($ingredient_id) != null;
     }
 }

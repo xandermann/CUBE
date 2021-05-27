@@ -62,11 +62,30 @@ class DisheApiTest extends TestCase
          */
 
         $dishe = Dishe::find($dishe->id);
-        $this->restaurant->ingredients()->detach();
+        $this->restaurant->dishes()->detach();
         $dishe->delete();
     }
 
-     /**
+    /**
+     * @test
+     */
+    public function store_DisheWithMultipleSameIngredient() {
+
+        $name = $this->faker->word();
+        $price = $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100);
+
+        $response = $this->post("/api/restaurants/{$this->restaurant->id}/dishes", [
+            'name' => $name,
+            'price' => $price,
+            'ingredients' => [
+                ['id' => $this->ingredient_1->id, 'quantity' => 50], 
+                ['id' => $this->ingredient_1->id, 'quantity' => 50]
+            ]
+        ]);
+        $response->assertStatus(422);
+    }
+
+    /**
      * @test
      */
     public function update()
@@ -102,7 +121,70 @@ class DisheApiTest extends TestCase
          * Clean the dishes of this restaurant
          */
 
-        $this->restaurant->ingredients()->detach();
+        $this->restaurant->dishes()->detach();
+        $dishe->delete();
+    }
+
+    /**
+     * @test
+     */
+    public function update_DisheWhoDontExistInRestaurant()
+    {
+        $dishe = Dishe::factory()->create();
+        $dishe->ingredients()->attach([
+            $this->ingredient_1->id,
+            $this->ingredient_2->id,
+            $this->ingredient_3->id
+        ], ['quantity' => 50]);
+
+        $response = $this->put("/api/restaurants/{$this->restaurant->id}/dishes", [
+            'dishe_id' => $dishe->id,
+            'name' => $this->faker->word(),
+            'price' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100),
+            'ingredients' => [
+                ['id' => $this->ingredient_1->id, 'quantity' => 100]
+            ]
+        ]);
+
+        $response->assertStatus(422);
+
+        /*
+         * Clean the dishes of this restaurant
+         */
+
+        $dishe->delete();
+    }
+
+    /**
+     * @test
+     */
+    public function update_DisheWithMultipleSameIngredient()
+    {
+        $dishe = Dishe::factory()->create();
+        $dishe->ingredients()->attach([
+            $this->ingredient_1->id
+        ], ['quantity' => 50]);
+
+        $this->restaurant->dishes()->attach($dishe->id);
+
+        $response = $this->put("/api/restaurants/{$this->restaurant->id}/dishes", [
+            'dishe_id' => $dishe->id,
+            'name' => $this->faker->word(),
+            'price' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100),
+            'ingredients' => [
+                ['id' => $this->ingredient_1->id, 'quantity' => 100],
+                ['id' => $this->ingredient_1->id, 'quantity' => 100],
+                ['id' => $this->ingredient_2->id, 'quantity' => 100]
+            ]
+        ]);
+
+        $response->assertStatus(422);
+
+        /*
+         * Clean the dishes of this restaurant
+         */
+
+        $this->restaurant->dishes()->detach();
         $dishe->delete();
     }
 
