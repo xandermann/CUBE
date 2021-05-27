@@ -68,7 +68,7 @@
 export default {
   async mounted() {
     this.restaurants = await this.$axios
-      .get('//localhost/api/restaurants')
+      .get(`${process.env.API_URL}/api/restaurants`)
       .then((response) => response.data)
       .then((j) => j.data)
       .catch(console.error)

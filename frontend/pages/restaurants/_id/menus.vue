@@ -48,13 +48,13 @@ export default {
   },
   mounted() {
     this.$axios
-      .get(`http://localhost/api/restaurants/1`)
+      .get(`${process.env.API_URL}/api/restaurants/1`)
       .then((response) => response.data)
       .then((restaurant) => (this.restaurant = restaurant))
       .catch(console.error)
 
     this.$axios
-      .get('http://localhost/api/restaurants/1/menus')
+      .get(`${process.env.API_URL}/api/restaurants/1/menus`)
       .then((response) => response.data)
       .then((menus) => (this.menus = menus))
       .catch(console.error)
