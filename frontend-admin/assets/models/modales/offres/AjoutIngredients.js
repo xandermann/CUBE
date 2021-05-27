@@ -3,7 +3,7 @@ export class AjoutIngredients {
   modalProperties = new ModalProperties(
     'Ajouter un ingrédient',
     'ajoutIngredient',
-    '/api/ingredient'
+    '/api/ingredients'
   )
 
   modalInputs = [

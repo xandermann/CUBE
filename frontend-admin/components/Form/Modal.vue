@@ -4,24 +4,30 @@
       :id="modal.modalProperties.id"
       :title="modal.modalProperties.title"
       @ok="submitForm"
+      :hide-footer="hiddenActions"
     >
       <b-alert v-if="result" show>{{ result }}</b-alert>
-      <b-form v-for="champ in modal.modalInputs" :key="champ.property">
-        <div v-if="champ.type == types.PLAINTEXT">
-          <FormPlainText :title="champ.title" v-model="form[champ.property]" />
-        </div>
-        <div v-if="champ.type == types.DATE">
-          <FormDate :title="champ.title" v-model="form[champ.property]" />
-        </div>
-        <div v-if="champ.type == types.CHECKBOX">
-          <FormCheckbox :title="champ.title" v-model="form[champ.property]" />
-        </div>
-        <div v-if="champ.type == types.SELECT">
-          <FormSelect
-            :title="champ.title"
-            :options="champ.listValues"
-            v-model="form[champ.property]"
-          />
+      <b-form v-if="!hiddenActions">
+        <div v-for="champ in modal.modalInputs" :key="champ.property">
+          <div v-if="champ.type == types.PLAINTEXT">
+            <FormPlainText
+              :title="champ.title"
+              v-model="form[champ.property]"
+            />
+          </div>
+          <div v-if="champ.type == types.DATE">
+            <FormDate :title="champ.title" v-model="form[champ.property]" />
+          </div>
+          <div v-if="champ.type == types.CHECKBOX">
+            <FormCheckbox :title="champ.title" v-model="form[champ.property]" />
+          </div>
+          <div v-if="champ.type == types.SELECT">
+            <FormSelect
+              :title="champ.title"
+              :options="champ.listValues"
+              v-model="form[champ.property]"
+            />
+          </div>
         </div>
       </b-form>
     </b-modal>
@@ -37,6 +43,7 @@ export default {
       form: {},
       types: new ModalPropertiesTypes(),
       result: '',
+      hiddenActions: false,
     }
   },
   methods: {
@@ -46,6 +53,8 @@ export default {
     },
     async postNewEntity(url) {
       console.log(JSON.stringify(this.form))
+      this.result = 'Ajout en cours'
+      this.hiddenActions = true
       await this.$axios
         .$post(url, this.form)
         .then((response) => {

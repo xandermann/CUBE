@@ -1,10 +1,9 @@
-export class ListeMenus {
+export class ListStockRestaurant {
   // Liste des champs a afficher dans la vue
   liste
+  title = 'Ingrédients en stock'
   urlFetch
-  title = 'Liste des ingrédients'
-  champs = ['nom', 'prix']
-
+  champs = ['nom', 'quantite']
   constructor(url) {
     this.urlFetch = url
   }
@@ -18,19 +17,19 @@ export class ListeMenus {
     this.liste.perPage = list.per_page ?? 100
     // Rajouter pagination par la suite (list.data)
     this.liste.data = list.map(function (item) {
-      return new Menu(item)
+      return new StockRestaurant(item)
     })
   }
 }
 
-export class Menu {
+export class StockRestaurant {
   id
   nom
-  prix
-  constructor(menu) {
+  quantite
+  constructor(item) {
     // Les champs ci-dessous sont utilisés mais pas forcément affichés dans la vue
-    this.id = menu.id
-    this.nom = menu.menu_name
-    this.prix = menu.menu_prix
+    this.id = item.id
+    this.nom = item.name
+    this.quantite = item.pivot.quantity
   }
 }

@@ -23,10 +23,11 @@
           </div>
         </b-col>
       </b-row>
-      <b-row>
+      <b-row class="pt-4">
         <b-col>
           <div class="Card">
             <h3>Gestion des stocks :</h3>
+            <List :elems="stock" :modal="modaleAjoutStock" />
           </div>
         </b-col>
       </b-row>
@@ -48,9 +49,18 @@
 </style>
 <script>
 import { Restaurant } from '../../assets/models/viewModels/list/Restaurant'
+import { ListStockRestaurant } from '../../assets/models/viewModels/list/Stock'
+import { AjoutStockResto } from '../../assets/models/modales/resto/Add/AjoutStockResto'
 export default {
   data() {
     return {
+      stock: new ListStockRestaurant(
+        this.$config.apiURL +
+          '/api/restaurants/' +
+          this.$route.params.id +
+          '/stock'
+      ),
+      modaleAjoutStock: new AjoutStockResto(),
       resto: {},
     }
   },

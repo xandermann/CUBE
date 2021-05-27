@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import { AjoutResto } from '../../assets/models/modales/resto/AjoutResto'
+import { AjoutResto } from '../../assets/models/modales/resto/Add/AjoutResto'
 import { ListRestaurant } from '../../assets/models/viewModels/list/Restaurant'
 export default {
   data() {

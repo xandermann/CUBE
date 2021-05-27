@@ -3,11 +3,11 @@
 </template>
 <script>
 import { AjoutPlats } from '../../assets/models/modales/offres/AjoutPlats'
-import { ListIngredients } from '../../assets/models/viewModels/list/Ingredients'
+import { ListePlats } from '../../assets/models/viewModels/list/Plats'
 export default {
   data() {
     return {
-      plats: new ListIngredients(this.$config.apiURL + '/api/dishes'),
+      plats: new ListePlats(this.$config.apiURL + '/api/dishes'),
       modalePlat: new AjoutPlats(),
     }
   },

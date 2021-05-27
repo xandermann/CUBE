@@ -40,10 +40,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    proxy: true,
-  },
-  proxy: {
-    '/api/': { target: process.env.API_URL, pathRewrite: { '^/api/': '' } },
+    baseUrl:  process.env.API_URL  
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -56,7 +53,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
   router: {
-    //middleware: ['auth']
+    middleware: ['auth']
   },
   auth: {
     strategies: {

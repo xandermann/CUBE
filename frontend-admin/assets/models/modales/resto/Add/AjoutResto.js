@@ -1,4 +1,8 @@
-import { ModalInput, ModalProperties, ModalPropertiesTypes } from '../ModalForm'
+import {
+  ModalInput,
+  ModalProperties,
+  ModalPropertiesTypes,
+} from '../../ModalForm'
 export class AjoutResto {
   modalProperties = new ModalProperties(
     'Ajouter un restaurant',

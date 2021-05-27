@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import { AjoutFranchise } from '../../assets/models/modales/resto/AjoutFranchise'
+import { AjoutFranchise } from '../../assets/models/modales/resto/Add/AjoutFranchise'
 import { ListFranchises } from '../../assets/models/viewModels/list/Franchises'
 export default {
   data() {

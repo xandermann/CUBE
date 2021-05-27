@@ -10,13 +10,15 @@ export class ListIngredients {
   }
 
   setList(list) {
+    debugger
     this.liste = {}
-    this.liste.currentPage = list.current_page
-    this.liste.nextPageUrl = list.next_page_url
-    this.liste.prevPageUrl = list.prev_page_url
-    this.liste.totalRows = list.total
-    this.liste.perPage = list.per_page
-    this.liste.data = list.data.map(function (item) {
+    this.liste.currentPage = list.current_page ?? 1
+    this.liste.nextPageUrl = list.next_page_url ?? 1
+    this.liste.prevPageUrl = list.prev_page_url ?? 1
+    this.liste.totalRows = list.total ?? 100
+    this.liste.perPage = list.per_page ?? 100
+    // Rajouter pagination par la suite (list.data)
+    this.liste.data = list.map(function (item) {
       return new Ingredient(item)
     })
   }

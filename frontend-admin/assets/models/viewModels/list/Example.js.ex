@@ -1,5 +1,6 @@
 export class ListeExample {
     // Liste des champs a afficher dans la vue
+    //Ajouter 'modify' pour la modale de modification (PUT /api/entite/{id}) et 'delete' pour la suppression standard (DELETE /api/entite/{id})
     liste
     title = 'Liste des ingrédients'
     urlFetch
@@ -15,6 +16,7 @@ export class ListeExample {
     this.liste.prevPageUrl = list.prev_page_url
     this.liste.totalRows = list.total
     this.liste.perPage = list.per_page
+    //list.data si paginee, list.map sinon
     this.liste.data = list.data.map(function (item) {
       return new Example(item)
     })

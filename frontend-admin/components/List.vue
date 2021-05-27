@@ -8,12 +8,12 @@
     <div class="d-flex pl-1 align-items-center justify-content-between">
       <span>{{ elems.title }}</span>
       <b-button class="m-2" v-b-modal="modal.modalProperties.id"
-        >Ajouter</b-button
-      >
+        ><span class="fa fa-plus"></span
+      ></b-button>
     </div>
     <div
       v-if="elems.liste != null"
-      class="d-flex flex-column align-items-center"
+      class="d-flex flex-column align-items-center ListTable"
     >
       <b-table
         striped
@@ -22,16 +22,25 @@
         :items="elems.liste.data"
         responsive="sm"
         @row-clicked="navigateToItem"
+        class="w-100"
       >
-        <template #cell(index)="data">
-          <b-button variant="primary" :id="data.item.id">Modifier</b-button>
+        <template #cell(modify)="data">
+          <b-button variant="primary" :id="data.item.id"
+            ><span class="fa fa-pen"
+          /></b-button>
+        </template>
+        <template #cell(delete)="data">
           <b-button
             variant="danger"
             :id="data.item.id"
             v-b-modal="'Delete' + data.item.id"
-            >Supprimer</b-button
-          >
-          <FormModalDelete :id="data.item.id" :titreModale="data.item.nom" />
+            ><span class="fa fa-trash"
+          /></b-button>
+          <FormModalDelete
+            :id="data.item.id"
+            :titreModale="data.item.nom"
+            :url="elems.urlFetch + '/' + data.item.id"
+          />
         </template>
       </b-table>
       <b-pagination
@@ -60,7 +69,7 @@ export default {
   data() {
     return {
       page: 1,
-      fields: this.elems.length > 0 ? this.elems.champs.concat(['index']) : [],
+      fields: [],
     }
   },
   methods: {
@@ -75,7 +84,16 @@ export default {
   async fetch() {
     this.restos = await fetch(this.elems.urlFetch + '?page=' + this.page)
       .then((res) => res.json())
-      .then((rest) => this.elems.setList(rest))
+      .then(
+        (rest) => this.elems.setList(rest),
+        (this.fields = this.elems.champs)
+      )
   },
 }
 </script>
+<style scoped>
+.ListTable {
+  background-color: white !important;
+  border-radius: 5px;
+}
+</style>

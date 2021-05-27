@@ -3,6 +3,7 @@
     <b-container class="authWindow">
       <b-row>
         <b-col class="authForm">
+          <b-alert v-model="error" variant="danger"> </b-alert>
           <h2>Connexion</h2>
           <b-form @submit="onSubmit">
             <b-form-group class="m-0">
@@ -35,16 +36,20 @@ export default {
         email: '',
         password: '',
       },
+      error: null,
     }
   },
   methods: {
     onSubmit() {
-      this.$auth.loginWith('laravelSanctum', {
-        data: {
-          email: this.form.email,
-          password: this.form.password,
-        },
-      })
+      debugger
+      this.$auth
+        .loginWith('laravelSanctum', {
+          data: {
+            email: this.form.email,
+            password: this.form.password,
+          },
+        })
+        .catch((err) => (this.error = err))
     },
   },
 }
