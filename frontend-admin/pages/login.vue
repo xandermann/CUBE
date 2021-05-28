@@ -4,7 +4,7 @@
       <b-row>
         <b-col class="authForm">
           <h2>Connexion</h2>
-          <b-form @submit="onSubmit">
+          <b-form @submit.prevent="onSubmit">
             <b-form-group class="m-0">
               <b-form-input
                 v-model="form.email"
@@ -39,12 +39,17 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$auth.loginWith('laravelSanctum', {
-        data: {
-          email: this.form.email,
-          password: this.form.password,
-        }.then(() => this.$toast.success('Logged In!')),
-      })
+      this.$auth
+        .loginWith('laravelSanctum', {
+          data: {
+            email: this.form.email,
+            password: this.form.password,
+          },
+        })
+        // .then(() => this.$toast.success('Logged In!'))
+        .then(() => this.$router.push('/'))
+        .then(() => console.log('Logged In !'))
+        .catch(console.error)
     },
   },
 }
