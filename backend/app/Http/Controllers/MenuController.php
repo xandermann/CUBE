@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MenuRequests\MenuPutRequest;
+use App\Http\Requests\MenuRequests\MenuPostRequest;
+use App\Http\Requests\MenuRequests\MenuDeleteRequest;
 use App\Models\Restaurant;
 use App\Models\Menu;
 use Illuminate\Http\Request;
@@ -32,11 +35,11 @@ class MenuController extends Controller
     /**
      * A restaurant creates a new menu.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\MenuRequests\MenuPostRequest  $request
      * @param  int  $id restaurant
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(MenuPostRequest $request, $id)
     {
         $restaurant = Restaurant::findOrFail($id);
 
@@ -48,6 +51,11 @@ class MenuController extends Controller
 
         //dishes related to the menu
         foreach ($request->dishes as $dishe) {
+
+            if($this->checkIfMenuHasAnDishe($menu, $dishe['id'])) {
+                abort(422, "the menu already has this dishe.");
+            }
+            
             $menu->dishes()->attach($dishe['id']);
         }
 
@@ -58,14 +66,18 @@ class MenuController extends Controller
     /**
      * A restaurant updates a menu it already has.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\MenuRequests\MenuPutRequest  $request
      * @param  int  $id restaurant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MenuPutRequest $request, $id)
     {
         $restaurant = Restaurant::findOrFail($id);
         $menu = Menu::findOrFail($request->menu_id);
+
+        if(!$this->checkIfRestaurantHasAnMenu($restaurant, $menu->id)) {
+            abort(422, "The restaurant does not have this menu.");
+        }
 
         //menu update
         $menu->update([
@@ -78,6 +90,11 @@ class MenuController extends Controller
 
         //we add the new dishes related to the menu
         foreach ($request->dishes as $dishe) {
+
+            if($this->checkIfMenuHasAnDishe($menu, $dishe['id'])) {
+                abort(422, "the menu already has this dishe.");
+            }
+
             $menu->dishes()->attach($dishe['id']);
         }
     }
@@ -85,19 +102,43 @@ class MenuController extends Controller
     /**
      * A restaurant removes one of its menus.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\MenuRequests\MenuDeleteRequest  $request
      * @param  int  $id restaurant
      * @return \Illuminate\Http\Response
      */
-    public function delete(Request $request, $id)
+    public function destroy(MenuDeleteRequest $request, $id)
     {
         $restaurant = Restaurant::findOrFail($id);
         $menu = Menu::findOrFail($request->menu_id);
 
-        if($restaurant->menus()->find($menu->id) == null) {
+        if(!$this->checkIfRestaurantHasAnMenu($restaurant, $menu->id)) {
             abort(422, "The restaurant does not have this menu.");
         }
 
         $menu->delete();
+    }
+
+    /**
+     * Check if the restaurant has an menu.
+     *
+     * @param  App\Models\Restaurant  $restaurant
+     * @param  int  $menu_id
+     * @return boolean
+     */
+    public function checkIfRestaurantHasAnMenu($restaurant, $menu_id)
+    {
+        return $restaurant->menus()->find($menu_id) != null;
+    }
+
+    /**
+     * Check if the menu has an dishe.
+     *
+     * @param  App\Models\Menu  $menu
+     * @param  int  $dishe_id
+     * @return boolean
+     */
+    public function checkIfMenuHasAnDishe($menu, $dishe_id)
+    {
+        return $menu->dishes()->find($dishe_id) != null;
     }
 }

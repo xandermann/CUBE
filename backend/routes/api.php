@@ -46,7 +46,7 @@ Route::prefix('restaurants')->group(function () {
     Route::get('/{restaurant}/menus', [MenuController::class, 'index_restaurant'])->where('restaurant', '[0-9]+');
     Route::post('/{restaurant}/menus', [MenuController::class, 'store'])->where('restaurant', '[0-9]+');
     Route::put('/{restaurant}/menus', [MenuController::class, 'update'])->where('restaurant', '[0-9]+');
-    Route::delete('/{restaurant}/menus', [MenuController::class, 'delete'])->where('restaurant', '[0-9]+');
+    Route::delete('/{restaurant}/menus', [MenuController::class, 'destroy'])->where('restaurant', '[0-9]+');
 });
 
 Route::prefix('dishes')->group(function () {

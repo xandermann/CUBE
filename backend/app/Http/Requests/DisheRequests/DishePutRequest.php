@@ -49,7 +49,7 @@ class DishePutRequest extends FormRequest
             'price.required'  => 'The dishe price is required',
             'price.numeric' => 'The dishe price must be numeric',
             'price.min' => 'The dishe price must be greater than 0',
-            'price.not_in' => 'The quantity must be different than 0',
+            'price.not_in' => 'The dishe price must be different than 0',
             'ingredients.required' => 'The ingredients are required',
             'ingredients.array' => 'The ingredients must be in a array',
             'ingredients.*.id.required' => 'The ingredient id is required',
