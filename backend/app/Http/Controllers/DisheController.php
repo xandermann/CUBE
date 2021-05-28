@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DisheRequests\DishePutRequest;
+use App\Http\Requests\DisheRequests\DishePostRequest;
+use App\Http\Requests\DisheRequests\DisheDeleteRequest;
 use App\Models\Restaurant;
 use App\Models\Dishe;
 use Illuminate\Http\Request;
@@ -32,11 +35,11 @@ class DisheController extends Controller
     /**
      * A restaurant creates a new dish.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\DisheRequests\DishePostRequest  $request
      * @param  int  $id restaurant
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(DishePostRequest $request, $id)
     {
         $restaurant = Restaurant::findOrFail($id);
 
@@ -63,11 +66,11 @@ class DisheController extends Controller
     /**
      * A restaurant updates a dish it already has.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\DisheRequests\DishePutRequest  $request
      * @param  int  $id restaurant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DishePutRequest $request, $id)
     {
         $restaurant = Restaurant::findOrFail($id);
         $dishe = Dishe::findOrFail($request->dishe_id);
@@ -99,11 +102,11 @@ class DisheController extends Controller
     /**
      * A restaurant removes one of its dishes.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\DisheRequests\DisheDeleteRequest  $request
      * @param  int  $id restaurant
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(DisheDeleteRequest $request, $id)
     {
         $restaurant = Restaurant::findOrFail($id);
         $dishe = Dishe::findOrFail($request->dishe_id);

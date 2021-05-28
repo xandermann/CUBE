@@ -88,6 +88,25 @@ class DisheApiTest extends TestCase
     /**
      * @test
      */
+    public function store_DishesWithIngredientsNotExistInDatabase() {
+
+        $name = $this->faker->word();
+        $price = $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100);
+
+        $response = $this->post("/api/restaurants/{$this->restaurant->id}/dishes", [
+            'name' => $name,
+            'price' => $price,
+            'ingredients' => [
+                ['id' => 10000, 'quantity' => 50], 
+                ['id' => 20000, 'quantity' => 50]
+            ]
+        ]);
+        $response->assertStatus(422);
+    }
+
+    /**
+     * @test
+     */
     public function update()
     {
         $dishe = Dishe::factory()->create();
@@ -191,6 +210,38 @@ class DisheApiTest extends TestCase
     /**
      * @test
      */
+    public function update_DishesWithIngredientsNotExistInDatabase()
+    {
+        $dishe = Dishe::factory()->create();
+        $dishe->ingredients()->attach([
+            $this->ingredient_1->id
+        ], ['quantity' => 50]);
+
+        $this->restaurant->dishes()->attach($dishe->id);
+
+        $response = $this->put("/api/restaurants/{$this->restaurant->id}/dishes", [
+            'dishe_id' => $dishe->id,
+            'name' => $this->faker->word(),
+            'price' => $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100),
+            'ingredients' => [
+                ['id' => 1000, 'quantity' => 100],
+                ['id' => 2000, 'quantity' => 100]
+            ]
+        ]);
+
+        $response->assertStatus(422);
+
+        /*
+         * Clean the dishes of this restaurant
+         */
+
+        $this->restaurant->dishes()->detach();
+        $dishe->delete();
+    }
+
+    /**
+     * @test
+     */
     public function destroy()
     {
         $dishe = Dishe::factory()->create();
@@ -239,6 +290,18 @@ class DisheApiTest extends TestCase
          */
 
         $dishe->delete();
+    }
+
+    /**
+     * @test
+     */
+    public function destroy_DishesNotExistInDatabase()
+    {
+        $response = $this->delete("/api/restaurants/{$this->restaurant->id}/dishes", [
+            'dishe_id' => 1000
+        ]);
+
+        $response->assertStatus(422);
     }
 
     public function tearDown(): void
