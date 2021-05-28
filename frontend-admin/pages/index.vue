@@ -1,6 +1,9 @@
 <template>
   <b-container fluid>
-    <div></div>
+    <div>
+      <!-- <Logo /> -->
+      <h1>TODO: page d'accueil</h1>
+    </div>
   </b-container>
 </template>
 

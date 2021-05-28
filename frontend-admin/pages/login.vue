@@ -5,7 +5,7 @@
         <b-col class="authForm">
           <b-alert v-model="error" variant="danger"> </b-alert>
           <h2>Connexion</h2>
-          <b-form @submit="onSubmit">
+          <b-form @submit.prevent="onSubmit">
             <b-form-group class="m-0">
               <b-form-input
                 v-model="form.email"
@@ -41,18 +41,17 @@ export default {
   },
   methods: {
     async onSubmit() {
-      debugger
-      try {
-        const login = await this.$auth.loginWith('laravelSanctum', {
+      this.$auth
+        .loginWith('laravelSanctum', {
           data: {
             email: this.form.email,
             password: this.form.password,
           },
         })
-        alert(login)
-      } catch (e) {
-        alert(e)
-      }
+        // .then(() => this.$toast.success('Logged In!'))
+        .then(() => this.$router.push('/'))
+        .then(() => console.log('Logged In !'))
+        .catch(console.error)
     },
   },
 }

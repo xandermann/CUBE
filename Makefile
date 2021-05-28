@@ -64,7 +64,9 @@ route-compact: ## Print the route list (compact)
 
 .PHONY: fix-permissions
 fix-permissions: ## Fix the permissions (sudo needed)
-	echo "TODO"
+	# You can run this command:
+	# sudo chown $$USER:www-data backend/ -R
+
 
 
 
