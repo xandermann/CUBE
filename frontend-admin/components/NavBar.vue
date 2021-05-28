@@ -16,12 +16,11 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <div v-if="isUserLoggedIn">
-            <p v-if="isUserLoggedIn">
+          <div class="d-flex align-items-center justify-content-center">
+            <p class="m-0 pr-2" v-if="isUserLoggedIn">
               Bonjour, {{ user.firstname }} {{ user.lastname }}
             </p>
-          <div v-if="!isUserLoggedIn">
-            <b-button :to="'/login'">Connexion</b-button>
+            <b-button v-on:click="logOut">Deconnexion</b-button>
           </div>
         </b-navbar-nav>
       </b-collapse>

@@ -3,7 +3,7 @@ export class ListePlats {
   liste
   title = 'Liste des plats'
   urlFetch
-  champs = ['nom']
+  champs = ['nom', 'prix']
   constructor(url) {
     this.urlFetch = url
   }
@@ -25,9 +25,11 @@ export class ListePlats {
 export class Plat {
   id
   nom
+  prix
   constructor(item) {
     // Les champs ci-dessous sont utilisés mais pas forcément affichés dans la vue
     this.id = item.id
     this.nom = item.name
+    this.prix = item.price + '€'
   }
 }

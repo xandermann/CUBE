@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     async onSubmit() {
-      this.$auth
+      await this.$auth
         .loginWith('laravelSanctum', {
           data: {
             email: this.form.email,
