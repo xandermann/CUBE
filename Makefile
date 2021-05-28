@@ -12,6 +12,7 @@ install: ## Install the docker images & depedencies
 	docker-compose run --rm composer composer install
 	docker-compose run --rm frontend yarn
 	docker-compose run --rm frontend-admin yarn
+	docker-compose run --rm composer php artisan key:generate
 
 	docker-compose run --rm composer cp .env.example .env
 	docker-compose run --rm composer php artisan key:generate

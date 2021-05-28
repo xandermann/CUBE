@@ -1,6 +1,19 @@
 <template>
-  <div>Commentaires</div>
+  <List :elems="commentaires" :modal="modaleComm" />
 </template>
 <script>
-export default {}
+import { AjoutCommentaires } from '../../assets/models/modales/commercial/AjoutCommentaire'
+export default {
+  data() {
+    return {
+      commentaires: [],
+      modaleComm: new AjoutCommentaires(),
+    }
+  },
+  async fetch() {
+    this.commentaires = await fetch(
+      process.env.API_URL + '/api/ingredients'
+    ).then((res) => res.json())
+  },
+}
 </script>

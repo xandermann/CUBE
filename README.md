@@ -25,6 +25,13 @@
 - [Adminer - localhost:8080](localhost:8080)
 - [Mail - localhost:1080](localhost:1080) a envoyer sur `mail:25` par défaut
 
+
+- [API Backend - localhost](localhost/api) - `make route` pour voir les routes
+- [Frontend - localhost:8000](localhost:8000)
+- [Frontend admin - localhost:8001](localhost:8001)
+- [Adminer - localhost:8080](localhost:8080)
+- [Mail - localhost:1080](localhost:1080) a envoyer sur `mail:25` par défaut
+
 ## Pré-production
 
     $ make pre-prod

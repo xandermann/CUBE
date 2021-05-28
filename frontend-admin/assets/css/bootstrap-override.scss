@@ -1,0 +1,34 @@
+@import './charte_graphique.scss';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+body {
+  background-color: $couleurFond;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.navbar {
+  &.navbar-dark {
+    background-color: $couleurPrincipale;
+  }
+}
+
+.btn {
+  border: none;
+  &.btn-primary {
+    background-color: $couleurPrincipale;
+  }
+  &.btn-secondary {
+    background-color: $couleurSecondaire;
+  }
+}
+
+.bgPrimary {
+  background-color: $couleurPrincipale;
+}
+
+.bgSecondary {
+  background-color: $couleurSecondaire;
+}
+
+.bgPrimaryDark {
+  background-color: $couleurPrincipaleDark;
+}
