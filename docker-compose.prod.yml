@@ -66,8 +66,8 @@ services:
       - ./frontend:/var/www/app
     working_dir: /var/www/app
     command: yarn start
-    # environment:
-    #   - HOST=0.0.0.0
+    environment:
+      - HOST=0.0.0.0
     networks: [traefik_web, default]
     labels:
       - "traefik.enable=true"
@@ -87,8 +87,8 @@ services:
       - ./frontend-admin:/var/www/app
     working_dir: /var/www/app
     command: yarn start
-    # environment:
-    #   - HOST=0.0.0.0
+    environment:
+      - HOST=0.0.0.0
     networks: [traefik_web, default]
     labels:
       - "traefik.enable=true"
