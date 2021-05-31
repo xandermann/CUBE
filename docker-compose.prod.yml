@@ -18,10 +18,10 @@ services:
     networks: [traefik_web, default]
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api-goodfood.rule=Host(`api.goodfood.alexandre-hublau.com`)"
+      - "traefik.http.routers.api-goodfood.rule=Host(`api-goodfood.alexandre-hublau.com`)"
       - "traefik.http.routers.api-goodfood.entrypoints=http"
 
-      - "traefik.http.routers.api-goodfood-secured.rule=Host(`api.goodfood.alexandre-hublau.com`)"
+      - "traefik.http.routers.api-goodfood-secured.rule=Host(`api-goodfood.alexandre-hublau.com`)"
       - "traefik.http.routers.api-goodfood-secured.entrypoints=https"
       - "traefik.http.routers.api-goodfood-secured.tls.certresolver=tls"
 

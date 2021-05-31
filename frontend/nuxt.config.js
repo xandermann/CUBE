@@ -56,7 +56,7 @@ export default {
     strategies: {
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: 'http://localhost',
+        url: process.env.API_URL || 'http://localhost',
       },
     },
   },
