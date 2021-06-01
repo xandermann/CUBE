@@ -136,6 +136,29 @@ class OrderTest extends TestCase
     /**
      * @test
      */
+    public function store_orderWithMultipleSameDishe()
+    {
+        $date = $this->faker->date($format = 'Y-m-d', $max = 'now');
+        
+        $response = $this->post("/api/orders", [
+            'restaurant_id' => $this->restaurant->id,
+            'user_id' => $this->user->id,
+            'date' => $date,
+            'dishes' => [
+                ['id' => $this->dishe_1->id, 'quantity' => 2], 
+                ['id' => $this->dishe_1->id, 'quantity' => 2],
+                ['id' => $this->dishe_2->id, 'quantity' => 2]
+            ],
+            'menus' => []
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['dishes.0.id','dishes.1.id']);
+    }
+
+    /**
+     * @test
+     */
     public function store_whenDateIsString()
     {
         
