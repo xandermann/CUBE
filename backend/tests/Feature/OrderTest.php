@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Restaurant;
 use App\Models\User;
 use App\Models\Dishe;
+use App\Models\Menu;
 use App\Models\Ingredient;
 use App\Models\Order;
 use Faker\Generator;
@@ -19,6 +20,8 @@ class OrderTest extends TestCase
 
     protected $restaurant;
     protected $user;
+    protected $menu_1;
+    protected $menu_2;
     protected $dishe_1;
     protected $dishe_2;
     protected $ingredient_1;
@@ -29,17 +32,34 @@ class OrderTest extends TestCase
         parent::setUp();
         $this->restaurant = Restaurant::factory()->create();
         $this->user = User::factory()->create();
+
         $this->ingredient_1 = Ingredient::factory()->create();
+        $this->restaurant->ingredients()->attach($this->ingredient_1->id, ['quantity' => 200]);
+
         $this->ingredient_2 = Ingredient::factory()->create();
+        $this->restaurant->ingredients()->attach($this->ingredient_2->id, ['quantity' => 200]);
 
         $this->dishe_1 = Dishe::factory()->create();
-        $this->dishe_1->ingredients()->attach($this->ingredient_1->id, ['quantity' => 100]);
+        $this->dishe_1->ingredients()->attach($this->ingredient_1->id, ['quantity' => 5]);
+        $this->restaurant->dishes()->attach($this->dishe_1->id);
 
         $this->dishe_2 = Dishe::factory()->create();
         $this->dishe_2->ingredients()->attach([
             $this->ingredient_1->id,
             $this->ingredient_2->id
-        ], ['quantity' => 50]);
+        ], ['quantity' => 3]);
+        $this->restaurant->dishes()->attach($this->dishe_2->id);
+
+        $this->menu_1 = Menu::factory()->create();
+        $this->menu_1->dishes()->attach($this->dishe_1->id);
+        $this->restaurant->menus()->attach($this->menu_1->id);
+
+        $this->menu_2 = Menu::factory()->create();
+        $this->menu_2->dishes()->attach([
+            $this->dishe_1->id,
+            $this->dishe_2->id
+        ]);
+        $this->restaurant->menus()->attach($this->menu_2->id);
     }
 
     /**
@@ -48,18 +68,19 @@ class OrderTest extends TestCase
     public function store()
     {
         $date = $this->faker->date($format = 'Y-m-d', $max = 'now');
-        $total_price = $this->faker->randomFloat($nbMaxDecimals = 2, $min = 0, $max = 100);
         
         $response = $this->post("/api/orders", [
             'restaurant_id' => $this->restaurant->id,
             'user_id' => $this->user->id,
             'date' => $date,
-            'total_price' => $total_price,
             'dishes' => [
-                ['id' => $this->dishe_1->id, 'quantity' => 1], 
+                ['id' => $this->dishe_1->id, 'quantity' => 2], 
                 ['id' => $this->dishe_2->id, 'quantity' => 2]
             ],
-            'menus' => []
+            'menus' => [
+                ['id' => $this->menu_1->id, 'quantity' => 2], 
+                ['id' => $this->menu_2->id, 'quantity' => 2]
+            ]
         ]);
 
         $response->assertStatus(200);
@@ -71,7 +92,15 @@ class OrderTest extends TestCase
 
         $order = Order::latest('id')->first();
         $this->assertEquals($order->date, $date, 'Order date should be defined');
-        $this->assertEquals($order->total_price, $total_price, 'Order price should be defined');
+
+        $total_price = ($this->dishe_1->price * 2) + ($this->dishe_2->price * 2) + ($this->menu_1->price * 2) + ($this->menu_2->price * 2);
+        $this->assertEquals($order->total_price, $total_price, 'Price order should be defined.');
+
+        $stock_ingredient_1 = $this->restaurant->ingredients()->find($this->ingredient_1->id);
+        $this->assertEquals($stock_ingredient_1->pivot->quantity, 200 - 3*(2*5) - 2*(2*3), 'Stock for the ingredient 1 should be deducted.');
+
+        $stock_ingredient_2 = $this->restaurant->ingredients()->find($this->ingredient_2->id);
+        $this->assertEquals($stock_ingredient_2->pivot->quantity, 200 - 2*(2*3), 'Stock for the ingredient 2 should be deducted.');
         
         /*
          * Clean the dishes of this restaurant
@@ -85,6 +114,8 @@ class OrderTest extends TestCase
         parent::tearDown();
         $this->restaurant->delete();
         $this->user->delete();
+        $this->menu_1->delete();
+        $this->menu_2->delete();
         $this->dishe_1->delete();
         $this->dishe_2->delete();
         $this->ingredient_1->delete();

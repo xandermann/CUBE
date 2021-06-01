@@ -125,7 +125,7 @@ class DisheController extends Controller
      * @param  int  $dishe_id
      * @return boolean
      */
-    public function checkIfRestaurantHasAnDishe($restaurant, $dishe_id)
+    public static function checkIfRestaurantHasAnDishe($restaurant, $dishe_id)
     {
         return $restaurant->dishes()->find($dishe_id) != null;
     }

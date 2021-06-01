@@ -96,7 +96,7 @@ class StockController extends Controller
      * @param  int  $ingredient_id
      * @return boolean
      */
-    public function checkIfRestaurantHasAnIngredient($restaurant, $ingredient_id)
+    public static function checkIfRestaurantHasAnIngredient($restaurant, $ingredient_id)
     {
         return $restaurant->ingredients()->find($ingredient_id) != null;
     }

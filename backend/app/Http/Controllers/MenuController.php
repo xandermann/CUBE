@@ -125,7 +125,7 @@ class MenuController extends Controller
      * @param  int  $menu_id
      * @return boolean
      */
-    public function checkIfRestaurantHasAnMenu($restaurant, $menu_id)
+    public static function checkIfRestaurantHasAnMenu($restaurant, $menu_id)
     {
         return $restaurant->menus()->find($menu_id) != null;
     }
