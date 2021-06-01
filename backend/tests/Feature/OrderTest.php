@@ -67,7 +67,7 @@ class OrderTest extends TestCase
      */
     public function store()
     {
-        $date = $this->faker->date($format = 'Y-m-d', $max = 'now');
+        $date = $this->faker->dateTime($max = 'now', $timezone = null);
         
         $response = $this->post("/api/orders", [
             'restaurant_id' => $this->restaurant->id,
@@ -91,7 +91,7 @@ class OrderTest extends TestCase
          */
 
         $order = Order::latest('id')->first();
-        $this->assertEquals($order->date, $date, 'Order date should be defined');
+        $this->assertEquals($order->date, $date->format('Y-m-d H:i:s'), 'Order date should be defined');
 
         $total_price = ($this->dishe_1->price * 2) + ($this->dishe_2->price * 2) + ($this->menu_1->price * 2) + ($this->menu_2->price * 2);
         $this->assertEquals($order->total_price, $total_price, 'Price order should be defined.');
@@ -114,7 +114,7 @@ class OrderTest extends TestCase
      */
     public function store_restaurantDoesNotHaveEnoughIngredientsInStock()
     {
-        $date = $this->faker->date($format = 'Y-m-d', $max = 'now');
+        $date = $this->faker->dateTime($max = 'now', $timezone = null);
         
         $response = $this->post("/api/orders", [
             'restaurant_id' => $this->restaurant->id,
@@ -138,7 +138,7 @@ class OrderTest extends TestCase
      */
     public function store_orderWithMultipleSameDishe()
     {
-        $date = $this->faker->date($format = 'Y-m-d', $max = 'now');
+        $date = $this->faker->dateTime($max = 'now', $timezone = null);
         
         $response = $this->post("/api/orders", [
             'restaurant_id' => $this->restaurant->id,
