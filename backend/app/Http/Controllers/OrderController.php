@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderRequests\OrderPostRequest;
 use App\Models\User;
 use App\Models\Restaurant;
 use App\Models\Order;
@@ -27,10 +28,11 @@ class OrderController extends Controller
 
     /**
      * Place an order.
-     *
+     * 
+     * @param  \App\Http\Requests\OrderRequests\OrderPostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrderPostRequest $request)
     {
         $restaurant = Restaurant::findOrFail($request->restaurant_id);
         $user = User::findOrFail($request->user_id);

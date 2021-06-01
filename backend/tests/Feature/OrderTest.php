@@ -133,6 +133,30 @@ class OrderTest extends TestCase
         $response->assertStatus(422);
     }
 
+    /**
+     * @test
+     */
+    public function store_whenDateIsString()
+    {
+        
+        $response = $this->post("/api/orders", [
+            'restaurant_id' => $this->restaurant->id,
+            'user_id' => $this->user->id,
+            'date' => "string",
+            'dishes' => [
+                ['id' => $this->dishe_1->id, 'quantity' => 100], 
+                ['id' => $this->dishe_2->id, 'quantity' => 100]
+            ],
+            'menus' => [
+                ['id' => $this->menu_1->id, 'quantity' => 100], 
+                ['id' => $this->menu_2->id, 'quantity' => 100]
+            ]
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('date');
+    }
+
     public function tearDown(): void
     {
         parent::tearDown();
