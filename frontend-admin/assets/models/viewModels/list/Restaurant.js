@@ -1,3 +1,5 @@
+import { PutRestaurant } from '../put/PutResto'
+
 export class ListRestaurant {
   // Liste des champs a afficher dans la vue
   liste
@@ -35,15 +37,19 @@ export class Restaurant {
   nom
   adresseComplete
   ville
+  codePostal
   pays
   telephone
+  putModal
   constructor(restaurant) {
     // Les champs ci-dessous sont utilisés mais pas forcément affichés dans la vue
     this.id = restaurant.id
     this.nom = restaurant.name
     this.adresseComplete = restaurant.coordinate.full_address
     this.ville = restaurant.coordinate.city
+    this.codePostal = restaurant.coordinate.postal_code
     this.pays = restaurant.coordinate.country
     this.telephone = restaurant.coordinate.number_phone
+    this.putModal = new PutRestaurant(restaurant, restaurant.id)
   }
 }

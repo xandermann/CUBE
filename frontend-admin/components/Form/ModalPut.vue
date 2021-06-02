@@ -1,19 +1,19 @@
 <template>
   <div>
     <b-modal
-      :id="modal.modalProperties.id"
-      :title="modal.modalProperties.title"
+      :id="'Put' + objectId"
+      :title="objectToModify.modalProperties.title"
       :hide-footer="hiddenActions"
       @ok="submitForm"
-      @shown="modalShown"
     >
       <b-alert v-if="result" show>{{ result }}</b-alert>
       <b-form v-if="!hiddenActions">
-        <div v-for="champ in modal.modalInputs" :key="champ.property">
+        <div v-for="champ in objectToModify.modalInputs" :key="champ.property">
           <div v-if="champ.type == types.PLAINTEXT">
             <FormPlainText
               v-model="form[champ.property]"
               :title="champ.title"
+              :form-value="champ.defaultValue"
             />
           </div>
           <div v-if="champ.type == types.DATE">
@@ -27,6 +27,7 @@
               v-model="form[champ.property]"
               :title="champ.title"
               :options="champ.listValues"
+              :form-value="champ.defaultValue"
             />
           </div>
           <div v-if="champ.type == types.ADDRESS">
@@ -51,7 +52,7 @@
 <script>
 import { ModalPropertiesTypes } from '../../assets/models/modales/ModalForm'
 export default {
-  props: { modal: Object },
+  props: { objectId: Number, objectToModify: Object },
   data() {
     return {
       form: {},
@@ -60,26 +61,33 @@ export default {
       hiddenActions: false,
     }
   },
+  mounted() {
+    this.objectToModify.modalInputs.forEach((champ) => {
+      this.form[champ.property] = champ.defaultValue
+    })
+  },
   methods: {
-    // permet à leaflet de charger
-    modalShown() {
-      setTimeout(() => {
-        window.dispatchEvent(new Event('resize'))
-      }, 100)
-    },
+    // initEntity() {
+    //   const valeurs = this.$props.objectToModify
+    //   for (const property in valeurs) {
+    //     this.form[property] = valeurs[property]
+    //   }
+    // },
     submitForm(event) {
       event.preventDefault()
-      this.postNewEntity(this.modal.modalProperties.url)
+
+      this.putEntity(this.objectToModify.modalProperties.url)
     },
-    async postNewEntity(url) {
-      console.log(JSON.stringify(this.form))
-      this.result = 'Ajout en cours'
+    async putEntity(url) {
+      this.result = 'Mise à jour en cours'
       this.hiddenActions = true
+      alert(url)
       await this.$axios
-        .$post(url, this.form)
+        .$put(url, this.form)
         .then((response) => {
-          this.result = "L'élément a été ajouté avec succès"
+          this.result = "L'élément a été mis à jour avec succès"
         })
+
         .catch((error) => {
           this.result = error
         })

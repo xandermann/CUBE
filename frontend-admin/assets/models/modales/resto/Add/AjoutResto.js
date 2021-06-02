@@ -32,7 +32,11 @@ export class AjoutResto {
       { value: 'Belgique', text: 'Belgique' },
       { value: 'Luxembourg', text: 'Luxembourg' },
     ]),
-
+    new ModalInput(
+      'localisation',
+      'Localisation',
+      new ModalPropertiesTypes().ADDRESS
+    ),
     new ModalInput(
       'number_phone',
       'Numéro de téléphone',

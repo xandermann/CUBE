@@ -7,7 +7,7 @@
     >
     <div class="d-flex pl-1 align-items-center justify-content-between">
       <span>{{ elems.title }}</span>
-      <b-button class="m-2" v-b-modal="modal.modalProperties.id"
+      <b-button v-b-modal="modal.modalProperties.id" class="m-2"
         ><span class="fa fa-plus"></span
       ></b-button>
     </div>
@@ -21,32 +21,36 @@
         :fields="fields"
         :items="elems.liste.data"
         responsive="sm"
-        @row-clicked="navigateToItem"
         class="w-100"
+        @row-clicked="navigateToItem"
       >
         <template #cell(modify)="data">
-          <b-button variant="primary" :id="data.item.id"
+          <b-button v-b-modal="'Put' + data.item.id" variant="primary"
             ><span class="fa fa-pen"
           /></b-button>
+          <FormModalPut
+            :object-id="data.item.id"
+            :object-to-modify="data.item.putModal"
+          />
         </template>
         <template #cell(delete)="data">
           <b-button
-            variant="danger"
             :id="data.item.id"
             v-b-modal="'Delete' + data.item.id"
+            variant="danger"
             ><span class="fa fa-trash"
           /></b-button>
           <FormModalDelete
             :id="data.item.id"
-            :titreModale="data.item.nom"
+            :titre-modale="data.item.nom"
             :url="elems.urlFetch + '/' + data.item.id"
           />
         </template>
       </b-table>
       <b-pagination
-        @change="handlePageChange"
         :total-rows="elems.liste.totalRows"
         :per-page="elems.liste.perPage"
+        @change="handlePageChange"
       ></b-pagination>
     </div>
     <div
@@ -72,6 +76,14 @@ export default {
       fields: [],
     }
   },
+  async fetch() {
+    await fetch(this.elems.urlFetch + '?page=' + this.page)
+      .then((res) => res.json())
+      .then(
+        (rest) => this.elems.setList(rest),
+        (this.fields = this.elems.champs)
+      )
+  },
   methods: {
     navigateToItem(item) {
       window.location.href = item.id
@@ -80,14 +92,6 @@ export default {
       this.page = value
       this.$fetch()
     },
-  },
-  async fetch() {
-    this.restos = await fetch(this.elems.urlFetch + '?page=' + this.page)
-      .then((res) => res.json())
-      .then(
-        (rest) => this.elems.setList(rest),
-        (this.fields = this.elems.champs)
-      )
   },
 }
 </script>

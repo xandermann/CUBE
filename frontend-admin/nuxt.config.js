@@ -36,11 +36,13 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/auth-next',
+    'nuxt-leaflet',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseUrl: process.env.API_URL,
+    credentials: true,
   },
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {

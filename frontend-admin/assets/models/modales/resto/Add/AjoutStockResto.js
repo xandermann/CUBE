@@ -7,13 +7,19 @@ export class AjoutStockResto {
   modalProperties = new ModalProperties(
     'Ajouter un nouvel ingrédient au stock',
     'ajoutIngredStock',
-    '/api/restaurants/1/stock'
+    '/api/restaurants/2/stock'
   )
 
   modalInputs = [
     new ModalInput(
-      'nomIngredient',
+      'ingredient_id',
       "Nom de l'ingredient",
+      new ModalPropertiesTypes().SELECT,
+      '/api/ingredients'
+    ),
+    new ModalInput(
+      'quantity',
+      'Quantité',
       new ModalPropertiesTypes().PLAINTEXT
     ),
   ]

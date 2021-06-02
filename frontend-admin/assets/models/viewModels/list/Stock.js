@@ -1,9 +1,10 @@
+import { PutStockRestaurant } from '../put/PutRestoStock'
 export class ListStockRestaurant {
   // Liste des champs a afficher dans la vue
   liste
   title = 'Ingrédients en stock'
   urlFetch
-  champs = ['nom', 'quantite']
+  champs = ['nom', 'quantite', 'modify']
   constructor(url) {
     this.urlFetch = url
   }
@@ -26,10 +27,12 @@ export class StockRestaurant {
   id
   nom
   quantite
+  putModal
   constructor(item) {
     // Les champs ci-dessous sont utilisés mais pas forcément affichés dans la vue
     this.id = item.id
     this.nom = item.name
     this.quantite = item.pivot.quantity
+    this.putModal = new PutStockRestaurant(item.pivot, item.id)
   }
 }

@@ -3,9 +3,9 @@
     <label :for="title">{{ title }}</label>
     <b-form-datepicker
       :id="title"
-      v-bind:formValue="formValue"
-      v-on:input="$emit('input', $event)"
+      :form-value="formValue"
       class="mb-2"
+      @input="$emit('input', $event)"
     ></b-form-datepicker>
   </div>
 </template>

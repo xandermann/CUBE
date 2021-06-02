@@ -19,12 +19,14 @@ export class ModalInput {
   title
   type
   validation
-  listValues
-  constructor(property, title, type, listValues) {
+  listValues // Liste de valeurs possibles
+  defaultValue // Valeur par défaut
+  constructor(property, title, type, listValues, defaultValue) {
     this.property = property
     this.title = title
     this.type = type
     this.listValues = listValues
+    this.defaultValue = defaultValue
   }
 }
 
@@ -36,4 +38,6 @@ export class ModalPropertiesTypes {
   DATETIME = 'dateTime'
   DATE = 'date'
   SELECT = 'select'
+  MAP = 'map'
+  ADDRESS = 'address'
 }
