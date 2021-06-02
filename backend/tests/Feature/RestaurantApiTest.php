@@ -64,6 +64,7 @@ class RestaurantApiTest extends TestCase
          * Clean the restaurant
          */
 
+        $restaurant->coordinate()->delete();
         $restaurant->delete();
     }
 
@@ -130,7 +131,8 @@ class RestaurantApiTest extends TestCase
 
     public function tearDown(): void
     {
-        parent::tearDown();
+        $this->restaurant->coordinate()->delete();
         $this->restaurant->delete();
+        parent::tearDown();
     }
 }
