@@ -17,11 +17,11 @@ class Order extends Model
     protected $fillable = ['date', 'total_price', 'user_id', 'restaurant_id'];
 
     public function user() {
-        return $this->belongsTo(Coordinate::class);
+        return $this->belongsTo(User::class);
     }
 
     public function restaurant() {
-        return $this->belongsTo(Coordinate::class);
+        return $this->belongsTo(Restaurant::class);
     }
 
     public function dishes() {

@@ -65,6 +65,7 @@ Route::prefix('orders')->group(function () {
 
 Route::prefix('complaints')->group(function () {
     Route::get('/', [ComplaintController::class, 'index']);
+    Route::post('/', [ComplaintController::class, 'store']);
 });
 
 Route::apiResources([

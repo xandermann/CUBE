@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Complaint;
+use App\Models\{Complaint, Order};
 use Illuminate\Http\Request;
 
 class ComplaintController extends Controller
@@ -15,5 +15,23 @@ class ComplaintController extends Controller
     public function index()
     {
         return Complaint::paginate(10);
+    }
+
+    /**
+     * Send a complaint.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $order = Order::findOrFail($request->order_id);
+        
+        //creation of the complaint
+        Complaint::create([
+            'message' => $request->message,
+            'date' => $request->date,
+            'order_id' => $order->id
+        ]);
     }
 }
