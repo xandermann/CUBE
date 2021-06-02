@@ -8,6 +8,7 @@ use App\Models\Restaurant;
 use App\Models\Ingredient;
 use App\Models\Dishe;
 use App\Models\Menu;
+use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -23,7 +24,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(100)->create();
 
-        // Compte de test
+        // test account
         $coordinate = Coordinate::create([
             'full_address' => 'Nancy, rue X no 1',
             'city' => 'Nancy',
@@ -44,32 +45,38 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => Carbon::yesterday(),
         ]);
 
-        //population des ingrédients
+        //populate the ingrédients
         Ingredient::factory()->count(20)->create();
         $ids = range(1, 20);
 
-        //population des plats avec les ingrédients (random)
+        //populate the dishes with their ingredients (random)
         Dishe::factory()->count(20)->create()->each(function ($dishe) use($ids) {
             shuffle($ids);
             $dishe->ingredients()->attach(array_slice($ids, 0, rand(1, 4)), ['quantity' => rand(0, 5)]);
         });
 
-        //population des menus avec les plats (random)
+        //populate the menus with their dishes (random)
         Menu::factory()->count(20)->create()->each(function ($menu) use($ids) {
             shuffle($ids);
             $menu->dishes()->attach(array_slice($ids, 0, rand(1, 3)));
         });
 
-        //population des restaurants avec les ingrédients, plats liés (random)
+        //populate the restaurants with ingredients and dishes (random)
         Restaurant::factory()->count(100)->create()->each(function ($restaurant) use($ids) {
             shuffle($ids);
             $restaurant->ingredients()->attach(array_slice($ids, 0, rand(1, 3)), ['quantity' => rand(0, 100)]);
-            shuffle($ids); //on remélange pour les plats
+            shuffle($ids); //we remix for the dishes
             $restaurant->dishes()->attach(array_slice($ids, 0, rand(1, 3)));
-            shuffle($ids); //on remélange pour les menus
+            shuffle($ids); //we remix for the menus
             $restaurant->menus()->attach(array_slice($ids, 0, rand(1, 3)));
         });
 
-        
+        //populate the orders with new restaurants and users
+        Order::factory()->count(10)->create()->each(function ($order) use($ids) {
+            shuffle($ids); //we remix for the dishes
+            $order->dishes()->attach(array_slice($ids, 0, rand(1, 3)), ['quantity' => rand(1, 3)]);
+            shuffle($ids); //we remix for the menus
+            $order->menus()->attach(array_slice($ids, 0, rand(0, 2)), ['quantity' => rand(1, 2)]);
+        });
     }
 }
