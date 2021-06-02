@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DisheRequests\DishePutRequest;
+use App\Http\Requests\DisheRequests\DishePostRequest;
+use App\Http\Requests\DisheRequests\DisheDeleteRequest;
 use App\Models\Restaurant;
 use App\Models\Dishe;
 use Illuminate\Http\Request;
@@ -9,7 +12,7 @@ use Illuminate\Http\Request;
 class DisheController extends Controller
 {
     /**
-     * Affiche tous les plats.
+     * Displays all dishes.
      *
      * @return \Illuminate\Http\Response
      */
@@ -19,70 +22,113 @@ class DisheController extends Controller
     }
 
     /**
-     * Affiche les différents plats d'un restaurant.
+     * Display the different dishes of a restaurant.
      *
      * @param  int  $id restaurant
      * @return \Illuminate\Http\Response
      */
     public function index_restaurant($id)
     {
-        return Restaurant::findOrFail($id)->dishes()->with('ingredients')->get();
+        return Restaurant::findOrFail($id)->dishes()->with('ingredients')->paginate(10);
     }
 
     /**
-     * Un restaurant crée un nouveau plat.
+     * A restaurant creates a new dish.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\DisheRequests\DishePostRequest  $request
      * @param  int  $id restaurant
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(DishePostRequest $request, $id)
     {
         $restaurant = Restaurant::findOrFail($id);
 
-        if($restaurant) {
-            //création du plat
-            $dishe = Dishe::create([
-                'name' => $request->name,
-                'price' => $request->price
-            ]);
+        //creation of the dish
+        $dishe = Dishe::create([
+            'name' => $request->name,
+            'price' => $request->price
+        ]);
 
-            //ingrédients liés au plat
-            foreach ($request->ingredients as $ingredient) {
-                $dishe->ingredients()->attach($ingredient['id'], ['quantity' => $ingredient['quantity']]);
-            }
-
-            //plat lié au restaurant
-            $restaurant->dishes()->attach($dishe);
+        //ingredients related to the dish
+        foreach ($request->ingredients as $ingredient) {
+            $dishe->ingredients()->attach($ingredient['id'], ['quantity' => $ingredient['quantity']]);
         }
+
+        //dish related to the restaurant
+        $restaurant->dishes()->attach($dishe);
     }
 
     /**
-     * Un restaurant met à jour un plat qu'il possède déjà.
+     * A restaurant updates a dish it already has.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\DisheRequests\DishePutRequest  $request
      * @param  int  $id restaurant
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DishePutRequest $request, $id)
     {
         $restaurant = Restaurant::findOrFail($id);
         $dishe = Dishe::findOrFail($request->dishe_id);
 
-        if($restaurant && $dishe) {
-            //mise à jour du plat
-            $dishe->update([
-                'name' => $request->name,
-                'price' => $request->price
-            ]);
-
-            //on retire les anciens ingrédients
-            $dishe->ingredients()->detach();
-
-            //on ajoute les nouveaux ingrédients liés au plat
-            foreach ($request->ingredients as $ingredient) {
-                $dishe->ingredients()->attach($ingredient['id'], ['quantity' => $ingredient['quantity']]);
-            }
+        if(!$this->checkIfRestaurantHasAnDishe($restaurant, $dishe->id)) {
+            abort(422, "The restaurant does not have this dishe.");
         }
+
+        //update of the dish
+        $dishe->update([
+            'name' => $request->name,
+            'price' => $request->price
+        ]);
+
+        //we remove the old ingredients
+        $dishe->ingredients()->detach();
+
+        //we add the new ingredients related to the dish
+        foreach ($request->ingredients as $ingredient) {
+            $dishe->ingredients()->attach($ingredient['id'], ['quantity' => $ingredient['quantity']]);
+        }
+    }
+
+    /**
+     * A restaurant removes one of its dishes.
+     *
+     * @param  \App\Http\Requests\DisheRequests\DisheDeleteRequest  $request
+     * @param  int  $id restaurant
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(DisheDeleteRequest $request, $id)
+    {
+        $restaurant = Restaurant::findOrFail($id);
+        $dishe = Dishe::findOrFail($request->dishe_id);
+
+        if(!$this->checkIfRestaurantHasAnDishe($restaurant, $dishe->id)) {
+            abort(422, "The restaurant does not have this dishe.");
+        }
+
+        $dishe->delete();
+    }
+
+    /**
+     * Check if the restaurant has an dishe.
+     *
+     * @param  App\Models\Restaurant  $restaurant
+     * @param  int  $dishe_id
+     * @return boolean
+     */
+    public static function checkIfRestaurantHasAnDishe($restaurant, $dishe_id)
+    {
+        return $restaurant->dishes()->find($dishe_id) != null;
+    }
+
+    /**
+     * Check if the dishe has an ingredient.
+     *
+     * @param  App\Models\Dishe  $dishe
+     * @param  int  $ingredient_id
+     * @return boolean
+     */
+    public function checkIfDisheHasAnIngredient($dishe, $ingredient_id)
+    {
+        return $dishe->ingredients()->find($ingredient_id) != null;
     }
 }

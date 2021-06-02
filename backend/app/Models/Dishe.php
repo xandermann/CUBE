@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Ingredient;
 use App\Models\Restaurant;
 use App\Models\Menu;
+use App\Models\Order;
 
 class Dishe extends Model
 {
@@ -24,5 +25,9 @@ class Dishe extends Model
 
     public function menus() {
         return $this->belongsToMany(Menu::class);
+    }
+
+    public function orders() {
+        return $this->belongsToMany(Order::class);
     }
 }
