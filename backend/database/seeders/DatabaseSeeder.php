@@ -2,13 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Coordinate;
-use App\Models\User;
-use App\Models\Restaurant;
-use App\Models\Ingredient;
-use App\Models\Dishe;
-use App\Models\Menu;
-use App\Models\Order;
+use App\Models\{ Coordinate, User, Restaurant, Ingredient, Dishe, Menu, Order, Complaint};
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -72,11 +66,16 @@ class DatabaseSeeder extends Seeder
         });
 
         //populate the orders with new restaurants and users
-        Order::factory()->count(10)->create()->each(function ($order) use($ids) {
-            shuffle($ids); //we remix for the dishes
-            $order->dishes()->attach(array_slice($ids, 0, rand(1, 3)), ['quantity' => rand(1, 3)]);
-            shuffle($ids); //we remix for the menus
-            $order->menus()->attach(array_slice($ids, 0, rand(0, 2)), ['quantity' => rand(1, 2)]);
-        });
+        Order::factory()
+            ->has(Complaint::factory()->count(1))
+            ->count(10)
+            ->create()
+            ->each(function ($order) use($ids) {
+                shuffle($ids); //we remix for the dishes
+                $order->dishes()->attach(array_slice($ids, 0, rand(1, 3)), ['quantity' => rand(1, 3)]);
+                shuffle($ids); //we remix for the menus
+                $order->menus()->attach(array_slice($ids, 0, rand(0, 2)), ['quantity' => rand(1, 2)]);
+            }
+        );
     }
 }

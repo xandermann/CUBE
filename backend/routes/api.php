@@ -7,6 +7,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\DisheController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ComplaintController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -60,6 +61,10 @@ Route::prefix('menus')->group(function () {
 Route::prefix('orders')->group(function () {
     Route::get('/{user}', [OrderController::class, 'index_user'])->where('user', '[0-9]+');
     Route::post('/', [OrderController::class, 'store']);
+});
+
+Route::prefix('complaints')->group(function () {
+    Route::get('/', [ComplaintController::class, 'index']);
 });
 
 Route::apiResources([
