@@ -9,12 +9,11 @@ export class PutRestaurant {
   modalInputs
 
   constructor(restaurant, id) {
-    this.ModalProperties = new ModalProperties(
+    this.modalProperties = new ModalProperties(
       'Modifier un restaurant',
       'modifRestaurant',
       `/api/restaurants/${id}`
     )
-    this.modalInputs = []
     // debugger
     this.modalInputs = [
       new ModalInput(
