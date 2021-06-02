@@ -27,7 +27,7 @@ class MenuPostRequest extends FormRequest
             'name' => 'required|string',
             'price' => 'required|numeric|min:0|not_in:0',
             'dishes' => 'required|array',
-            'dishes.*.id' => 'required|integer|exists:dishes,id',
+            'dishes.*.id' => 'required|integer|exists:dishes,id|distinct',
         ];
     }
 
@@ -50,6 +50,7 @@ class MenuPostRequest extends FormRequest
             'dishes.*.id.required' => 'The dishe id is required',
             'dishes.*.id.integer' => 'The dishe id must be a integer',
             'dishes.*.id.exists' => "The dishe id don't exist in dishe table",
+            'dishes.*.id.distinct' => 'The dishe id must not have any duplicate',
         ];
     }
 }

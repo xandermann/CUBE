@@ -182,8 +182,9 @@ class OrderTest extends TestCase
 
     public function tearDown(): void
     {
-        parent::tearDown();
+        $this->restaurant->coordinate()->delete();
         $this->restaurant->delete();
+        $this->user->coordinate()->delete();
         $this->user->delete();
         $this->menu_1->delete();
         $this->menu_2->delete();
@@ -191,5 +192,6 @@ class OrderTest extends TestCase
         $this->dishe_2->delete();
         $this->ingredient_1->delete();
         $this->ingredient_2->delete();
+        parent::tearDown();
     }
 }

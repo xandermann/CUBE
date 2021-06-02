@@ -324,8 +324,9 @@ class StockApiTest extends TestCase
 
     public function tearDown(): void
     {
-        parent::tearDown();
+        $this->restaurant->coordinate()->delete();
         $this->restaurant->delete();
         $this->ingredient->delete();
+        parent::tearDown();
     }
 }

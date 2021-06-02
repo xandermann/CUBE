@@ -310,11 +310,12 @@ class MenuApiTest extends TestCase
 
     public function tearDown(): void
     {
-        parent::tearDown();
+        $this->restaurant->coordinate()->delete();
         $this->restaurant->delete();
         $this->dishe_1->delete();
         $this->dishe_2->delete();
         $this->ingredient_1->delete();
         $this->ingredient_2->delete();
+        parent::tearDown();
     }
 }

@@ -51,11 +51,6 @@ class MenuController extends Controller
 
         //dishes related to the menu
         foreach ($request->dishes as $dishe) {
-
-            if($this->checkIfMenuHasAnDishe($menu, $dishe['id'])) {
-                abort(422, "the menu already has this dishe.");
-            }
-            
             $menu->dishes()->attach($dishe['id']);
         }
 
@@ -90,11 +85,6 @@ class MenuController extends Controller
 
         //we add the new dishes related to the menu
         foreach ($request->dishes as $dishe) {
-
-            if($this->checkIfMenuHasAnDishe($menu, $dishe['id'])) {
-                abort(422, "the menu already has this dishe.");
-            }
-
             $menu->dishes()->attach($dishe['id']);
         }
     }

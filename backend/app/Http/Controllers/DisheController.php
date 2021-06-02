@@ -51,11 +51,6 @@ class DisheController extends Controller
 
         //ingredients related to the dish
         foreach ($request->ingredients as $ingredient) {
-
-            if($this->checkIfDisheHasAnIngredient($dishe, $ingredient['id'])) {
-                abort(422, "the dish already has this ingredient.");
-            }
-
             $dishe->ingredients()->attach($ingredient['id'], ['quantity' => $ingredient['quantity']]);
         }
 
@@ -90,11 +85,6 @@ class DisheController extends Controller
 
         //we add the new ingredients related to the dish
         foreach ($request->ingredients as $ingredient) {
-
-            if($this->checkIfDisheHasAnIngredient($dishe, $ingredient['id'])) {
-                abort(422, "the dish already has this ingredient.");
-            }
-
             $dishe->ingredients()->attach($ingredient['id'], ['quantity' => $ingredient['quantity']]);
         }
     }

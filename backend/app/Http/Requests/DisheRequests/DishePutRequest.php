@@ -28,7 +28,7 @@ class DishePutRequest extends FormRequest
             'name' => 'required|string',
             'price' => 'required|numeric|min:0|not_in:0',
             'ingredients' => 'required|array',
-            'ingredients.*.id' => 'required|integer|exists:ingredients,id',
+            'ingredients.*.id' => 'required|integer|exists:ingredients,id|distinct',
             'ingredients.*.quantity' => 'required|integer|min:0',
         ];
     }
@@ -55,6 +55,7 @@ class DishePutRequest extends FormRequest
             'ingredients.*.id.required' => 'The ingredient id is required',
             'ingredients.*.id.integer' => 'The ingredient id must be a integer',
             'ingredients.*.id.exists' => "The ingredient id don't exist in ingredient table",
+            'ingredients.*.id.distinct' => 'The ingredient id must not have any duplicate',
             'ingredients.*.quantity.required' => 'The quantity of ingredient is required',
             'ingredients.*.quantity.integer' => 'The quantity of ingredient must be a integer',
             'ingredients.*.quantity.min' => 'The quantity of ingredient must be greater than 0',

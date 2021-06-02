@@ -306,10 +306,11 @@ class DisheApiTest extends TestCase
 
     public function tearDown(): void
     {
-        parent::tearDown();
+        $this->restaurant->coordinate()->delete();
         $this->restaurant->delete();
         $this->ingredient_1->delete();
         $this->ingredient_2->delete();
         $this->ingredient_3->delete();
+        parent::tearDown();
     }
 }
