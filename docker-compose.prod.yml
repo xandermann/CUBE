@@ -18,10 +18,10 @@ services:
     networks: [traefik_web, default]
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api-goodfood.rule=Host(`api.goodfood.alexandre-hublau.com`)"
+      - "traefik.http.routers.api-goodfood.rule=Host(`api-goodfood.alexandre-hublau.com`)"
       - "traefik.http.routers.api-goodfood.entrypoints=http"
 
-      - "traefik.http.routers.api-goodfood-secured.rule=Host(`api.goodfood.alexandre-hublau.com`)"
+      - "traefik.http.routers.api-goodfood-secured.rule=Host(`api-goodfood.alexandre-hublau.com`)"
       - "traefik.http.routers.api-goodfood-secured.entrypoints=https"
       - "traefik.http.routers.api-goodfood-secured.tls.certresolver=tls"
 
@@ -66,8 +66,8 @@ services:
       - ./frontend:/var/www/app
     working_dir: /var/www/app
     command: yarn start
-    # environment:
-    #   - HOST=0.0.0.0
+    environment:
+      - HOST=0.0.0.0
     networks: [traefik_web, default]
     labels:
       - "traefik.enable=true"
@@ -87,8 +87,8 @@ services:
       - ./frontend-admin:/var/www/app
     working_dir: /var/www/app
     command: yarn start
-    # environment:
-    #   - HOST=0.0.0.0
+    environment:
+      - HOST=0.0.0.0
     networks: [traefik_web, default]
     labels:
       - "traefik.enable=true"

@@ -12,9 +12,11 @@ install: ## Install the docker images & depedencies
 	docker-compose run --rm composer composer install
 	docker-compose run --rm frontend yarn
 	docker-compose run --rm frontend-admin yarn
-	docker-compose run --rm composer php artisan key:generate
 
 	docker-compose run --rm composer cp .env.example .env
+	docker-compose run --rm frontend cp .env.example .env
+	docker-compose run --rm fronend-admin cp .env.example .env
+
 	docker-compose run --rm composer php artisan key:generate
 
 
@@ -89,7 +91,7 @@ pre-prod: ## Run on vps (with docker-compose)
 
 	docker-compose -f docker-compose.prod.yml up -d
 
-	docker-compose run --rm composer wait-for-it.sh database:5432 -- php artisan migrate
+	docker-compose run --rm composer wait-for-it.sh database:5432 -- php artisan migrate:fresh --seed
 
 .PHONY: prod
 prod: ## Run in prod
