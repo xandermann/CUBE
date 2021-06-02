@@ -8,6 +8,7 @@ use App\Models\Restaurant;
 use App\Models\User;
 use App\Models\Dishe;
 use App\Models\Menu;
+use App\Models\Complaint;
 
 class Order extends Model
 {
@@ -29,5 +30,9 @@ class Order extends Model
 
     public function menus() {
         return $this->belongsToMany(Menu::class)->withPivot('quantity');
+    }
+
+    public function complaints() {
+        return $this->hasMany(Complaint::class);
     }
 }
