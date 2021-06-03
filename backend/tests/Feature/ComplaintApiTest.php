@@ -52,6 +52,60 @@ class ComplaintApiTest extends TestCase
         $complaint->delete();
     }
 
+    /**
+     * @test
+     */
+    public function store_withOrderThatDoesNotExist()
+    {
+        $message = $this->faker->text($maxNbChars = 200);
+        $date = $this->faker->dateTime($max = 'now', $timezone = null);
+
+        $response = $this->post("/api/complaints", [
+            'order_id' => 1000,
+            'message' => $message,
+            'date' => $date
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('order_id');
+    }
+
+    /**
+     * @test
+     */
+    public function store_messageThatIsNotString()
+    {
+        $message = 1000;
+        $date = $this->faker->dateTime($max = 'now', $timezone = null);
+
+        $response = $this->post("/api/complaints", [
+            'order_id' => $this->order->id,
+            'message' => $message,
+            'date' => $date
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('message');
+    }
+
+    /**
+     * @test
+     */
+    public function store_whenDateIsString()
+    {
+        $message = $this->faker->text($maxNbChars = 200);
+        $date = "string";
+
+        $response = $this->post("/api/complaints", [
+            'order_id' => $this->order->id,
+            'message' => $message,
+            'date' => $date
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('date');
+    }
+
     public function tearDown(): void
     {
         $restaurant = Restaurant::find($this->order->restaurant->id);
