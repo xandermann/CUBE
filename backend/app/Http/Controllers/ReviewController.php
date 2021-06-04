@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ReviewRequests\ReviewPostRequest;
 use App\Models\{Restaurant, User};
 use Illuminate\Http\Request;
 
@@ -32,11 +33,11 @@ class ReviewController extends Controller
     /**
      * A user adds a review on a restaurant.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ReviewRequests\ReviewPostRequest  $request
      * @param  int  $id user
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(ReviewPostRequest $request, $id)
     {
         $user = User::findOrFail($id);
         $restaurant = Restaurant::findOrFail($request->restaurant_id);

@@ -88,6 +88,78 @@ class ReviewApiTest extends TestCase
         $this->restaurant->users()->detach();
     }
 
+    /**
+     * @test
+     */
+    public function store_withRestaurantThatDoesNotExist()
+    {
+        $message = $this->faker->text($maxNbChars = 200);
+        $note = $this->faker->randomFloat($nbMaxDecimals = 1, $min = 0, $max = 5);
+
+        $response = $this->post("/api/users/{$this->user->id}/reviews", [
+            'restaurant_id' => 1000,
+            'note' => $note,
+            'message' => $message,
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('restaurant_id');
+    }
+
+    /**
+     * @test
+     */
+    public function store_noteWithMultipleDecimalDigits()
+    {
+        $message = $this->faker->text($maxNbChars = 200);
+        $note = 4.123456789;
+
+        $response = $this->post("/api/users/{$this->user->id}/reviews", [
+            'restaurant_id' => $this->restaurant->id,
+            'note' => $note,
+            'message' => $message,
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('note');
+    }
+
+    /**
+     * @test
+     */
+    public function store_noteThatIsNotInInterval()
+    {
+        $message = $this->faker->text($maxNbChars = 200);
+        $note = 5.1;
+
+        $response = $this->post("/api/users/{$this->user->id}/reviews", [
+            'restaurant_id' => $this->restaurant->id,
+            'note' => $note,
+            'message' => $message,
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('note');
+    }
+
+    /**
+     * @test
+     */
+    public function store_messageThatIsNotString()
+    {
+        $message = 1000;
+        $note = $this->faker->randomFloat($nbMaxDecimals = 1, $min = 0, $max = 5);
+
+        $response = $this->post("/api/users/{$this->user->id}/reviews", [
+            'restaurant_id' => $this->restaurant->id,
+            'note' => $note,
+            'message' => $message,
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors('message');
+    }
+
     public function tearDown(): void
     {
         $this->restaurant->coordinate()->delete();
