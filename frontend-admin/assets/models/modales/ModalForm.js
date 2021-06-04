@@ -21,12 +21,13 @@ export class ModalInput {
   validation
   listValues // Liste de valeurs possibles
   defaultValue // Valeur par défaut
-  constructor(property, title, type, listValues, defaultValue) {
+  constructor(property, title, type, listValues, defaultValue, validation) {
     this.property = property
     this.title = title
     this.type = type
     this.listValues = listValues
     this.defaultValue = defaultValue
+    this.validation = validation
   }
 }
 

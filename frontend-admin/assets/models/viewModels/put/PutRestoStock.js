@@ -9,7 +9,7 @@ export class PutStockRestaurant {
   modalProperties
   constructor(stock, id) {
     this.modalProperties = new ModalProperties(
-      'Modifier la quantité en stock',
+      'Ajouter des éléments au stock',
       'modifStockRestaurant',
       `/api/restaurants/${id}/stock`
     )
@@ -25,7 +25,7 @@ export class PutStockRestaurant {
       ),
       new ModalInput(
         'quantity',
-        'Quantite',
+        'Quantite à ajouter au stock',
         new ModalPropertiesTypes().PLAINTEXT,
         null,
         stock.quantity

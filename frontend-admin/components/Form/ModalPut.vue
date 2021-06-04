@@ -28,6 +28,7 @@
               :title="champ.title"
               :options="champ.listValues"
               :form-value="champ.defaultValue"
+              :multiple="champ.validation"
             />
           </div>
           <div v-if="champ.type == types.ADDRESS">

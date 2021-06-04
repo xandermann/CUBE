@@ -44,6 +44,7 @@
             :id="data.item.id"
             :titre-modale="data.item.nom"
             :url="elems.urlFetch + '/' + data.item.id"
+            :object-to-delete="data.item.deleteModal"
           />
         </template>
       </b-table>

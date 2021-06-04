@@ -27,6 +27,7 @@
               v-model="form[champ.property]"
               :title="champ.title"
               :options="champ.listValues"
+              :multiple="champ.validation"
             />
           </div>
           <div v-if="champ.type == types.ADDRESS">

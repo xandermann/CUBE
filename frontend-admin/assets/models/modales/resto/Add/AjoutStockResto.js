@@ -4,11 +4,14 @@ import {
   ModalPropertiesTypes,
 } from '../../ModalForm'
 export class AjoutStockResto {
-  modalProperties = new ModalProperties(
-    'Ajouter un nouvel ingrédient au stock',
-    'ajoutIngredStock',
-    '/api/restaurants/2/stock'
-  )
+  modalProperties
+  constructor(id) {
+    this.modalProperties = new ModalProperties(
+      'Ajouter un nouvel ingrédient au stock',
+      'ajoutIngredStock',
+      `/api/restaurants/${id}/stock`
+    )
+  }
 
   modalInputs = [
     new ModalInput(

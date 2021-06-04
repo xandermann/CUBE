@@ -1,11 +1,11 @@
-import { DeleteStockRestaurant } from '../delete/DeleteStockResto'
-import { PutStockRestaurant } from '../put/PutRestoStock'
-export class ListStockRestaurant {
+// import { DeleteStockRestaurant } from '../delete/DeleteStockResto'
+// import { PutStockRestaurant } from '../put/PutRestoStock'
+export class ListMenusRestaurant {
   // Liste des champs a afficher dans la vue
   liste
-  title = 'Ingrédients en stock'
+  title = 'Menus proposés'
   urlFetch
-  champs = ['nom', 'quantite', 'modify', 'delete']
+  champs = ['nom', 'prix']
   constructor(url) {
     this.urlFetch = url
   }
@@ -18,26 +18,25 @@ export class ListStockRestaurant {
     this.liste.totalRows = list.total ?? 100
     this.liste.perPage = list.per_page ?? 100
     this.liste.data = list.data.map(function (item) {
-      return new StockRestaurant(item)
+      return new MenuRestaurant(item)
     })
   }
 }
 
-export class StockRestaurant {
+export class MenuRestaurant {
   id
   nom
-  quantite
-  putModal
-  deleteModal
+  prix
+  // putModal
   constructor(item) {
     // Les champs ci-dessous sont utilisés mais pas forcément affichés dans la vue
     this.id = item.id
     this.nom = item.name
-    this.quantite = item.pivot.quantity
-    this.putModal = new PutStockRestaurant(item.pivot, item.pivot.restaurant_id)
-    this.deleteModal = new DeleteStockRestaurant(
-      item.pivot,
-      item.pivot.restaurant_id
-    )
+    this.prix = item.price
+    // this.putModal = new PutStockRestaurant(item.pivot, item.pivot.restaurant_id)
+    // this.deleteModal = new DeleteStockRestaurant(
+    //   item.pivot,
+    //   item.pivot.restaurant_id
+    // )
   }
 }

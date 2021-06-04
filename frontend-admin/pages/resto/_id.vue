@@ -31,26 +31,32 @@
           </div>
         </b-col>
       </b-row>
+      <b-row class="pt-4">
+        <b-col>
+          <div class="Card">
+            <h3>Gestion des plats :</h3>
+            <List :elems="plats" :modal="modaleAjoutPlat" />
+          </div>
+        </b-col>
+        <b-col>
+          <div class="Card">
+            <h3>Gestion des menus :</h3>
+            <List :elems="menus" :modal="modaleAjoutMenu" />
+          </div>
+        </b-col>
+      </b-row>
     </div>
   </b-container>
 </template>
-<style scoped>
-.Card {
-  background-color: lightblue;
-  margin: 5px;
-  padding: 5px;
-  width: 100%;
-  height: 100%;
-  border-radius: 5px;
-}
-.Card p {
-  font-size: 15px !important;
-}
-</style>
+
 <script>
 import { Restaurant } from '../../assets/models/viewModels/list/Restaurant'
 import { ListStockRestaurant } from '../../assets/models/viewModels/list/Stock'
+import { ListPlatsRestaurant } from '../../assets/models/viewModels/list/PlatsRestaurants'
+import { ListMenusRestaurant } from '../../assets/models/viewModels/list/MenusRestaurants'
 import { AjoutStockResto } from '../../assets/models/modales/resto/Add/AjoutStockResto'
+import { AjoutPlatResto } from '../../assets/models/modales/resto/Add/AjoutPlatResto'
+import { AjoutMenuResto } from '../../assets/models/modales/resto/Add/AjoutMenuResto'
 export default {
   data() {
     return {
@@ -60,7 +66,21 @@ export default {
           this.$route.params.id +
           '/stock'
       ),
-      modaleAjoutStock: new AjoutStockResto(),
+      plats: new ListPlatsRestaurant(
+        this.$config.apiURL +
+          '/api/restaurants/' +
+          this.$route.params.id +
+          '/dishes'
+      ),
+      menus: new ListMenusRestaurant(
+        this.$config.apiURL +
+          '/api/restaurants/' +
+          this.$route.params.id +
+          '/menus'
+      ),
+      modaleAjoutStock: new AjoutStockResto(this.$route.params.id),
+      modaleAjoutPlat: new AjoutPlatResto(this.$route.params.id),
+      modaleAjoutMenu: new AjoutMenuResto(this.$route.params.id),
       resto: {},
     }
   },
@@ -77,3 +97,16 @@ export default {
   },
 }
 </script>
+<style scoped>
+.Card {
+  background-color: lightblue;
+  margin: 5px;
+  padding: 5px;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+.Card p {
+  font-size: 15px !important;
+}
+</style>

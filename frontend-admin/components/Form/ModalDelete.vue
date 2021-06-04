@@ -14,12 +14,21 @@
 
 <script>
 export default {
-  props: { id: Number, titreModale: String, url: String },
+  props: {
+    id: Number,
+    titreModale: String,
+    url: String,
+    objectToDelete: Object,
+  },
   data() {
     return {
       form: {},
       result: '',
       hiddenActions: false,
+      urlDelete:
+        this.$props.objectToDelete != null
+          ? this.$props.objectToDelete.modalProperties.url
+          : this.$props.url,
     }
   },
   methods: {
@@ -30,14 +39,31 @@ export default {
     async deleteEntity(url) {
       this.hiddenActions = true
       this.result = 'Suppression en cours'
-      await this.$axios
-        .$delete(url)
-        .then((response) => {
-          this.result = "L'élément a été supprimé avec succès"
-        })
-        .catch((error) => {
-          this.result = error
-        })
+
+      if (this.$props.objectToDelete != null) {
+        const toDelete = {}
+        toDelete[
+          this.$props.objectToDelete.modalInputs[0].property
+        ] = this.$props.objectToDelete.modalInputs[0].defaultValue
+        alert(JSON.stringify(toDelete))
+        await this.$axios
+          .request(this.urlDelete, toDelete, 'delete')
+          .then((response) => {
+            this.result = "L'élément a été supprimé avec succès"
+          })
+          .catch((error) => {
+            this.result = error
+          })
+      } else {
+        await this.$axios
+          .$delete(this.urlDelete)
+          .then((response) => {
+            this.result = "L'élément a été supprimé avec succès"
+          })
+          .catch((error) => {
+            this.result = error
+          })
+      }
     },
   },
 }
