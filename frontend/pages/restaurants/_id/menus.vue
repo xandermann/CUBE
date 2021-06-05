@@ -24,7 +24,13 @@
         </b-col>
 
         <b-col>
-          <b-button>Ajouter</b-button>
+          <b-button @click="addItem(menu)"
+            >Ajouter ({{ menu.nb_taken }})</b-button
+          >
+
+          <b-button @click="removeItem(menu)"
+            >Supprimer ({{ menu.nb_taken }})</b-button
+          >
           <p>[TODO: image]</p>
         </b-col>
       </b-row>
@@ -56,8 +62,25 @@ export default {
     this.$axios
       .get(`${process.env.API_URL}/api/restaurants/1/menus`)
       .then((response) => response.data)
-      .then((menus) => (this.menus = menus))
+      .then((paginate) => paginate.data)
+
+      .then((menus) => {
+        menus.forEach((menu) => {
+          menu.nb_taken = 0
+        })
+
+        this.menus = menus
+      })
       .catch(console.error)
+  },
+  methods: {
+    addItem(menu) {
+      menu.nb_taken++
+    },
+    removeItem(menu) {
+      if (menu.nb_taken === 0) return
+      menu.nb_taken--
+    },
   },
 }
 </script>
