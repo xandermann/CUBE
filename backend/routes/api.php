@@ -58,8 +58,8 @@ Route::prefix('menus')->group(function () {
     Route::get('/', [MenuController::class, 'index']);
 });
 
-Route::prefix('orders')->group(function () {
-    Route::get('/{user}', [OrderController::class, 'index_user'])->where('user', '[0-9]+');
+Route::middleware('auth:sanctum')->prefix('orders')->group(function () {
+    Route::get('/', [OrderController::class, 'index_user']);
     Route::post('/', [OrderController::class, 'store']);
 });
 

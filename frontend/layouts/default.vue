@@ -11,6 +11,7 @@
         <client-only>
           <b-navbar-nav v-if="loggedIn">
             <b-nav-item to="/restaurants">Liste des restaurants</b-nav-item>
+            <b-nav-item to="/orders">Liste des commandes passées</b-nav-item>
 
             <!--
           <b-nav-item href="#" disabled>Disabled</b-nav-item>

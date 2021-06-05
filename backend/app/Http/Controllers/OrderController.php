@@ -18,17 +18,16 @@ class OrderController extends Controller
     /**
      * Displays the orders of a user.
      *
-     * @param  int  $id user
      * @return \Illuminate\Http\Response
      */
-    public function index_user($id)
+    public function index_user()
     {
-        return User::findOrFail($id)->orders()->with('dishes')->with('menus')->get();
+        return User::findOrFail(auth()->user()->id)->orders()->with('dishes')->with('menus')->get();
     }
 
     /**
      * Place an order.
-     * 
+     *
      * @param  \App\Http\Requests\OrderRequests\OrderPostRequest  $request
      * @return \Illuminate\Http\Response
      */
@@ -85,9 +84,9 @@ class OrderController extends Controller
                     if(!StockController::checkIfRestaurantHasAnIngredient($restaurant, $ingredient->id)) {
                         abort(422, "The restaurant does not have this ingredient in its stock.");
                     }
-    
+
                     $quantity_needed = ($ingredient->pivot->quantity) * $menu['quantity'];
-    
+
                     if(array_key_exists($ingredient->id, $ingredients_needed)) {
                         $ingredients_needed[$ingredient->id] += $quantity_needed;
                     }
