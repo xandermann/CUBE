@@ -25,11 +25,11 @@
 
         <b-col>
           <b-button @click="addItem(menu)"
-            >Ajouter ({{ menu.nb_taken }})</b-button
+            >Ajouter ({{ menu.quantity }})</b-button
           >
 
           <b-button @click="removeItem(menu)"
-            >Supprimer ({{ menu.nb_taken }})</b-button
+            >Supprimer ({{ menu.quantity }})</b-button
           >
           <p>[TODO: image]</p>
         </b-col>
@@ -39,7 +39,7 @@
     <div class="mt-4"></div>
 
     <nuxt-link to="/basket">
-      <b-button variant="success">Passer la commande</b-button>
+      <b-button variant="success" @click="pay">Passer la commande</b-button>
     </nuxt-link>
   </div>
 </template>
@@ -66,7 +66,7 @@ export default {
 
       .then((menus) => {
         menus.forEach((menu) => {
-          menu.nb_taken = 0
+          menu.quantity = 0
         })
 
         this.menus = menus
@@ -75,11 +75,17 @@ export default {
   },
   methods: {
     addItem(menu) {
-      menu.nb_taken++
+      menu.quantity++
     },
     removeItem(menu) {
-      if (menu.nb_taken === 0) return
-      menu.nb_taken--
+      if (menu.quantity === 0) return
+      menu.quantity--
+    },
+    pay() {
+      this.$axios.post(`${process.env.API_URL}/api/orders`, {
+        restaurant_id: this.restaurant.id,
+        menus: this.menus,
+      })
     },
   },
 }
