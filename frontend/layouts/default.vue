@@ -49,9 +49,9 @@
                 </template>
                 <b-dropdown-item href="#">Mon compte</b-dropdown-item>
 
-                <nuxt-link to="/logout">
-                  <b-dropdown-item>Se déconnecter</b-dropdown-item>
-                </nuxt-link>
+                <b-dropdown-item @click="logout"
+                  >Se déconnecter</b-dropdown-item
+                >
               </b-nav-item-dropdown>
             </template>
 
@@ -102,6 +102,11 @@ export default {
     },
     user() {
       return this.$auth.user
+    },
+  },
+  methods: {
+    logout() {
+      return this.$auth.logout()
     },
   },
 }
