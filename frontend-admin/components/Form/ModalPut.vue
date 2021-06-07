@@ -5,6 +5,7 @@
       :title="objectToModify.modalProperties.title"
       :hide-footer="hiddenActions"
       @ok="submitForm"
+      @close="$emit('hasBeenHidden', true)"
     >
       <b-alert v-if="result" show>{{ result }}</b-alert>
       <b-form v-if="!hiddenActions">

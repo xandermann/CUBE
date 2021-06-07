@@ -6,6 +6,7 @@
       :hide-footer="hiddenActions"
       @ok="submitForm"
       @shown="modalShown"
+      @close="$emit('hasBeenHidden', true)"
     >
       <b-alert v-if="result" show>{{ result }}</b-alert>
       <b-form v-if="!hiddenActions">

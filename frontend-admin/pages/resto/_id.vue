@@ -1,51 +1,52 @@
 <template>
   <b-container fluid class="p-0">
-    <span v-if="$fetchState.pending" class="loading"></span>
-    <b-alert v-else-if="$fetchState.error" show variant="danger"
-      >Une erreur s'est produite, merci de contacter votre
-      administrateur</b-alert
-    >
-    <div class="p-5">
-      <b-row>
-        <b-col col sm="12" md="6">
-          <div class="Card">
-            <h3>{{ resto.nom }}</h3>
-            <p>Adresse : {{ resto.adresseComplete }}</p>
-            <p>Pays : {{ resto.pays }}</p>
-            <p>Ville : {{ resto.ville }}</p>
-            <p>Téléphone : {{ resto.telephone }}</p>
-          </div>
-        </b-col>
-        <b-col col sm="12" md="6">
-          <div class="Card">
-            <h3>Ventes :</h3>
-            <p>Aujourd'hui : 15</p>
-          </div>
-        </b-col>
-      </b-row>
-      <b-row class="pt-4">
-        <b-col>
-          <div class="Card">
-            <h3>Gestion des stocks :</h3>
-            <List :elems="stock" :modal="modaleAjoutStock" />
-          </div>
-        </b-col>
-      </b-row>
-      <b-row class="pt-4">
-        <b-col>
-          <div class="Card">
-            <h3>Gestion des plats :</h3>
-            <List :elems="plats" :modal="modaleAjoutPlat" />
-          </div>
-        </b-col>
-        <b-col>
-          <div class="Card">
-            <h3>Gestion des menus :</h3>
-            <List :elems="menus" :modal="modaleAjoutMenu" />
-          </div>
-        </b-col>
-      </b-row>
-    </div>
+    <b-overlay :show="$fetchState.pending" rounded="sm">
+      <b-alert v-if="$fetchState.error" show variant="danger"
+        >Une erreur s'est produite, merci de contacter votre
+        administrateur</b-alert
+      >
+      <div class="p-5">
+        <b-row>
+          <b-col col sm="12" md="6">
+            <div class="Card">
+              <h3>{{ resto.nom }}</h3>
+              <p>Adresse : {{ resto.adresseComplete }}</p>
+              <p>Pays : {{ resto.pays }}</p>
+              <p>Ville : {{ resto.ville }}</p>
+              <p>Téléphone : {{ resto.telephone }}</p>
+            </div>
+          </b-col>
+          <b-col col sm="12" md="6">
+            <div class="Card">
+              <h3>Ventes :</h3>
+              <p>Aujourd'hui : 15</p>
+            </div>
+          </b-col>
+        </b-row>
+        <b-row class="pt-4">
+          <b-col>
+            <div class="Card">
+              <h3>Gestion des stocks :</h3>
+              <List :elems="stock" :modal="modaleAjoutStock" />
+            </div>
+          </b-col>
+        </b-row>
+        <b-row class="pt-4">
+          <b-col>
+            <div class="Card">
+              <h3>Gestion des plats :</h3>
+              <List :elems="plats" :modal="modaleAjoutPlat" />
+            </div>
+          </b-col>
+          <b-col>
+            <div class="Card">
+              <h3>Gestion des menus :</h3>
+              <List :elems="menus" :modal="modaleAjoutMenu" />
+            </div>
+          </b-col>
+        </b-row>
+      </div>
+    </b-overlay>
   </b-container>
 </template>
 
