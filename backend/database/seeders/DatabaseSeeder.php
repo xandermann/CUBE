@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             'country' => 'France',
         ]);
 
-        User::create([
+        $user = User::create([
             'lastname' => 'Doe',
             'firstname' => 'John',
             'email' => 'a@a.a',
@@ -40,9 +40,73 @@ class DatabaseSeeder extends Seeder
         ]);
 
         //populate the ingrédients
-        Ingredient::factory()->count(20)->create();
-        $ids = range(1, 20);
+        $oeuf = Ingredient::create([
+            'name' => 'Oeuf'
+        ]);
+        $creme = Ingredient::create([
+            'name' => 'Crème'
+        ]);
+        $pate = Ingredient::create([
+            'name' => 'Pâte'
+        ]);
+        $lardon = Ingredient::create([
+            'name' => 'Lardon'
+        ]);
+        $tomate = Ingredient::create([
+            'name' => 'Tomate'
+        ]);
+        $salade = Ingredient::create([
+            'name' => 'Salade'
+        ]);
+        $oignon = Ingredient::create([
+            'name' => 'Oignon'
+        ]);
 
+        
+        //populate the restaurants
+        $restaurant = Restaurant::factory()->create();
+            
+        //stock
+        $restaurant->ingredients()->attach($pate->id, ['quantity' => 25000]); //25 Kg
+        $restaurant->ingredients()->attach($creme->id, ['quantity' => 360]); //360 Cl
+        $restaurant->ingredients()->attach($lardon->id, ['quantity' => 1860]); //1 Kg 860
+        
+        //dishes
+        $pateCarbo = Dishe::create([
+            'name' => 'Pâtes à la carbonara',
+            'price' => 8
+        ]);
+        $pateCarbo->ingredients()->attach($pate->id, ['quantity' => 125]);
+        $pateCarbo->ingredients()->attach($creme->id, ['quantity' => 12]);
+        $pateCarbo->ingredients()->attach($lardon->id, ['quantity' => 62]);
+        $restaurant->dishes()->attach($pateCarbo->id);
+        
+        //menus
+        $menu = Menu::create([
+            'name' => 'Menu italien',
+            'price' => 10
+        ]);
+        $menu->dishes()->attach($pateCarbo);
+        $restaurant->menus()->attach($menu->id);
+
+        //multiple reviews by one user
+        $user->restaurants()->attach($restaurant, ['note' => 4.5, 'message' => "très bon restaurant"]);
+        $user->restaurants()->attach($restaurant, ['note' => 2.0, 'message' => "mauvaise livraison"]);
+        $user->restaurants()->attach($restaurant, ['note' => 0, 'message' => "la commande n'est pas arrivé depuis 5h"]);
+        $restaurant->note = round( (6.5/ 3) , 1);
+        $restaurant->save();
+
+        //orders
+        $order = Order::factory()
+        ->has(Complaint::factory()->count(2))
+        ->create([
+            'user_id' => $user->id,
+            'restaurant_id' => $restaurant->id,
+        ]);
+        $order->dishes()->attach($pateCarbo->id, ['quantity' => 1]);
+        
+        
+        /*
         //populate the dishes with their ingredients (random)
         Dishe::factory()->count(20)->create()->each(function ($dishe) use($ids) {
             shuffle($ids);
@@ -81,8 +145,8 @@ class DatabaseSeeder extends Seeder
                 shuffle($ids); //we remix for the menus
                 $order->menus()->attach(array_slice($ids, 0, rand(0, 2)), ['quantity' => rand(1, 2)]);
                 /*$order->restaurant_id = Restaurant::find(rand(1, 100))->id;
-                $order->save();*/
+                $order->save();
             }
-        );
+        );*/
     }
 }

@@ -26,8 +26,6 @@ class OrderFactory extends Factory
         return [
             'date' => $this->faker->dateTime($max = 'now', $timezone = null),
             'total_price' => 0,
-            'user_id' => User::factory(),
-            'restaurant_id' => Restaurant::find(rand(1, 100))->id,
         ];
     }
 }
