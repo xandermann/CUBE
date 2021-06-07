@@ -63,7 +63,7 @@
       <!-- <nuxt-link to="/basket"> -->
       <b-row>
         <b-col>
-          <h3>Prix: {{ total }}€</h3>
+          <h3>Prix: {{ Math.round(total * 100) / 100 }}€</h3>
         </b-col>
         <b-col>
           <b-button variant="info" @click="pay">Passer la commande</b-button>
@@ -141,10 +141,18 @@ export default {
       const sum = this.menus.reduce((acc, menu) => acc + menu.quantity)
       if (sum <= 0) return
 
-      this.$axios.post(`${process.env.API_URL}/api/orders`, {
-        restaurant_id: this.restaurant.id,
-        menus: this.menus,
-      })
+      this.$axios.post(
+        `${process.env.API_URL}/api/orders`,
+        {
+          restaurant_id: this.restaurant.id,
+          menus: this.menus,
+          date: new Date(),
+          dishes: [],
+        },
+        { withCredentials: true }
+      )
+
+      console.log(this.menus)
     },
   },
 }
