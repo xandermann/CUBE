@@ -8,6 +8,7 @@ use App\Http\Controllers\DisheController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\CoordinateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -73,3 +74,5 @@ Route::apiResources([
     'ingredients' => IngredientController::class
     // Autres controlleurs ici
 ]);
+
+Route::get('coordinates', [CoordinateController::class, 'index']);

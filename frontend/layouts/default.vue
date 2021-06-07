@@ -48,7 +48,7 @@
                 <template #button-content>
                   <em>{{ user.email }}</em>
                 </template>
-                <b-dropdown-item href="#">Mon compte</b-dropdown-item>
+                <b-dropdown-item to="/account">Mon compte</b-dropdown-item>
 
                 <b-dropdown-item @click="logout"
                   >Se déconnecter</b-dropdown-item
