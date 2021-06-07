@@ -7,13 +7,43 @@
       @ok="submitForm"
       @close="$emit('hasBeenHidden', true)"
     >
-      <b-alert v-if="result" show>{{ result }}</b-alert>
+      <b-progress
+        v-if="result == 'pending'"
+        variant="info"
+        :animated="true"
+        class="mt-3"
+        ><b-progress-bar :value="100"
+          ><span>Modification en cours</span></b-progress-bar
+        ></b-progress
+      >
+      <b-progress
+        v-if="result == 'success'"
+        variant="success"
+        :animated="false"
+        class="mt-3"
+        ><b-progress-bar :value="100"
+          ><span>Modification réussie</span></b-progress-bar
+        ></b-progress
+      >
+      <b-progress
+        v-if="result == 'error'"
+        :value="100"
+        variant="danger"
+        :animated="false"
+        class="mt-3"
+        ><b-progress-bar :value="100"
+          ><span
+            >Modification échouée : {{ errorMessage }}</span
+          ></b-progress-bar
+        ></b-progress
+      >
       <b-form v-if="!hiddenActions">
         <div v-for="champ in objectToModify.modalInputs" :key="champ.property">
           <div v-if="champ.type == types.PLAINTEXT">
             <FormPlainText
               v-model="form[champ.property]"
               :title="champ.title"
+              :type="champ.validation"
               :form-value="champ.defaultValue"
             />
           </div>
@@ -60,6 +90,7 @@ export default {
       form: {},
       types: new ModalPropertiesTypes(),
       result: '',
+      errorMessage: '',
       hiddenActions: false,
     }
   },
@@ -81,17 +112,18 @@ export default {
       this.putEntity(this.objectToModify.modalProperties.url)
     },
     async putEntity(url) {
-      this.result = 'Mise à jour en cours'
+      this.result = 'pending'
       this.hiddenActions = true
       alert(url)
       await this.$axios
         .$put(url, this.form)
         .then((response) => {
-          this.result = "L'élément a été mis à jour avec succès"
+          this.result = 'success'
         })
 
         .catch((error) => {
-          this.result = error
+          this.result = 'error'
+          this.errorMessage = error
         })
     },
   },

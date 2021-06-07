@@ -16,10 +16,10 @@
               <p>Téléphone : {{ resto.telephone }}</p>
             </div>
           </b-col>
-          <b-col col sm="12" md="6">
+          <b-col col class="pt-2" sm="12" md="6">
             <div class="Card">
-              <h3>Ventes :</h3>
-              <p>Aujourd'hui : 15</p>
+              <h3>Resumé:</h3>
+              <RestoAvis />
             </div>
           </b-col>
         </b-row>
@@ -32,13 +32,13 @@
           </b-col>
         </b-row>
         <b-row class="pt-4">
-          <b-col>
+          <b-col class="pt-2">
             <div class="Card">
               <h3>Gestion des plats :</h3>
               <List :elems="plats" :modal="modaleAjoutPlat" />
             </div>
           </b-col>
-          <b-col>
+          <b-col class="pt-2">
             <div class="Card">
               <h3>Gestion des menus :</h3>
               <List :elems="menus" :modal="modaleAjoutMenu" />
@@ -51,13 +51,13 @@
 </template>
 
 <script>
-import { Restaurant } from '../../assets/models/viewModels/list/Restaurant'
-import { ListStockRestaurant } from '../../assets/models/viewModels/list/Stock'
-import { ListPlatsRestaurant } from '../../assets/models/viewModels/list/PlatsRestaurants'
-import { ListMenusRestaurant } from '../../assets/models/viewModels/list/MenusRestaurants'
-import { AjoutStockResto } from '../../assets/models/modales/resto/Add/AjoutStockResto'
-import { AjoutPlatResto } from '../../assets/models/modales/resto/Add/AjoutPlatResto'
-import { AjoutMenuResto } from '../../assets/models/modales/resto/Add/AjoutMenuResto'
+import { Restaurant } from '../../../assets/models/viewModels/list/Restaurant'
+import { ListStockRestaurant } from '../../../assets/models/viewModels/list/Stock'
+import { ListPlatsRestaurant } from '../../../assets/models/viewModels/list/PlatsRestaurants'
+import { ListMenusRestaurant } from '../../../assets/models/viewModels/list/MenusRestaurants'
+import { AjoutStockResto } from '../../../assets/models/modales/resto/Add/AjoutStockResto'
+import { AjoutPlatResto } from '../../../assets/models/modales/resto/Add/AjoutPlatResto'
+import { AjoutMenuResto } from '../../../assets/models/modales/resto/Add/AjoutMenuResto'
 export default {
   data() {
     return {

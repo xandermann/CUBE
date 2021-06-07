@@ -13,6 +13,13 @@ export class AjoutPlats {
       new ModalPropertiesTypes().PLAINTEXT
     ),
 
-    new ModalInput('price', 'Prix', new ModalPropertiesTypes().PLAINTEXT),
+    new ModalInput(
+      'price',
+      'Prix',
+      new ModalPropertiesTypes().PLAINTEXT,
+      null,
+      null,
+      'number'
+    ),
   ]
 }

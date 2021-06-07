@@ -44,6 +44,7 @@ export default {
 <style scoped>
 .SideBar {
   transition: 0.5s all ease;
+  z-index: 99;
 }
 .rotated {
   transform: rotate(-180deg);

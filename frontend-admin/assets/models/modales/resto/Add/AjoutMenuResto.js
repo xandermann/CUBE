@@ -18,7 +18,10 @@ export class AjoutMenuResto {
     new ModalInput(
       'price',
       'Prix du menu',
-      new ModalPropertiesTypes().PLAINTEXT
+      new ModalPropertiesTypes().PLAINTEXT,
+      null,
+      null,
+      'number'
     ),
     new ModalInput(
       'dishes',

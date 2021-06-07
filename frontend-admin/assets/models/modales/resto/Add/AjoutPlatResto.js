@@ -18,7 +18,10 @@ export class AjoutPlatResto {
     new ModalInput(
       'price',
       'Prix du plat',
-      new ModalPropertiesTypes().PLAINTEXT
+      new ModalPropertiesTypes().PLAINTEXT,
+      null,
+      null,
+      'number'
     ),
     new ModalInput(
       'ingredients',

@@ -21,14 +21,20 @@ export class PutStockRestaurant {
         'Ingredient',
         new ModalPropertiesTypes().PLAINTEXT,
         null,
-        stock.ingredient_id
+        stock.ingredient_id,
+        null,
+        null,
+        'number'
       ),
       new ModalInput(
         'quantity',
         'Quantite à ajouter au stock',
         new ModalPropertiesTypes().PLAINTEXT,
         null,
-        stock.quantity
+        stock.quantity,
+        null,
+        null,
+        'number'
       ),
     ]
   }

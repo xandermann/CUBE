@@ -6,7 +6,34 @@
     @ok="submitForm"
     @close="$emit('hasBeenHidden', true)"
   >
-    <b-alert v-if="result" show>{{ result }}</b-alert>
+    <b-progress
+      v-if="result == 'pending'"
+      variant="info"
+      :animated="true"
+      class="mt-3"
+      ><b-progress-bar :value="100"
+        ><span>Suppression en cours</span></b-progress-bar
+      ></b-progress
+    >
+    <b-progress
+      v-if="result == 'success'"
+      variant="success"
+      :animated="false"
+      class="mt-3"
+      ><b-progress-bar :value="100"
+        ><span>Suppression réussie</span></b-progress-bar
+      ></b-progress
+    >
+    <b-progress
+      v-if="result == 'error'"
+      :value="100"
+      variant="danger"
+      :animated="false"
+      class="mt-3"
+      ><b-progress-bar :value="100"
+        ><span>Suppression échouée : {{ errorMessage }}</span></b-progress-bar
+      ></b-progress
+    >
     <b-form v-if="!hiddenActions">
       <p>Cette suppression est irréversible</p>
     </b-form>
@@ -25,6 +52,7 @@ export default {
     return {
       form: {},
       result: '',
+      errorMessage: '',
       hiddenActions: false,
       urlDelete:
         this.$props.objectToDelete != null
@@ -39,30 +67,31 @@ export default {
     },
     async deleteEntity(url) {
       this.hiddenActions = true
-      this.result = 'Suppression en cours'
+      this.result = 'pending'
 
       if (this.$props.objectToDelete != null) {
         const toDelete = {}
         toDelete[
           this.$props.objectToDelete.modalInputs[0].property
         ] = this.$props.objectToDelete.modalInputs[0].defaultValue
-        alert(JSON.stringify(toDelete))
         await this.$axios
           .request(this.urlDelete, toDelete, 'delete')
           .then((response) => {
-            this.result = "L'élément a été supprimé avec succès"
+            this.result = 'success'
           })
           .catch((error) => {
-            this.result = error
+            this.result = 'error'
+            this.errorMessage = error
           })
       } else {
         await this.$axios
           .$delete(this.urlDelete)
           .then((response) => {
-            this.result = "L'élément a été supprimé avec succès"
+            this.result = 'success'
           })
           .catch((error) => {
-            this.result = error
+            this.result = 'error'
+            this.errorMessage = error
           })
       }
     },

@@ -23,7 +23,10 @@ export class AjoutStockResto {
     new ModalInput(
       'quantity',
       'Quantité',
-      new ModalPropertiesTypes().PLAINTEXT
+      new ModalPropertiesTypes().PLAINTEXT,
+      null,
+      null,
+      'number'
     ),
   ]
 }

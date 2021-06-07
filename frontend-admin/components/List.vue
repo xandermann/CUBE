@@ -10,7 +10,10 @@
         >Une erreur s'est produite, merci de contacter votre
         administrateur</b-alert
       >
-      <div class="d-flex pl-1 align-items-center justify-content-between">
+      <div
+        v-if="modal != undefined"
+        class="d-flex pl-1 align-items-center justify-content-between"
+      >
         <span>{{ elems.title }}</span>
         <b-button v-b-modal="modal.modalProperties.id" class="m-2"
           ><span class="fa fa-plus"></span
@@ -68,7 +71,11 @@
         <h4>Aucune donnée n'est disponible</h4>
       </div>
 
-      <FormModal :modal="modal" @hasBeenHidden="$fetch" />
+      <FormModal
+        v-if="modal != undefined"
+        :modal="modal"
+        @hasBeenHidden="$fetch"
+      />
     </b-overlay>
   </b-container>
 </template>

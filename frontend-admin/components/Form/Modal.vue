@@ -8,13 +8,41 @@
       @shown="modalShown"
       @close="$emit('hasBeenHidden', true)"
     >
-      <b-alert v-if="result" show>{{ result }}</b-alert>
+      <b-progress
+        v-if="result == 'pending'"
+        variant="info"
+        :animated="true"
+        class="mt-3"
+        ><b-progress-bar :value="100"
+          ><span>Ajout en cours</span></b-progress-bar
+        ></b-progress
+      >
+      <b-progress
+        v-if="result == 'success'"
+        variant="success"
+        :animated="false"
+        class="mt-3"
+        ><b-progress-bar :value="100"
+          ><span>Ajout réussi</span></b-progress-bar
+        ></b-progress
+      >
+      <b-progress
+        v-if="result == 'error'"
+        :value="100"
+        variant="danger"
+        :animated="false"
+        class="mt-3"
+        ><b-progress-bar :value="100"
+          ><span>Ajout échoué : {{ errorMessage }}</span></b-progress-bar
+        ></b-progress
+      >
       <b-form v-if="!hiddenActions">
         <div v-for="champ in modal.modalInputs" :key="champ.property">
           <div v-if="champ.type == types.PLAINTEXT">
             <FormPlainText
               v-model="form[champ.property]"
               :title="champ.title"
+              :type="champ.validation"
             />
           </div>
           <div v-if="champ.type == types.DATE">
@@ -59,6 +87,7 @@ export default {
       form: {},
       types: new ModalPropertiesTypes(),
       result: '',
+      errorMessage: '',
       hiddenActions: false,
     }
   },
@@ -75,15 +104,16 @@ export default {
     },
     async postNewEntity(url) {
       console.log(JSON.stringify(this.form))
-      this.result = 'Ajout en cours'
+      this.result = 'pending'
       this.hiddenActions = true
       await this.$axios
         .$post(url, this.form)
         .then((response) => {
-          this.result = "L'élément a été ajouté avec succès"
+          this.result = 'success'
         })
         .catch((error) => {
-          this.result = error
+          this.result = 'error'
+          this.errorMessage = error
         })
     },
   },

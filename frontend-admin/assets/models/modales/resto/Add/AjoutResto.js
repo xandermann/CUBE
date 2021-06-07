@@ -24,7 +24,10 @@ export class AjoutResto {
     new ModalInput(
       'postal_code',
       'Code postal',
-      new ModalPropertiesTypes().PLAINTEXT
+      new ModalPropertiesTypes().PLAINTEXT,
+      null,
+      null,
+      'number'
     ),
     new ModalInput('city', 'Ville', new ModalPropertiesTypes().PLAINTEXT),
     new ModalInput('country', 'Pays', new ModalPropertiesTypes().SELECT, [
@@ -40,7 +43,10 @@ export class AjoutResto {
     new ModalInput(
       'number_phone',
       'Numéro de téléphone',
-      new ModalPropertiesTypes().PLAINTEXT
+      new ModalPropertiesTypes().PLAINTEXT,
+      null,
+      null,
+      'tel'
     ),
   ]
 }

@@ -45,6 +45,12 @@ body {
   color: beige;
 }
 
+@media all and (max-width: 576px) {
+  .NavBar {
+    background-color: #00738d;
+  }
+}
+
 .loading {
   z-index: 100;
   display: flex;

@@ -42,7 +42,10 @@ export class PutRestaurant {
         'Code postal',
         new ModalPropertiesTypes().PLAINTEXT,
         null,
-        restaurant.coordinate.postal_code
+        restaurant.coordinate.postal_code,
+        null,
+        null,
+        'number'
       ),
       new ModalInput(
         'country',
@@ -72,7 +75,10 @@ export class PutRestaurant {
         'Numéro de téléphone',
         new ModalPropertiesTypes().PLAINTEXT,
         null,
-        restaurant.coordinate.number_phone
+        restaurant.coordinate.number_phone,
+        null,
+        null,
+        'tel'
       ),
     ]
   }
