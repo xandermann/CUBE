@@ -9,6 +9,13 @@ export class AjoutMenus {
   modalInputs = [
     new ModalInput('name', 'Nom du menu', new ModalPropertiesTypes().PLAINTEXT),
 
-    new ModalInput('price', 'Prix', new ModalPropertiesTypes().PLAINTEXT),
+    new ModalInput(
+      'price',
+      'Prix',
+      new ModalPropertiesTypes().PLAINTEXT,
+      null,
+      null,
+      'number'
+    ),
   ]
 }

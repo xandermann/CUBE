@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       pageProps: { title: 'Commercial' },
-      items: [{ url: '/commercial/commentaires', title: 'Commentaires' }],
+      items: [{ url: '/commercial/plaintes', title: 'Plaintes' }],
     }
   },
 }

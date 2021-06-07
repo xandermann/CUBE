@@ -24,7 +24,10 @@ export class AjoutResto {
     new ModalInput(
       'postal_code',
       'Code postal',
-      new ModalPropertiesTypes().PLAINTEXT
+      new ModalPropertiesTypes().PLAINTEXT,
+      null,
+      null,
+      'number'
     ),
     new ModalInput('city', 'Ville', new ModalPropertiesTypes().PLAINTEXT),
     new ModalInput('country', 'Pays', new ModalPropertiesTypes().SELECT, [
@@ -32,11 +35,18 @@ export class AjoutResto {
       { value: 'Belgique', text: 'Belgique' },
       { value: 'Luxembourg', text: 'Luxembourg' },
     ]),
-
+    new ModalInput(
+      'localisation',
+      'Localisation',
+      new ModalPropertiesTypes().ADDRESS
+    ),
     new ModalInput(
       'number_phone',
       'Numéro de téléphone',
-      new ModalPropertiesTypes().PLAINTEXT
+      new ModalPropertiesTypes().PLAINTEXT,
+      null,
+      null,
+      'tel'
     ),
   ]
 }

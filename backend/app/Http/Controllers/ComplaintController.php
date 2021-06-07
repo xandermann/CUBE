@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ComplaintRequests\ComplaintPostRequest;
 use App\Models\{Complaint, Order};
 use Illuminate\Http\Request;
 
@@ -20,10 +21,10 @@ class ComplaintController extends Controller
     /**
      * Send a complaint.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ComplaintRequests\ComplaintPostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ComplaintPostRequest $request)
     {
         $order = Order::findOrFail($request->order_id);
 

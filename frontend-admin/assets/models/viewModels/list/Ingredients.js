@@ -3,14 +3,13 @@ export class ListIngredients {
   liste
   urlFetch
   title = 'Liste des ingrédients'
-  champs = ['nom']
+  champs = ['nom', 'delete']
 
   constructor(url) {
     this.urlFetch = url
   }
 
   setList(list) {
-    debugger
     this.liste = {}
     this.liste.currentPage = list.current_page ?? 1
     this.liste.nextPageUrl = list.next_page_url ?? 1
@@ -18,7 +17,7 @@ export class ListIngredients {
     this.liste.totalRows = list.total ?? 100
     this.liste.perPage = list.per_page ?? 100
     // Rajouter pagination par la suite (list.data)
-    this.liste.data = list.map(function (item) {
+    this.liste.data = list.data.map(function (item) {
       return new Ingredient(item)
     })
   }
