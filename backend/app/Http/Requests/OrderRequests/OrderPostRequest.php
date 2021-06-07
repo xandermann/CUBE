@@ -25,7 +25,7 @@ class OrderPostRequest extends FormRequest
     {
         return [
             'restaurant_id' => 'required|integer|exists:restaurants,id',
-            'user_id' => 'required|integer|exists:users,id',
+            // 'user_id' => 'required|integer|exists:users,id',
             'date' => 'required|date',
             'dishes' => 'present|array',
             'dishes.*.id' => 'required|integer|exists:dishes,id|distinct',

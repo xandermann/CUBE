@@ -12,6 +12,7 @@ use Faker\Generator;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Laravel\Sanctum\Sanctum;
 
 class OrderTest extends TestCase
 {
@@ -67,25 +68,27 @@ class OrderTest extends TestCase
      */
     public function store()
     {
+        Sanctum::actingAs(User::factory()->create());
+
         $date = $this->faker->dateTime($max = 'now', $timezone = null);
-        
+
         $response = $this->post("/api/orders", [
             'restaurant_id' => $this->restaurant->id,
-            'user_id' => $this->user->id,
+            // 'user_id' => $this->user->id,
             'date' => $date,
             'dishes' => [
-                ['id' => $this->dishe_1->id, 'quantity' => 2], 
+                ['id' => $this->dishe_1->id, 'quantity' => 2],
                 ['id' => $this->dishe_2->id, 'quantity' => 2]
             ],
             'menus' => [
-                ['id' => $this->menu_1->id, 'quantity' => 2], 
+                ['id' => $this->menu_1->id, 'quantity' => 2],
                 ['id' => $this->menu_2->id, 'quantity' => 2]
             ]
         ]);
 
         $response->assertStatus(200);
 
-        
+
         /*
          * Check if the dishe exist in stock
          */
@@ -101,12 +104,12 @@ class OrderTest extends TestCase
 
         $stock_ingredient_2 = $this->restaurant->ingredients()->find($this->ingredient_2->id);
         $this->assertEquals($stock_ingredient_2->pivot->quantity, 200 - 2*(2*3), 'Stock for the ingredient 2 should be deducted.');
-        
+
         /*
          * Clean the dishes of this restaurant
          */
         $order->delete();
-        
+
     }
 
     /**
@@ -114,18 +117,19 @@ class OrderTest extends TestCase
      */
     public function store_restaurantDoesNotHaveEnoughIngredientsInStock()
     {
+        Sanctum::actingAs(User::factory()->create());
+
         $date = $this->faker->dateTime($max = 'now', $timezone = null);
-        
+
         $response = $this->post("/api/orders", [
             'restaurant_id' => $this->restaurant->id,
-            'user_id' => $this->user->id,
             'date' => $date,
             'dishes' => [
-                ['id' => $this->dishe_1->id, 'quantity' => 100], 
+                ['id' => $this->dishe_1->id, 'quantity' => 100],
                 ['id' => $this->dishe_2->id, 'quantity' => 100]
             ],
             'menus' => [
-                ['id' => $this->menu_1->id, 'quantity' => 100], 
+                ['id' => $this->menu_1->id, 'quantity' => 100],
                 ['id' => $this->menu_2->id, 'quantity' => 100]
             ]
         ]);
@@ -138,14 +142,15 @@ class OrderTest extends TestCase
      */
     public function store_orderWithMultipleSameDishe()
     {
+        Sanctum::actingAs(User::factory()->create());
+
         $date = $this->faker->dateTime($max = 'now', $timezone = null);
-        
+
         $response = $this->post("/api/orders", [
             'restaurant_id' => $this->restaurant->id,
-            'user_id' => $this->user->id,
             'date' => $date,
             'dishes' => [
-                ['id' => $this->dishe_1->id, 'quantity' => 2], 
+                ['id' => $this->dishe_1->id, 'quantity' => 2],
                 ['id' => $this->dishe_1->id, 'quantity' => 2],
                 ['id' => $this->dishe_2->id, 'quantity' => 2]
             ],
@@ -161,17 +166,17 @@ class OrderTest extends TestCase
      */
     public function store_whenDateIsString()
     {
-        
+        Sanctum::actingAs(User::factory()->create());
+
         $response = $this->post("/api/orders", [
             'restaurant_id' => $this->restaurant->id,
-            'user_id' => $this->user->id,
             'date' => "string",
             'dishes' => [
-                ['id' => $this->dishe_1->id, 'quantity' => 100], 
+                ['id' => $this->dishe_1->id, 'quantity' => 100],
                 ['id' => $this->dishe_2->id, 'quantity' => 100]
             ],
             'menus' => [
-                ['id' => $this->menu_1->id, 'quantity' => 100], 
+                ['id' => $this->menu_1->id, 'quantity' => 100],
                 ['id' => $this->menu_2->id, 'quantity' => 100]
             ]
         ]);
