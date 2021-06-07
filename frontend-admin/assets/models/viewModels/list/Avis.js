@@ -1,9 +1,9 @@
-export class ListeMenus {
+export class ListAvis {
   // Liste des champs a afficher dans la vue
   liste
   urlFetch
-  title = 'Liste des menus'
-  champs = ['nom', 'prix']
+  title = 'Liste des avis du restaurant'
+  champs = ['nom', 'email', 'date', 'note', 'message']
 
   constructor(url) {
     this.urlFetch = url
@@ -16,20 +16,27 @@ export class ListeMenus {
     this.liste.prevPageUrl = list.prev_page_url ?? 1
     this.liste.totalRows = list.total ?? 100
     this.liste.perPage = list.per_page ?? 100
+    // Rajouter pagination par la suite (list.data)
     this.liste.data = list.data.map(function (item) {
-      return new Menu(item)
+      return new Avis(item)
     })
   }
 }
 
-export class Menu {
+export class Avis {
   id
-  nom
-  prix
-  constructor(menu) {
+  name
+  email
+  date
+  note
+  message
+  constructor(avis) {
     // Les champs ci-dessous sont utilisés mais pas forcément affichés dans la vue
-    this.id = menu.id
-    this.nom = menu.name
-    this.prix = menu.price
+    this.id = avis.id
+    this.nom = avis.firstname + ' ' + avis.lastname
+    this.email = avis.email
+    this.date = new Date(avis.created_at).toLocaleDateString()
+    this.note = avis.pivot.note
+    this.message = avis.pivot.message
   }
 }

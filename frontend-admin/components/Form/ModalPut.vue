@@ -1,11 +1,10 @@
 <template>
   <div>
     <b-modal
-      :id="modal.modalProperties.id"
-      :title="modal.modalProperties.title"
+      :id="'Put' + objectId"
+      :title="objectToModify.modalProperties.title"
       :hide-footer="hiddenActions"
       @ok="submitForm"
-      @shown="modalShown"
       @close="$emit('hasBeenHidden', true)"
     >
       <b-progress
@@ -14,7 +13,7 @@
         :animated="true"
         class="mt-3"
         ><b-progress-bar :value="100"
-          ><span>Ajout en cours</span></b-progress-bar
+          ><span>Modification en cours</span></b-progress-bar
         ></b-progress
       >
       <b-progress
@@ -23,7 +22,7 @@
         :animated="false"
         class="mt-3"
         ><b-progress-bar :value="100"
-          ><span>Ajout réussi</span></b-progress-bar
+          ><span>Modification réussie</span></b-progress-bar
         ></b-progress
       >
       <b-progress
@@ -33,16 +32,19 @@
         :animated="false"
         class="mt-3"
         ><b-progress-bar :value="100"
-          ><span>Ajout échoué : {{ errorMessage }}</span></b-progress-bar
+          ><span
+            >Modification échouée : {{ errorMessage }}</span
+          ></b-progress-bar
         ></b-progress
       >
       <b-form v-if="!hiddenActions">
-        <div v-for="champ in modal.modalInputs" :key="champ.property">
+        <div v-for="champ in objectToModify.modalInputs" :key="champ.property">
           <div v-if="champ.type == types.PLAINTEXT">
             <FormPlainText
               v-model="form[champ.property]"
               :title="champ.title"
               :type="champ.validation"
+              :form-value="champ.defaultValue"
             />
           </div>
           <div v-if="champ.type == types.DATE">
@@ -56,6 +58,7 @@
               v-model="form[champ.property]"
               :title="champ.title"
               :options="champ.listValues"
+              :form-value="champ.defaultValue"
               :multiple="champ.validation"
             />
           </div>
@@ -81,7 +84,7 @@
 <script>
 import { ModalPropertiesTypes } from '../../assets/models/modales/ModalForm'
 export default {
-  props: { modal: Object },
+  props: { objectId: Number, objectToModify: Object },
   data() {
     return {
       form: {},
@@ -91,26 +94,33 @@ export default {
       hiddenActions: false,
     }
   },
+  mounted() {
+    this.objectToModify.modalInputs.forEach((champ) => {
+      this.form[champ.property] = champ.defaultValue
+    })
+  },
   methods: {
-    // permet à leaflet de charger
-    modalShown() {
-      setTimeout(() => {
-        window.dispatchEvent(new Event('resize'))
-      }, 100)
-    },
+    // initEntity() {
+    //   const valeurs = this.$props.objectToModify
+    //   for (const property in valeurs) {
+    //     this.form[property] = valeurs[property]
+    //   }
+    // },
     submitForm(event) {
       event.preventDefault()
-      this.postNewEntity(this.modal.modalProperties.url)
+
+      this.putEntity(this.objectToModify.modalProperties.url)
     },
-    async postNewEntity(url) {
-      console.log(JSON.stringify(this.form))
+    async putEntity(url) {
       this.result = 'pending'
       this.hiddenActions = true
+      alert(url)
       await this.$axios
-        .$post(url, this.form)
+        .$put(url, this.form)
         .then((response) => {
           this.result = 'success'
         })
+
         .catch((error) => {
           this.result = 'error'
           this.errorMessage = error

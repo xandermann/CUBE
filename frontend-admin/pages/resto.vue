@@ -15,10 +15,7 @@ export default {
   data() {
     return {
       pageProps: { title: 'Restaurants' },
-      items: [
-        { url: '/resto/liste', title: 'Restaurants' },
-        { url: '/resto/franchises', title: 'Franchises' },
-      ],
+      items: [{ url: '/resto/liste', title: 'Restaurants' }],
     }
   },
 }

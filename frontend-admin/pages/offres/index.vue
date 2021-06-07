@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid>
+  <b-container fluid class="h-100">
     <div
       class="h-100 d-flex flex-column align-items-center justify-content-center"
     >
@@ -10,11 +10,13 @@
         alt="Logo Goodfood"
         style="width: 400px; height: auto; object-fit: cover"
       />
-      <h3>Bienvenue</h3>
+      <h3>Sélectionnez une page pour commencer</h3>
       <div>
-        <b-button :to="'resto'" variant="primary">Restaurants</b-button>
-        <b-button :to="'offres'" variant="primary">Offres</b-button>
-        <b-button :to="'commercial'" variant="primary">Commercial</b-button>
+        <b-button :to="'offres/ingredients'" variant="primary"
+          >Ingrédients</b-button
+        >
+        <b-button :to="'offres/plats'" variant="primary">Plats</b-button>
+        <b-button :to="'offres/menus'" variant="primary">Menus</b-button>
       </div>
     </div>
   </b-container>

@@ -1,9 +1,9 @@
-export class ListeMenus {
+export class ListePlaintes {
   // Liste des champs a afficher dans la vue
   liste
   urlFetch
-  title = 'Liste des menus'
-  champs = ['nom', 'prix']
+  title = 'Liste des plaintes'
+  champs = ['date', 'note', 'message']
 
   constructor(url) {
     this.urlFetch = url
@@ -16,20 +16,23 @@ export class ListeMenus {
     this.liste.prevPageUrl = list.prev_page_url ?? 1
     this.liste.totalRows = list.total ?? 100
     this.liste.perPage = list.per_page ?? 100
+    // Rajouter pagination par la suite (list.data)
     this.liste.data = list.data.map(function (item) {
-      return new Menu(item)
+      return new Plainte(item)
     })
   }
 }
 
-export class Menu {
+export class Plainte {
   id
-  nom
-  prix
-  constructor(menu) {
+  date
+  note
+  message
+  constructor(plainte) {
     // Les champs ci-dessous sont utilisés mais pas forcément affichés dans la vue
-    this.id = menu.id
-    this.nom = menu.name
-    this.prix = menu.price
+    this.id = plainte.id
+    this.email = plainte.email
+    this.date = new Date(plainte.created_at).toLocaleDateString()
+    this.message = plainte.message
   }
 }
