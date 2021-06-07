@@ -61,6 +61,12 @@ class DatabaseSeeder extends Seeder
         $oignon = Ingredient::create([
             'name' => 'Oignon'
         ]);
+        $frite = Ingredient::create([
+            'name' => 'Frite'
+        ]);
+        $steak = Ingredient::create([
+            'name' => 'Steak'
+        ]);
 
         
         //populate the restaurants
@@ -105,6 +111,45 @@ class DatabaseSeeder extends Seeder
         ]);
         $order->dishes()->attach($pateCarbo->id, ['quantity' => 1]);
         
+
+
+        //new restaurants
+        $restaurant2 = Restaurant::factory()->create();
+            
+        //stock
+        $restaurant2->ingredients()->attach($frite->id, ['quantity' => 25000]); //25 Kg
+        $restaurant2->ingredients()->attach($steak->id, ['quantity' => 50]); //50 U
+        
+        //dishes
+        $steakFrite = Dishe::create([
+            'name' => 'Steak frites',
+            'price' => 10
+        ]);
+        $steakFrite->ingredients()->attach($frite->id, ['quantity' => 125]);
+        $steakFrite->ingredients()->attach($steak->id, ['quantity' => 1]);
+        $restaurant2->dishes()->attach($steakFrite->id);
+        
+        //menus
+        $menuSteakFrite = Menu::create([
+            'name' => 'Steak frites',
+            'price' => 8
+        ]);
+        $menuSteakFrite->dishes()->attach($steakFrite);
+        $restaurant2->menus()->attach($menuSteakFrite->id);
+
+        //multiple reviews by one user
+        $user->restaurants()->attach($restaurant2, ['note' => 5, 'message' => "restaurant au top !"]);
+        $user->restaurants()->attach($restaurant2, ['note' => 3.0, 'message' => "manque les frites"]);
+        $restaurant2->note = round( (6.5/ 3) , 1);
+        $restaurant2->save();
+
+        //orders
+        $orderRestaurant2 = Order::factory()
+        ->create([
+            'user_id' => $user->id,
+            'restaurant_id' => $restaurant2->id,
+        ]);
+        $orderRestaurant2->dishes()->attach($menuSteakFrite->id, ['quantity' => 1]);
         
         /*
         //populate the dishes with their ingredients (random)
