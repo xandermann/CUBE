@@ -80,16 +80,9 @@ class DatabaseSeeder extends Seeder
                 $order->dishes()->attach(array_slice($ids, 0, rand(1, 3)), ['quantity' => rand(1, 3)]);
                 shuffle($ids); //we remix for the menus
                 $order->menus()->attach(array_slice($ids, 0, rand(0, 2)), ['quantity' => rand(1, 2)]);
-                $order->restaurant_id = Restaurant::find(rand(1, 100))->id;
-                $order->save();
+                /*$order->restaurant_id = Restaurant::find(rand(1, 100))->id;
+                $order->save();*/
             }
         );
-
-        //populate multiple reviews for one restaurant by one user
-        /*$restaurant = Restaurant::factory()->create();
-        $user = User::factory()->create();
-        $user->restaurants()->attach($restaurant, ['note' => 4.5, 'message' => "très bon restaurant"]);
-        $user->restaurants()->attach($restaurant, ['note' => 2.0, 'message' => "mauvaise livraison"]);
-        $user->restaurants()->attach($restaurant, ['note' => 0, 'message' => "la commande n'est pas arrivé depuis 5h"]);*/
     }
 }
