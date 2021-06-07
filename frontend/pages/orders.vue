@@ -9,10 +9,12 @@
         {{ d.getHours() }}:{{ d.getMinutes() }}
       </p>
 
+      <p>Liste des plats commandés:</p>
+
       <table class="table">
         <tr v-for="dish in order.dishes" :key="dish.id">
           <td>{{ dish.name }}</td>
-          <td>{{ dish.price }}</td>
+          <td>{{ dish.price }}€</td>
         </tr>
       </table>
 
