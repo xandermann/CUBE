@@ -39,6 +39,7 @@ class RestaurantController extends Controller
 
         Restaurant::create([
             'name' => $request->name,
+            'note' => null,
             'coordinate_id' => $coordinate->id
         ]);
     }

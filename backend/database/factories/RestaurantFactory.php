@@ -25,6 +25,7 @@ class RestaurantFactory extends Factory
 
         return [
             'name' => $this->faker->company(),
+            'note' => $this->faker->randomFloat($nbMaxDecimals = 1, $min = 0, $max = 5),
             'coordinate_id' => Coordinate::factory()
         ];
     }
