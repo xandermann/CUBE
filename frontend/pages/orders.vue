@@ -9,7 +9,10 @@
         {{ d.getHours() }}:{{ d.getMinutes() }}
       </p>
 
-      <b-button variant="primary" :href="`${API_URL}/pdf/invoices/${order.id}`"
+      <b-button
+        variant="primary"
+        :href="`${API_URL}/pdf/invoices/${order.id}`"
+        target="_blank"
         >Voir la facture</b-button
       >
 

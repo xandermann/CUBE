@@ -22,7 +22,7 @@ class OrderController extends Controller
      */
     public function index_user($user_id)
     {
-        return User::findOrFail($user_id)->orders()->with('dishes')->with('menus')->paginate(10);
+        return User::findOrFail($user_id)->orders()->with('dishes')->with('menus')->orderBy('id', 'desc')->paginate(10);
     }
 
     /**
