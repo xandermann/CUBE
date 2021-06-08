@@ -51,7 +51,7 @@ class ReviewController extends Controller
         }
 
         if($sum_note != 0) {
-            $final_note = $sum_note / $restaurant->users()->count();
+            $final_note = round( ($sum_note / $restaurant->users()->count()), 1);
         }
 
         $restaurant->note = $final_note;
