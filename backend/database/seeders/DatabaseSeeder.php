@@ -76,6 +76,7 @@ class DatabaseSeeder extends Seeder
         $restaurant->ingredients()->attach($pate->id, ['quantity' => 25000]); //25 Kg
         $restaurant->ingredients()->attach($creme->id, ['quantity' => 360]); //360 Cl
         $restaurant->ingredients()->attach($lardon->id, ['quantity' => 1860]); //1 Kg 860
+        $restaurant->ingredients()->attach($oeuf->id, ['quantity' => 100]); //100 U
         
         //dishes
         $pateCarbo = Dishe::create([
