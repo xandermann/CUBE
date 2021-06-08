@@ -1,5 +1,9 @@
 <template>
   <div>
+    <code>{{ orders }}</code>
+
+    <h1>Commandes</h1>
+
     <div v-for="order in orders" :key="order.id">
       <h1>Commande numero #{{ order.id }}</h1>
 
@@ -66,7 +70,7 @@ export default {
   },
   mounted() {
     this.$axios
-      .get(`${process.env.API_URL}/api/restaurants/1/menus`)
+      .get(`${process.env.API_URL}/api/users/1/orders`)
       .then((response) => response.data)
       .then((paginate) => paginate.data)
       .then((orders) => (this.orders = orders))

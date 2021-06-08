@@ -33,7 +33,9 @@
       </b-row>
 
       <div class="horizontal-scroll">
-        <b-button v-for="i in 18" :key="i">Filtre {{ i }}</b-button>
+        <b-button v-for="i in 18" :key="i" class="ml-1 mr-1"
+          >Filtre {{ i }}</b-button
+        >
       </div>
     </b-form>
 
@@ -46,7 +48,7 @@
       :key="restaurant.id"
       :to="`/restaurants/${restaurant.id}/menus`"
     >
-      <div>
+      <div class="mb-5">
         <div v-if="restaurant.id === 1 || restaurant.id === 2">
           <div
             :style="`height: 250px; background-image: url(/restaurants/images/${restaurant.id}.jpg); background-position: center;`"
@@ -68,6 +70,8 @@
         </b-row>
       </div>
     </nuxt-link>
+
+    <div class="mb-4"></div>
   </div>
 </template>
 
