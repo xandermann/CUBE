@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{LoginController, RestaurantController, IngredientController, StockController, 
+use App\Http\Controllers\{LoginController, RestaurantController, IngredientController, StockController,
     DisheController, MenuController, OrderController, ComplaintController, ReviewController};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -64,7 +64,8 @@ Route::prefix('menus')->group(function () {
     Route::get('/', [MenuController::class, 'index']);
 });
 
-Route::prefix('orders')->group(function () {
+Route::middleware('auth:sanctum')->prefix('orders')->group(function () {
+    Route::get('/', [OrderController::class, 'index_user']);
     Route::post('/', [OrderController::class, 'store']);
 });
 
@@ -78,3 +79,5 @@ Route::apiResources([
     'ingredients' => IngredientController::class
     // Autres controlleurs ici
 ]);
+
+Route::get('coordinates', [CoordinateController::class, 'index']);

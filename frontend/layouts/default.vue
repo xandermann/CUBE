@@ -11,6 +11,7 @@
         <client-only>
           <b-navbar-nav v-if="loggedIn">
             <b-nav-item to="/restaurants">Liste des restaurants</b-nav-item>
+            <b-nav-item to="/orders">Liste des commandes passées</b-nav-item>
 
             <!--
           <b-nav-item href="#" disabled>Disabled</b-nav-item>
@@ -47,11 +48,11 @@
                 <template #button-content>
                   <em>{{ user.email }}</em>
                 </template>
-                <b-dropdown-item href="#">Mon compte</b-dropdown-item>
+                <b-dropdown-item to="/account">Mon compte</b-dropdown-item>
 
-                <nuxt-link to="/logout">
-                  <b-dropdown-item>Se déconnecter</b-dropdown-item>
-                </nuxt-link>
+                <b-dropdown-item @click="logout"
+                  >Se déconnecter</b-dropdown-item
+                >
               </b-nav-item-dropdown>
             </template>
 
@@ -102,6 +103,11 @@ export default {
     },
     user() {
       return this.$auth.user
+    },
+  },
+  methods: {
+    logout() {
+      return this.$auth.logout()
     },
   },
 }

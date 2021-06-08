@@ -20,14 +20,14 @@ class ComplaintController extends Controller
 
     /**
      * Send a complaint.
-     * 
+     *
      * @param  \App\Http\Requests\ComplaintRequests\ComplaintPostRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(ComplaintPostRequest $request)
     {
         $order = Order::findOrFail($request->order_id);
-        
+
         //creation of the complaint
         Complaint::create([
             'message' => $request->message,
