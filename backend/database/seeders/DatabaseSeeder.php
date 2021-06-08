@@ -86,13 +86,22 @@ class DatabaseSeeder extends Seeder
         $pateCarbo->ingredients()->attach($creme->id, ['quantity' => 12]);
         $pateCarbo->ingredients()->attach($lardon->id, ['quantity' => 62]);
         $restaurant->dishes()->attach($pateCarbo->id);
+
+        $pateOeuf = Dishe::create([
+            'name' => 'Pâtes aux oeufs',
+            'price' => 6
+        ]);
+        $pateOeuf->ingredients()->attach($pate->id, ['quantity' => 125]);
+        $pateOeuf->ingredients()->attach($oeuf->id, ['quantity' => 3]);
+        $restaurant->dishes()->attach($pateOeuf->id);
         
         //menus
         $menu = Menu::create([
-            'name' => 'Menu italien',
+            'name' => 'Menus pâtes',
             'price' => 10
         ]);
         $menu->dishes()->attach($pateCarbo);
+        $menu->dishes()->attach($pateOeuf);
         $restaurant->menus()->attach($menu->id);
 
         //multiple reviews by one user
@@ -139,8 +148,8 @@ class DatabaseSeeder extends Seeder
 
         //multiple reviews by one user
         $user->restaurants()->attach($restaurant2, ['note' => 5, 'message' => "restaurant au top !"]);
-        $user->restaurants()->attach($restaurant2, ['note' => 3.0, 'message' => "manque les frites"]);
-        $restaurant2->note = round( (6.5/ 3) , 1);
+        $user->restaurants()->attach($restaurant2, ['note' => 4.5, 'message' => "très bon restaurant !"]);
+        $restaurant2->note = round( (9.5/ 2) , 1);
         $restaurant2->save();
 
         //orders
