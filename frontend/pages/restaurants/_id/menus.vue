@@ -100,8 +100,7 @@ export default {
       .get(`${process.env.API_URL}/api/restaurants/1`)
       .then((response) => response.data)
       .then((restaurant) => (this.restaurant = restaurant))
-      // eslint-disable-next-line no-console
-      .catch(console.error)
+      .catch(() => {})
 
     this.$axios
       .get(`${process.env.API_URL}/api/restaurants/1/menus`)
@@ -119,8 +118,7 @@ export default {
 
         this.menus = menus
       })
-      // eslint-disable-next-line no-console
-      .catch(console.error)
+      .catch(() => {})
   },
   methods: {
     addMenu(menu) {
@@ -151,8 +149,6 @@ export default {
         },
         { withCredentials: true }
       )
-
-      console.log(this.menus)
     },
   },
 }
