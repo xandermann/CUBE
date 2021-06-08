@@ -160,7 +160,10 @@ class DatabaseSeeder extends Seeder
         ]);
         $orderRestaurant2->dishes()->attach($menuSteakFrite->id, ['quantity' => 1]);
         
-        /*
+        //---------------aléatoire----------------
+        
+        $ids = range(1,9);
+
         //populate the dishes with their ingredients (random)
         Dishe::factory()->count(20)->create()->each(function ($dishe) use($ids) {
             shuffle($ids);
@@ -174,33 +177,31 @@ class DatabaseSeeder extends Seeder
         });
 
         //populate the restaurants with ingredients and dishes (random)
-        Restaurant::factory()->count(100)->create()->each(function ($restaurant) use($ids) {
+        Restaurant::factory()->count(90)->create()->each(function ($restaurant) use($ids, $user) {
             shuffle($ids);
             $restaurant->ingredients()->attach(array_slice($ids, 0, rand(1, 3)), ['quantity' => rand(0, 100)]);
             shuffle($ids); //we remix for the dishes
             $restaurant->dishes()->attach(array_slice($ids, 0, rand(1, 3)));
             shuffle($ids); //we remix for the menus
             $restaurant->menus()->attach(array_slice($ids, 0, rand(1, 3)));
-            //multiple reviews by one user
-            $user = User::factory()->create();
-            $user->restaurants()->attach($restaurant, ['note' => 4.5, 'message' => "très bon restaurant"]);
-            $user->restaurants()->attach($restaurant, ['note' => 2.0, 'message' => "mauvaise livraison"]);
-            $user->restaurants()->attach($restaurant, ['note' => 0, 'message' => "la commande n'est pas arrivé depuis 5h"]);
-        });
 
-        //populate the orders with new restaurants and users
-        Order::factory()
+            //populate the orders with new restaurants and users
+            Order::factory()
             ->has(Complaint::factory()->count(3))
-            ->count(50)
-            ->create()
+            ->create([
+                'user_id' => $user->id,
+                'restaurant_id' => $restaurant->id,
+            ])
             ->each(function ($order) use($ids) {
                 shuffle($ids); //we remix for the dishes
                 $order->dishes()->attach(array_slice($ids, 0, rand(1, 3)), ['quantity' => rand(1, 3)]);
                 shuffle($ids); //we remix for the menus
                 $order->menus()->attach(array_slice($ids, 0, rand(0, 2)), ['quantity' => rand(1, 2)]);
                 /*$order->restaurant_id = Restaurant::find(rand(1, 100))->id;
-                $order->save();
-            }
-        );*/
+                $order->save();*/
+            });
+        });
+
+        
     }
 }
