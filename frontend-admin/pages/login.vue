@@ -3,6 +3,7 @@
     <b-container class="authWindow">
       <b-row>
         <b-col class="authForm">
+          <b-alert v-model="error" variant="danger"> </b-alert>
           <h2>Connexion</h2>
           <b-form @submit.prevent="onSubmit">
             <b-form-group class="m-0">
@@ -35,11 +36,12 @@ export default {
         email: '',
         password: '',
       },
+      error: null,
     }
   },
   methods: {
-    onSubmit() {
-      this.$auth
+    async onSubmit() {
+      await this.$auth
         .loginWith('laravelSanctum', {
           data: {
             email: this.form.email,

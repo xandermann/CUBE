@@ -9,32 +9,68 @@
         <div>Adresse: {{ restaurant.coordinate.full_address }}</div>
         <div>Téléphone: {{ restaurant.coordinate.number_phone }}</div>
       </div>
-    </template>
 
-    <hr />
+      <hr />
 
-    <h1>Carte</h1>
+      <h1>Carte</h1>
 
-    <div v-for="menu in menus" :key="menu.id" class="border">
-      <b-row class="m-1 p-2">
+      <div v-for="menu in menus" :key="menu.id" class="border">
+        <b-row class="m-1 p-2">
+          <b-col>
+            <h2>Menu: {{ menu.name }}</h2>
+            <p>Le prix de ce menu est {{ menu.price }}€</p>
+          </b-col>
+
+          <b-col>
+            <b-button variant="success" @click="addMenu(menu)"
+              >Ajouter ({{ menu.quantity }})</b-button
+            >
+
+            <b-button variant="warning" @click="removeMenu(menu)"
+              >Supprimer ({{ menu.quantity }})</b-button
+            >
+
+            <p>Total {{ menu.quantity * menu.price }}€</p>
+            <!-- <p>[TODO: image]</p> -->
+          </b-col>
+        </b-row>
+
+        <div class="mt-4">Dans ce menu vous trouverez les plats suivants:</div>
+
+        <div v-for="dish in menu.dishes" :key="dish.id">
+          <b-row class="m-1 p-2">
+            <b-col>
+              <h3>{{ dish.name }}</h3>
+              <p>Le prix de ce plat est {{ dish.price }}€</p>
+            </b-col>
+
+            <b-col>
+              <b-button variant="success" @click="addDish(dish)"
+                >Ajouter {{ dish.quantity }}</b-button
+              >
+              <b-button variant="warning" @click="removeDish(dish)"
+                >Supprimer {{ dish.quantity }}</b-button
+              >
+
+              <p>Total: {{ dish.quantity * dish.price }}€</p>
+            </b-col>
+          </b-row>
+        </div>
+      </div>
+
+      <div class="mt-4"></div>
+
+      <!-- <nuxt-link to="/basket"> -->
+      <b-row>
         <b-col>
-          <h2>{{ menu.name }}</h2>
-
-          <p>{{ menu.price }}€</p>
+          <h3>Prix: {{ Math.round(total * 100) / 100 }}€</h3>
         </b-col>
-
         <b-col>
-          <b-button>Ajouter</b-button>
-          <p>[TODO: image]</p>
+          <b-button variant="info" @click="pay">Passer la commande</b-button>
         </b-col>
       </b-row>
-    </div>
-
-    <div class="mt-4"></div>
-
-    <nuxt-link to="/basket">
-      <b-button variant="success">Passer la commande</b-button>
-    </nuxt-link>
+      <!-- </nuxt-link> -->
+    </template>
   </div>
 </template>
 
@@ -46,18 +82,74 @@ export default {
       menus: [],
     }
   },
+  computed: {
+    total() {
+      return this.menus.reduce((acc, menu) => {
+        return (
+          acc +
+          menu.quantity * menu.price +
+          menu.dishes.reduce((acc, dish) => {
+            return acc + dish.quantity * dish.price
+          }, 0)
+        )
+      }, 0)
+    },
+  },
   mounted() {
     this.$axios
       .get(`${process.env.API_URL}/api/restaurants/1`)
       .then((response) => response.data)
       .then((restaurant) => (this.restaurant = restaurant))
-      .catch(console.error)
+      .catch(() => {})
 
     this.$axios
       .get(`${process.env.API_URL}/api/restaurants/1/menus`)
       .then((response) => response.data)
-      .then((menus) => (this.menus = menus))
-      .catch(console.error)
+      .then((paginate) => paginate.data)
+
+      .then((menus) => {
+        menus.forEach((menu) => {
+          menu.quantity = 0
+
+          menu.dishes.forEach((dish) => {
+            dish.quantity = 0
+          })
+        })
+
+        this.menus = menus
+      })
+      .catch(() => {})
+  },
+  methods: {
+    addMenu(menu) {
+      menu.quantity++
+    },
+    removeMenu(menu) {
+      if (menu.quantity === 0) return
+      menu.quantity--
+    },
+    addDish(dish) {
+      dish.quantity++
+    },
+    removeDish(dish) {
+      if (dish.quantity === 0) return
+      dish.quantity--
+    },
+    pay() {
+      const sum = this.menus.reduce((acc, menu) => acc + menu.quantity)
+      if (sum <= 0) return
+
+      this.$axios.post(
+        `${process.env.API_URL}/api/orders`,
+        {
+          restaurant_id: this.restaurant.id,
+          menus: this.menus,
+          date: new Date(),
+          dishes: [],
+        },
+        { withCredentials: true }
+      )
+    },
   },
 }
 </script>

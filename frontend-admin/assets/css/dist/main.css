@@ -1,0 +1,129 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;1,400;1,500&display=swap");
+body {
+  background-color: #fafbfc;
+  font-family: "Montserrat", sans-serif;
+}
+
+.navbar.navbar-dark {
+  background-color: #009cbf;
+}
+
+.btn {
+  border: none;
+}
+.btn.btn-primary {
+  background-color: #009cbf;
+}
+.btn.btn-secondary {
+  background-color: #e78200;
+}
+
+.bgPrimary {
+  background-color: #009cbf;
+}
+
+.bgSecondary {
+  background-color: #e78200;
+}
+
+.bgPrimaryDark {
+  background-color: #00738d;
+}
+
+.SideBar {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+}
+.SideBar ul {
+  list-style: none;
+  padding: 0;
+}
+.SideBar ul li a {
+  color: beige;
+}
+
+@media all and (max-width: 576px) {
+  .NavBar {
+    background-color: #00738d;
+  }
+}
+
+.loading {
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.363);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.loading::before {
+  content: "";
+  background-color: white;
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  position: absolute;
+}
+.loading::after {
+  content: "";
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border: 4px solid #00738d;
+  border-radius: 50%;
+  border-top-color: #009cbf;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+.auth {
+  background-color: #009cbf;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+}
+
+html {
+  height: 100vh;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  height: 55px !important;
+  color: white;
+}
+
+.content {
+  height: calc(100vh - 55px) !important;
+}
+.content .data {
+  height: 100%;
+  overflow: scroll;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.25s ease-out;
+}
+
+.page-enter,
+.page-leave-active {
+  opacity: 0;
+  transform-origin: 50% 50%;
+}

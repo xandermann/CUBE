@@ -52,6 +52,9 @@ class AuthentificationTest extends TestCase
         ]);
 
         $loginResponse->assertStatus(200);
+
+        $user->coordinate()->delete();
+        $user->delete();
     }
 
     /**
@@ -99,6 +102,9 @@ class AuthentificationTest extends TestCase
         $apiResponse->assertStatus(200);
 
         $apiResponse->assertJsonFragment(['email' => $user->email]);
+
+        $user->coordinate()->delete();
+        $user->delete();
     }
 
 }

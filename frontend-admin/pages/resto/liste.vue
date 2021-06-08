@@ -1,17 +1,17 @@
 <template>
-  <List :restos="restos" />
+  <div>
+    <List :elems="restos" :modal="modaleResto" />
+  </div>
 </template>
 <script>
+import { AjoutResto } from '../../assets/models/modales/resto/Add/AjoutResto'
+import { ListRestaurant } from '../../assets/models/viewModels/list/Restaurant'
 export default {
   data() {
     return {
-      restos: [],
+      restos: new ListRestaurant(this.$config.apiURL + '/api/restaurants'),
+      modaleResto: new AjoutResto(),
     }
-  },
-  async fetch() {
-    this.restos = await fetch(
-      'http://localhost:8090/api/restaurants'
-    ).then((res) => res.json())
   },
 }
 </script>

@@ -1,0 +1,20 @@
+.SideBar {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+}
+.SideBar ul {
+  list-style: none;
+  padding: 0;
+}
+.SideBar ul li a {
+  color: beige;
+}
+
+@media all and (max-width: 576px) {
+  .NavBar {
+    background-color: #00738d;
+  }
+}

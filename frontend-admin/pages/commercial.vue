@@ -1,10 +1,12 @@
 <template>
   <b-container fluid>
-    <b-row>
-      <b-col cols="2" class="pl-0 pr-0">
+    <b-row class="h-100">
+      <b-col cols="2" class="pl-0 pr-0" style="z-index: 2">
         <SideBar :links="items" :page-properties="pageProps" />
       </b-col>
-      <b-col cols="10" class="pl-0 pr-0"><NuxtChild /></b-col>
+      <b-col cols="10" class="pl-0 pr-0" style="z-index: 1"
+        ><NuxtChild
+      /></b-col>
     </b-row>
   </b-container>
 </template>
@@ -13,7 +15,7 @@ export default {
   data() {
     return {
       pageProps: { title: 'Commercial' },
-      items: [{ url: '/commercial/avis', title: 'Avis' }],
+      items: [{ url: '/commercial/plaintes', title: 'Plaintes' }],
     }
   },
 }

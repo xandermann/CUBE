@@ -57,7 +57,7 @@
             <div>{{ restaurant.coordinate.full_address }}</div>
           </b-col>
 
-          <b-col>Note: 4/5</b-col>
+          <b-col>Note: <strong>?/5</strong></b-col>
         </b-row>
       </div>
     </nuxt-link>
@@ -66,19 +66,19 @@
 
 <script>
 export default {
-  async mounted() {
-    this.restaurants = await this.$axios
-      .get(`${process.env.API_URL}/api/restaurants`)
-      .then((response) => response.data)
-      .then((j) => j.data)
-      .catch(console.error)
-  },
   data() {
     return {
       restaurants: null,
       search: '',
       time: null,
     }
+  },
+  async mounted() {
+    this.restaurants = await this.$axios
+      .get(`${process.env.API_URL}/api/restaurants`)
+      .then((response) => response.data)
+      .then((j) => j.data)
+      .catch(() => {})
   },
 }
 </script>

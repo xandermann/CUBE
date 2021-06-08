@@ -29,9 +29,20 @@
 
     $ make pre-prod
 
+### Configurations
+
+frontend:
+
+    API_URL=https://api-goodfood.alexandre-hublau.com
+
+backend:
+
+    SESSION_DOMAIN=alexandre-hublau.com
+    SANCTUM_STATEFUL_DOMAINS=goodfood.alexandre-hublau.com,admin-goodfood.alexandre-hublau.com
+
 ## Liens utiles : pre-production
 
-- [API Backend - https://api.goodfood.alexandre-hublau.com/](https://api.goodfood.alexandre-hublau.com/)
+- [API Backend - https://api-goodfood.alexandre-hublau.com/](https://api-goodfood.alexandre-hublau.com/)
 - [Frontend - https://goodfood.alexandre-hublau.com/](https://goodfood.alexandre-hublau.com/)
 - [Frontend admin - https://admin-goodfood.alexandre-hublau.com/](https://admin-goodfood.alexandre-hublau.com/)
 - [Mail - https://mail-goodfood.alexandre-hublau.com/#/](https://mail-goodfood.alexandre-hublau.com/#/)
