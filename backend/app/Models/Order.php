@@ -15,6 +15,7 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = ['date', 'total_price', 'user_id', 'restaurant_id'];
+    protected $dates = ['date'];
 
     public function user() {
         return $this->belongsTo(User::class);
