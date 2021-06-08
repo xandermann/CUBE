@@ -70,17 +70,11 @@ export default {
       .then((response) => response.data)
       .then((paginate) => paginate.data)
       .then((orders) => (this.orders = orders))
+      .catch(() => {})
   },
   methods: {
-    note(order, value) {
-      console.log(order, value)
-    },
-    complaint(order) {
-      console.log('TODO: envoyer la plainte', order.complaint)
-      //   this.$axios.post(`${process.env.API_URL}/api/restaurants/1/menus`, {
-
-      //   })
-    },
+    note(order, value) {},
+    complaint(order) {},
   },
 }
 </script>

@@ -83,8 +83,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$auth.user)
-
     this.$axios
       .get(`${process.env.API_URL}/api/coordinates`, {
         withCredentials: true,
