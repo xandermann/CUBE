@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\{LoginController, RestaurantController, IngredientController, StockController,
-    DisheController, MenuController, OrderController, ComplaintController, ReviewController};
+    DisheController, MenuController, OrderController, ComplaintController, ReviewController, CoordinateController};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -80,4 +80,4 @@ Route::apiResources([
     // Autres controlleurs ici
 ]);
 
-Route::get('coordinates', [CoordinateController::class, 'index']);
+Route::middleware('auth:sanctum')->get('coordinates', [CoordinateController::class, 'index']);
