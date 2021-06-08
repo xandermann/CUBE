@@ -20,9 +20,9 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index_user()
+    public function index_user($user_id)
     {
-        return User::findOrFail(auth()->user()->id)->orders()->with('dishes')->with('menus')->get();
+        return User::findOrFail($user_id)->orders()->with('dishes')->with('menus')->paginate(10);
     }
 
     /**

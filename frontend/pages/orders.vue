@@ -1,13 +1,9 @@
 <template>
   <div>
-    <code>{{ orders }}</code>
-
-    <h1>Commandes</h1>
-
     <div v-for="order in orders" :key="order.id">
       <h1>Commande numero #{{ order.id }}</h1>
 
-      <h2>"{{ order.name }}" | Total: {{ order.price }}€</h2>
+      <h2>Total: {{ order.total_price }}€</h2>
       <p :var="(d = new Date(order.created_at))">
         Passée le {{ d.getDate() }}/{{ d.getMonth() }}/{{ d.getFullYear() }} -
         {{ d.getHours() }}:{{ d.getMinutes() }}
