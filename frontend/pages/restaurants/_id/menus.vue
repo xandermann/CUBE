@@ -66,7 +66,9 @@
           <h3>Prix: {{ Math.round(total * 100) / 100 }}€</h3>
         </b-col>
         <b-col>
-          <b-button variant="info" @click="pay">Passer la commande</b-button>
+          <b-button variant="info" class="mb-4" @click="pay"
+            >Passer la commande</b-button
+          >
         </b-col>
       </b-row>
       <!-- </nuxt-link> -->
@@ -76,6 +78,7 @@
 
 <script>
 export default {
+  middleware: 'auth',
   data() {
     return {
       restaurant: null,
@@ -97,13 +100,15 @@ export default {
   },
   mounted() {
     this.$axios
-      .get(`${process.env.API_URL}/api/restaurants/1`)
+      .get(`${process.env.API_URL}/api/restaurants/${this.$route.params.id}`)
       .then((response) => response.data)
       .then((restaurant) => (this.restaurant = restaurant))
       .catch(() => {})
 
     this.$axios
-      .get(`${process.env.API_URL}/api/restaurants/1/menus`)
+      .get(
+        `${process.env.API_URL}/api/restaurants/${this.$route.params.id}/menus`
+      )
       .then((response) => response.data)
       .then((paginate) => paginate.data)
 
