@@ -27,7 +27,7 @@
 
       <b-row>
         <b-col class="pt-4">
-          <p>Noter la commande</p>
+          <p>Noter le restaurant</p>
         </b-col>
         <b-col>
           <div class="rating rating2">
@@ -81,7 +81,21 @@ export default {
       .catch(() => {})
   },
   methods: {
-    note(order, value) {},
+    note(order, value) {
+      this.$axios
+        .post(
+          `${process.env.API_URL}/api/users/${this.$auth.user.id}/reviews`,
+          {
+            restaurant_id: order.restaurant_id,
+            note: value,
+            message: '-',
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .catch(() => {})
+    },
     complaint(order) {},
   },
 }
