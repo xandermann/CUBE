@@ -161,7 +161,7 @@ class DatabaseSeeder extends Seeder
         $orderRestaurant2->dishes()->attach($menuSteakFrite->id, ['quantity' => 1]);
         
         //---------------aléatoire----------------
-        
+        /*
         $ids = range(1,9);
 
         //populate the dishes with their ingredients (random)
@@ -198,9 +198,9 @@ class DatabaseSeeder extends Seeder
                 shuffle($ids); //we remix for the menus
                 $order->menus()->attach(array_slice($ids, 0, rand(0, 2)), ['quantity' => rand(1, 2)]);
                 /*$order->restaurant_id = Restaurant::find(rand(1, 100))->id;
-                $order->save();*/
+                $order->save();
             });
-        });
+        });*/
 
         
     }
