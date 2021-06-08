@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RestaurantRequests\RestaurantPostRequest;
+use App\Http\Requests\RestaurantRequests\RestaurantGetRequest;
 use App\Models\Restaurant;
 use App\Models\Coordinate;
 use Illuminate\Http\Request;
@@ -10,13 +11,25 @@ use Illuminate\Http\Request;
 class RestaurantController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the restaurant.
      *
+     * @param  \App\Http\Requests\RestaurantRequests\RestaurantGetRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(RestaurantGetRequest $request)
     {
-        return Restaurant::with('coordinate')->with('ingredients')->paginate(10);
+        //get filter parameter
+        $note = $request->input('rating');
+
+        if($note) {
+            return Restaurant::with('coordinate')
+                ->with('ingredients')
+                ->where('note', '>=', $note)
+                ->paginate(10);
+        }
+        else {
+            return Restaurant::with('coordinate')->with('ingredients')->paginate(10);
+        }
     }
 
     /**
