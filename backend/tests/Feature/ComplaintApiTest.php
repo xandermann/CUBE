@@ -18,7 +18,12 @@ class ComplaintApiTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->order = Order::factory()->create();
+        $user = User::factory()->create();
+        $restaurant = Restaurant::factory()->create();
+        $this->order = Order::factory()->create([
+            'user_id' => $user->id,
+            'restaurant_id' => $restaurant->id,
+        ]);
     }
     
     /**

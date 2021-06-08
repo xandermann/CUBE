@@ -79,7 +79,7 @@ class ReviewApiTest extends TestCase
         $response->assertStatus(200);
 
         $this->restaurant->refresh(); //we refresh the model to have the restaurant's note up to date
-        $this->assertEquals($this->restaurant->note, ($note + $note2) / 2, 'Restaurant note should be updated');
+        $this->assertEquals($this->restaurant->note, round( ($note + $note2) / 2, 1), 'Restaurant note should be updated');
 
         /*
          * Clean the reviews of the restaurant
