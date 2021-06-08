@@ -1,15 +1,14 @@
+import Index from '@/pages/about.vue'
 import Account from '@/pages/account.vue'
-import Index from '@/pages/index.vue'
+import Restaurants from '@/pages/index.vue'
 import Login from '@/pages/login.vue'
 import Orders from '@/pages/orders.vue'
-import Restaurants from '@/pages/restaurants/index.vue'
 import RestaurantsMenus from '@/pages/restaurants/_id/menus.vue'
 import SignUp from '@/pages/signup.vue'
 import { config, mount } from '@vue/test-utils'
 import axios from 'axios'
 import BootstrapVue from 'bootstrap-vue'
 import Vue from 'vue'
-
 Vue.use(BootstrapVue)
 
 const authMock = {
@@ -60,7 +59,15 @@ describe('Pages tests', () => {
 
   test('Restaurants/id is well mounted', () => {
     const wrapper = mount(RestaurantsMenus, {
-      mocks: { $auth: authMock, $axios: axios },
+      mocks: {
+        $auth: authMock,
+        $axios: axios,
+        $route: {
+          params: {
+            id: 1,
+          },
+        },
+      },
     })
     expect(wrapper).not.toBe(null)
   })

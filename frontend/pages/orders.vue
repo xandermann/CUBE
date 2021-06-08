@@ -9,6 +9,10 @@
         {{ d.getHours() }}:{{ d.getMinutes() }}
       </p>
 
+      <b-button variant="primary" :href="`${API_URL}/pdf/invoices/${order.id}`"
+        >Voir la facture</b-button
+      >
+
       <p>Liste des plats commandés:</p>
 
       <table class="table">
@@ -61,6 +65,7 @@
 export default {
   data() {
     return {
+      API_URL: process.env.API_URL,
       orders: [],
     }
   },
