@@ -113,7 +113,7 @@ class OrderController extends Controller
 
         //creation of the order
         $order = Order::create([
-            'date' => $request->date,
+            'date' => now(),
             'total_price' => $total_price,
             'user_id' => $user->id,
             'restaurant_id' => $restaurant->id

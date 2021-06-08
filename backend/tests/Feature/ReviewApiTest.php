@@ -22,7 +22,7 @@ class ReviewApiTest extends TestCase
         $this->restaurant = Restaurant::factory()->create();
         $this->user = User::factory()->create();
     }
-    
+
     /**
      * @test
      */
