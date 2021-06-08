@@ -10,7 +10,6 @@
       <b-collapse id="nav-collapse" is-nav>
         <client-only>
           <b-navbar-nav v-if="loggedIn">
-            <b-nav-item to="/restaurants">Liste des restaurants</b-nav-item>
             <b-nav-item to="/orders">Liste des commandes passées</b-nav-item>
 
             <!--
@@ -88,7 +87,9 @@
             quasi porro excepturi veniam soluta hic inventore totam, vel ipsam.
           </p>
 
-          <b-button>Télécharger l'application mobile</b-button>
+          <b-button variant="success"
+            >Télécharger l'application mobile</b-button
+          >
         </b-col>
       </b-row>
     </b-container>
