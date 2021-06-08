@@ -15,7 +15,7 @@ install: ## Install the docker images & depedencies
 
 	docker-compose run --rm composer cp .env.example .env
 	docker-compose run --rm frontend cp .env.example .env
-	docker-compose run --rm fronend-admin cp .env.example .env
+	docker-compose run --rm frontend-admin cp -p .env.example .env
 
 	docker-compose run --rm composer php artisan key:generate
 

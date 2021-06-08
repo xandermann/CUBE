@@ -42,7 +42,7 @@ backend:
 
 ## Liens utiles : pre-production
 
-- [API Backend - https://api.goodfood.alexandre-hublau.com/](https://api.goodfood.alexandre-hublau.com/)
+- [API Backend - https://api-goodfood.alexandre-hublau.com/](https://api-goodfood.alexandre-hublau.com/)
 - [Frontend - https://goodfood.alexandre-hublau.com/](https://goodfood.alexandre-hublau.com/)
 - [Frontend admin - https://admin-goodfood.alexandre-hublau.com/](https://admin-goodfood.alexandre-hublau.com/)
 - [Mail - https://mail-goodfood.alexandre-hublau.com/#/](https://mail-goodfood.alexandre-hublau.com/#/)
