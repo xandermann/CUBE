@@ -2,6 +2,13 @@
   <div>
     <h1>A propos de nous</h1>
 
+    <img
+      src="/images/logo.png"
+      alt="Logo Goodfood"
+      class="img-fluid mt-3 mb-3"
+      style="width: 200px; height: auto; object-fit: cover"
+    />
+
     <p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga nemo atque,
       architecto nam voluptate sequi magni ad error ipsam consectetur esse
