@@ -22,7 +22,7 @@ class OrderController extends Controller
      */
     public function index_user($user_id)
     {
-        return User::findOrFail($user_id)->orders()->with('dishes')->with('menus')->paginate(10);
+        return User::findOrFail($user_id)->orders()->with('dishes')->with('menus')->orderBy('id', 'desc')->paginate(10);
     }
 
     /**
@@ -113,7 +113,7 @@ class OrderController extends Controller
 
         //creation of the order
         $order = Order::create([
-            'date' => $request->date,
+            'date' => now(),
             'total_price' => $total_price,
             'user_id' => $user->id,
             'restaurant_id' => $restaurant->id

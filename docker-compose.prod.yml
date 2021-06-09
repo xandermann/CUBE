@@ -6,7 +6,7 @@ networks:
 
 services:
   nginx:
-    image: nginx:stable-alpine
+    image: nginx:1.20.0-alpine
     restart: always
     working_dir: /backend/
     volumes:

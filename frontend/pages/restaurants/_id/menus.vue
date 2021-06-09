@@ -1,5 +1,9 @@
 <template>
   <div>
+    <b-alert v-model="showError" variant="danger" dismissible
+      >Ooops, quelque chose c'est mal passé</b-alert
+    >
+
     <template v-if="restaurant">
       <h2>{{ restaurant.name }}</h2>
       <p>Note: 4/5</p>
@@ -83,6 +87,7 @@ export default {
     return {
       restaurant: null,
       menus: [],
+      showError: false,
     }
   },
   computed: {
@@ -144,16 +149,19 @@ export default {
       const sum = this.menus.reduce((acc, menu) => acc + menu.quantity)
       if (sum <= 0) return
 
-      this.$axios.post(
-        `${process.env.API_URL}/api/orders`,
-        {
-          restaurant_id: this.restaurant.id,
-          menus: this.menus,
-          date: new Date(),
-          dishes: [],
-        },
-        { withCredentials: true }
-      )
+      this.$axios
+        .post(
+          `${process.env.API_URL}/api/orders`,
+          {
+            restaurant_id: this.restaurant.id,
+            menus: this.menus,
+            date: new Date(),
+            dishes: [],
+          },
+          { withCredentials: true }
+        )
+        .then(() => this.$router.push('/orders'))
+        .catch(() => (this.showError = true))
     },
   },
 }

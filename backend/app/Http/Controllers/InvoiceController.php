@@ -14,7 +14,7 @@ class InvoiceController extends Controller
     */
     public function index($id) {
 
-        $order = Order::where('id', $id)->with('dishes')->with('menus')->with('user')->first();
+        $order = Order::where('id', $id)->with('dishes')->with('menus')->with('user')->firstOrFail();
 
         $dompdf = new Dompdf();
 

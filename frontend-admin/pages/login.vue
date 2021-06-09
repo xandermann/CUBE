@@ -3,7 +3,38 @@
     <b-container class="authWindow">
       <b-row>
         <b-col class="authForm">
-          <b-alert v-model="error" variant="danger"> </b-alert>
+          <b-progress
+            v-if="status == 'pending'"
+            variant="info"
+            :animated="true"
+            class="mt-3"
+            ><b-progress-bar :value="100"
+              ><span>Connexion en cours</span></b-progress-bar
+            ></b-progress
+          >
+          <b-progress
+            v-if="status == 'success'"
+            variant="success"
+            :animated="false"
+            class="mt-3"
+            ><b-progress-bar :value="100"
+              ><span
+                >Connexion réussie, vous allez être redirigé</span
+              ></b-progress-bar
+            ></b-progress
+          >
+          <b-progress
+            v-if="status == 'error'"
+            :value="100"
+            variant="danger"
+            :animated="false"
+            class="mt-3"
+            ><b-progress-bar :value="100"
+              ><span
+                >Echec de connexion : login ou mot de passe incorrect</span
+              ></b-progress-bar
+            ></b-progress
+          >
           <h2>Connexion</h2>
           <b-form @submit.prevent="onSubmit">
             <b-form-group class="m-0">
@@ -32,6 +63,7 @@ export default {
   layout: 'authPage',
   data() {
     return {
+      status: String,
       form: {
         email: '',
         password: '',
@@ -41,6 +73,7 @@ export default {
   },
   methods: {
     async onSubmit() {
+      this.status = 'pending'
       await this.$auth
         .loginWith('laravelSanctum', {
           data: {
@@ -48,10 +81,14 @@ export default {
             password: this.form.password,
           },
         })
-        // .then(() => this.$toast.success('Logged In!'))
-        .then(() => this.$router.push('/'))
-        .then(() => console.log('Logged In !'))
-        .catch(console.error)
+        .then(() => {
+          this.status = 'success'
+          this.$router.push('/')
+        })
+        .catch((err) => {
+          this.status = 'error'
+          this.error = err
+        })
     },
   },
 }

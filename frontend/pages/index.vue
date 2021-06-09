@@ -66,7 +66,9 @@
             <div>{{ restaurant.coordinate.full_address }}</div>
           </b-col>
 
-          <b-col>Note: <strong>?/5</strong></b-col>
+          <b-col
+            >Note: <strong>{{ restaurant.note }}/5</strong></b-col
+          >
         </b-row>
       </div>
     </nuxt-link>
