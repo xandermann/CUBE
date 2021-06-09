@@ -33,6 +33,7 @@ class OrderTest extends TestCase
         parent::setUp();
         $this->restaurant = Restaurant::factory()->create();
         $this->user = User::factory()->create();
+        Sanctum::actingAs($this->user);
 
         $this->ingredient_1 = Ingredient::factory()->create();
         $this->restaurant->ingredients()->attach($this->ingredient_1->id, ['quantity' => 200]);
@@ -68,8 +69,6 @@ class OrderTest extends TestCase
      */
     public function store()
     {
-        Sanctum::actingAs(User::factory()->create());
-
         $date = $this->faker->dateTime($max = 'now', $timezone = null);
 
         $response = $this->post("/api/orders", [
@@ -117,8 +116,6 @@ class OrderTest extends TestCase
      */
     public function store_restaurantDoesNotHaveEnoughIngredientsInStock()
     {
-        Sanctum::actingAs(User::factory()->create());
-
         $date = $this->faker->dateTime($max = 'now', $timezone = null);
 
         $response = $this->post("/api/orders", [
@@ -142,8 +139,6 @@ class OrderTest extends TestCase
      */
     public function store_orderWithMultipleSameDishe()
     {
-        Sanctum::actingAs(User::factory()->create());
-
         $date = $this->faker->dateTime($max = 'now', $timezone = null);
 
         $response = $this->post("/api/orders", [
@@ -166,8 +161,6 @@ class OrderTest extends TestCase
      */
     public function store_whenDateIsString()
     {
-        Sanctum::actingAs(User::factory()->create());
-
         $response = $this->post("/api/orders", [
             'restaurant_id' => $this->restaurant->id,
             'date' => "string",

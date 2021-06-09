@@ -21,12 +21,16 @@ class CoordinateTest extends TestCase
      */
     public function index()
     {
+        $user = User::factory()->create();
         Sanctum::actingAs(
-            User::factory()->create()
+            $user
         );
 
         $response = $this->get('/api/coordinates');
 
         $response->assertStatus(200);
+
+        $user->coordinate()->delete();
+        $user->delete();
     }
 }
