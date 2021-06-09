@@ -3,9 +3,13 @@
 namespace Database\Seeders;
 
 use App\Models\{ Coordinate, User, Restaurant, Ingredient, Dishe, Menu, Order, Complaint};
+use App\Http\Controllers\{RestaurantController, OrderController};
+use App\Http\Requests\OrderRequests\OrderPostRequest;
+use App\Http\Requests\RestaurantRequests\RestaurantPostRequest;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\Sanctum;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,12 +36,14 @@ class DatabaseSeeder extends Seeder
         $user = User::create([
             'lastname' => 'Doe',
             'firstname' => 'John',
-            'email' => 'a@a.a',
-            'password' => Hash::make('a'),
+            'email' => 'john.doe@gmail.com',
+            'password' => Hash::make('examplepassword'),
             'is_admin' => true,
             'coordinate_id' => $coordinate->id,
             'email_verified_at' => Carbon::yesterday(),
         ]);
+
+        Sanctum::actingAs($user);
 
         //populate the ingrédients
         $oeuf = Ingredient::create([
@@ -70,7 +76,17 @@ class DatabaseSeeder extends Seeder
 
         
         //populate the restaurants
-        $restaurant = Restaurant::factory()->create();
+        (new RestaurantController)->store(new RestaurantPostRequest([
+            'name' => "Retrogusto",
+            'full_address' => "40 Rue Stanislas",
+            'city' => "Nancy",
+            'postal_code' => "54000",
+            'lat_address' => null,
+            'lng_address' => null,
+            'number_phone' => "0383341953",
+            'country' => "France",
+        ]));
+        $restaurant = Restaurant::latest('id')->first();
             
         //stock
         $restaurant->ingredients()->attach($pate->id, ['quantity' => 25000]); //25 Kg
@@ -81,7 +97,7 @@ class DatabaseSeeder extends Seeder
         //dishes
         $pateCarbo = Dishe::create([
             'name' => 'Pâtes à la carbonara',
-            'price' => 8
+            'price' => 7.99
         ]);
         $pateCarbo->ingredients()->attach($pate->id, ['quantity' => 125]);
         $pateCarbo->ingredients()->attach($creme->id, ['quantity' => 12]);
@@ -113,18 +129,29 @@ class DatabaseSeeder extends Seeder
         $restaurant->save();
 
         //orders
-        $order = Order::factory()
-        ->has(Complaint::factory()->count(2))
-        ->create([
-            'user_id' => $user->id,
+        (new OrderController)->store(new OrderPostRequest([
             'restaurant_id' => $restaurant->id,
-        ]);
-        $order->dishes()->attach($pateCarbo->id, ['quantity' => 1]);
+            'date' => now(),
+            'dishes' => [
+                ['id' => $pateCarbo->id, 'quantity' => 1]
+            ],
+            'menus' => []
+        ]));
         
 
 
         //new restaurants
-        $restaurant2 = Restaurant::factory()->create();
+        (new RestaurantController)->store(new RestaurantPostRequest([
+            'name' => "L'Entrecôte Stanislas",
+            'full_address' => "23 Rue Stanislas",
+            'city' => "Nancy",
+            'postal_code' => "54000",
+            'lat_address' => null,
+            'lng_address' => null,
+            'number_phone' => "0383382190",
+            'country' => "France",
+        ]));
+        $restaurant2 = Restaurant::latest('id')->first();
             
         //stock
         $restaurant2->ingredients()->attach($frite->id, ['quantity' => 25000]); //25 Kg
@@ -154,12 +181,14 @@ class DatabaseSeeder extends Seeder
         $restaurant2->save();
 
         //orders
-        $orderRestaurant2 = Order::factory()
-        ->create([
-            'user_id' => $user->id,
+        (new OrderController)->store(new OrderPostRequest([
             'restaurant_id' => $restaurant2->id,
-        ]);
-        $orderRestaurant2->dishes()->attach($menuSteakFrite->id, ['quantity' => 1]);
+            'date' => now(),
+            'dishes' => [],
+            'menus' => [
+                ['id' => $menuSteakFrite->id, 'quantity' => 1]
+            ]
+        ]));
         
         //---------------aléatoire----------------
         /*
