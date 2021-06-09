@@ -3,9 +3,9 @@
     <div v-for="order in orders" :key="order.id">
       <h1>Commande numero #{{ order.id }}</h1>
 
-      <h2>Total: {{ order.total_price }}€</h2>
+      <h2>Total: {{ order.total_price | price }}</h2>
       <p :var="(d = new Date(order.created_at))">
-        Passée le {{ d.getDate() }}/{{ d.getMonth() }}/{{ d.getFullYear() }} -
+        Passée le {{ d.getDate() }}/{{ d.getMonth() }}/{{ d.getFullYear() }} à
         {{ d.getHours() }}:{{ d.getMinutes() }}
       </p>
 
@@ -21,7 +21,7 @@
       <table class="table">
         <tr v-for="dish in order.dishes" :key="dish.id">
           <td>{{ dish.name }}</td>
-          <td>{{ dish.price }}€</td>
+          <td>{{ dish.price | price }}</td>
         </tr>
       </table>
 
@@ -66,6 +66,16 @@
 
 <script>
 export default {
+  filters: {
+    price(price) {
+      const p = `${(Math.round(price * 100) / 100).toFixed(2)}`.replace(
+        '.',
+        ','
+      )
+
+      return `${p}€`
+    },
+  },
   data() {
     return {
       API_URL: process.env.API_URL,
