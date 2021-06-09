@@ -77,19 +77,7 @@
           <Nuxt />
         </b-col>
         <b-col>
-          <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero nihil
-            maxime in quidem deleniti qui tenetur tempore numquam omnis rem quia
-            quis dolores sit fugit nobis animi dicta perspiciatis reprehenderit
-            quos, dolorem expedita excepturi, eveniet vel repellendus? Eaque
-            dolor facilis provident ratione minus iure magnam optio eligendi
-            soluta nostrum saepe, tempora distinctio fuga neque explicabo
-            suscipit architecto debitis rerum repellat animi hic assumenda.
-            Voluptas iusto officia laudantium dolorum? Quibusdam similique
-            cumque, eaque ullam laboriosam illum! Minima enim quae rem quis
-            quam, tempora tenetur iste aperiam eum dolor? Numquam, maiores nam
-            quasi porro excepturi veniam soluta hic inventore totam, vel ipsam.
-          </p>
+          <p>À compléter</p>
 
           <b-button variant="success"
             >Télécharger l'application mobile</b-button

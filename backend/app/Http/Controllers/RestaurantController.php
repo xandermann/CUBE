@@ -22,13 +22,14 @@ class RestaurantController extends Controller
         $note = $request->input('rating');
 
         if($note) {
-            return Restaurant::with('coordinate')
+            return Restaurant::orderBy('id', 'desc')
+                ->with('coordinate')
                 ->with('ingredients')
                 ->where('note', '>=', $note)
                 ->paginate(10);
         }
         else {
-            return Restaurant::with('coordinate')->with('ingredients')->paginate(10);
+            return Restaurant::orderBy('id', 'desc')->with('coordinate')->with('ingredients')->paginate(10);
         }
     }
 
