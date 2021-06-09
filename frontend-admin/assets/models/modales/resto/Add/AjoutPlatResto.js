@@ -27,7 +27,7 @@ export class AjoutPlatResto {
       'ingredients',
       'Ingrédients du plat',
       new ModalPropertiesTypes().SELECT,
-      '/api/dishes',
+      '/api/ingredients',
       null,
       true
     ),

@@ -32,7 +32,7 @@
           class="w-100"
           @row-clicked="navigateToItem"
         >
-          <template #cell(modify)="data">
+          <template #cell(modifier)="data">
             <b-button v-b-modal="'Put' + data.item.id" variant="primary"
               ><span class="fa fa-pen"
             /></b-button>
@@ -42,7 +42,7 @@
               @hasBeenHidden="$fetch"
             />
           </template>
-          <template #cell(delete)="data">
+          <template #cell(supprimer)="data">
             <b-button
               :id="data.item.id"
               v-b-modal="'Delete' + data.item.id"

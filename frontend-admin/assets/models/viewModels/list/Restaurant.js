@@ -11,8 +11,8 @@ export class ListRestaurant {
     'ville',
     'pays',
     'telephone',
-    'modify',
-    'delete',
+    'modifier',
+    'supprimer',
   ]
 
   constructor(url) {
