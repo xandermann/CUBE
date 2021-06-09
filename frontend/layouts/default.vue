@@ -73,7 +73,7 @@
 
     <b-container class="mt-4">
       <b-row class="text-center">
-        <b-col cols="8">
+        <b-col md="8">
           <Nuxt />
         </b-col>
         <b-col>
