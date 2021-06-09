@@ -68,8 +68,24 @@
             ></b-form-input>
           </b-form-group>
 
-          <b-button class="mb-4">Sauvegarder</b-button>
+          <b-button variant="success">Sauvegarder</b-button>
         </b-form>
+
+        <hr class="mt-4 mb-4" />
+
+        <h2>Télécharger vos données</h2>
+
+        <b-button variant="success"
+          >Demandez une archive avec vos données personnelles</b-button
+        >
+
+        <hr class="mt-4 mb-4" />
+
+        <h2>Supprimez votre compte</h2>
+
+        <b-button variant="danger">Supprimez votre compte</b-button>
+
+        <hr class="mt-4 mb-4" />
       </div>
     </client-only>
   </div>

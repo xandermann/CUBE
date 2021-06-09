@@ -34,7 +34,7 @@
               >Supprimer ({{ menu.quantity }})</b-button
             >
 
-            <p>Total {{ menu.quantity * menu.price }}€</p>
+            <p>Total {{ (menu.quantity * menu.price) | price }}</p>
             <!-- <p>[TODO: image]</p> -->
           </b-col>
         </b-row>
@@ -56,7 +56,7 @@
                 >Supprimer {{ dish.quantity }}</b-button
               >
 
-              <p>Total: {{ dish.quantity * dish.price }}€</p>
+              <p>Total: {{ (dish.quantity * dish.price) | price }}</p>
             </b-col>
           </b-row>
         </div>
@@ -67,7 +67,7 @@
       <!-- <nuxt-link to="/basket"> -->
       <b-row>
         <b-col>
-          <h3>Prix: {{ Math.round(total * 100) / 100 }}€</h3>
+          <h3>Prix: {{ (Math.round(total * 100) / 100) | price }}</h3>
         </b-col>
         <b-col>
           <b-button variant="info" class="mb-4" @click="pay"
@@ -82,6 +82,16 @@
 
 <script>
 export default {
+  filters: {
+    price(price) {
+      const p = `${(Math.round(price * 100) / 100).toFixed(2)}`.replace(
+        '.',
+        ','
+      )
+
+      return `${p}€`
+    },
+  },
   middleware: 'auth',
   data() {
     return {
@@ -92,15 +102,17 @@ export default {
   },
   computed: {
     total() {
-      return this.menus.reduce((acc, menu) => {
-        return (
-          acc +
-          menu.quantity * menu.price +
-          menu.dishes.reduce((acc, dish) => {
-            return acc + dish.quantity * dish.price
-          }, 0)
-        )
-      }, 0)
+      return (
+        this.menus.reduce((acc, menu) => {
+          return (
+            acc +
+            menu.quantity * menu.price +
+            menu.dishes.reduce((acc, dish) => {
+              return acc + dish.quantity * dish.price
+            }, 0)
+          )
+        }, 0) + 0.5
+      )
     },
   },
   mounted() {

@@ -1,5 +1,34 @@
 <template>
   <div>
+    <div class="fixed-bottom p-4" v-if="!cookie_banner_hidden">
+      <div class="bg-dark text-white w-100 mw-100" role="alert">
+        <div class="toast-body p-4 d-flex flex-column">
+          <h4>Cookies</h4>
+          <p>
+            Ce site utilise des cookies pour vous offrir le meilleur service. En
+            poursuivant votre navigation, vous acceptez l’utilisation des
+            cookies.
+          </p>
+          <div class="ml-auto">
+            <button
+              type="button"
+              class="btn btn-outline-light mr-3"
+              @click="cookie_banner_hidden = true"
+            >
+              Je refuse
+            </button>
+            <button
+              type="button"
+              class="btn btn-light"
+              @click="cookie_banner_hidden = true"
+            >
+              J'accepte
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <b-navbar toggleable="lg" type="dark" variant="dark">
       <nuxt-link to="/">
         <b-navbar-brand>GoodFood</b-navbar-brand>
@@ -73,16 +102,16 @@
 
     <b-container class="mt-4">
       <b-row class="text-center">
-        <b-col md="8">
+        <div class="col-lg-8 col-sm-12">
           <Nuxt />
-        </b-col>
-        <b-col>
+        </div>
+        <div class="d-none d-lg-block">
           <p>À compléter</p>
 
           <b-button variant="success"
             >Télécharger l'application mobile</b-button
           >
-        </b-col>
+        </div>
       </b-row>
     </b-container>
   </div>
@@ -90,6 +119,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      cookie_banner_hidden: false,
+    }
+  },
   computed: {
     loggedIn() {
       return this.$auth.loggedIn
