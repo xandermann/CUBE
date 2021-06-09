@@ -24,7 +24,7 @@
             <p v-if="isUserLoggedIn" class="m-0 pr-2">
               Bonjour, {{ user.firstname }} {{ user.lastname }}
             </p>
-            <b-button @click="logOut">Deconnexion</b-button>
+            <b-button @click="logOut">Déconnexion</b-button>
           </div>
         </b-navbar-nav>
       </b-collapse>

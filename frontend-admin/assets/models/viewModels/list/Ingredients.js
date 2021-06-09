@@ -3,7 +3,7 @@ export class ListIngredients {
   liste
   urlFetch
   title = 'Liste des ingrédients'
-  champs = ['nom', 'delete']
+  champs = ['nom', 'supprimer']
 
   constructor(url) {
     this.urlFetch = url

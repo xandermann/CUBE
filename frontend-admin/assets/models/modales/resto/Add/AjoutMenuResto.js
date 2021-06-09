@@ -27,7 +27,7 @@ export class AjoutMenuResto {
       'dishes',
       'Plats du menu',
       new ModalPropertiesTypes().SELECT,
-      '/api/menus',
+      '/api/dishes',
       null,
       true
     ),

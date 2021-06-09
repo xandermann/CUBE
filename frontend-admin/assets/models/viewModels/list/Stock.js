@@ -5,7 +5,7 @@ export class ListStockRestaurant {
   liste
   title = 'Ingrédients en stock'
   urlFetch
-  champs = ['nom', 'quantite', 'modify', 'delete']
+  champs = ['nom', 'quantite', 'modifier', 'supprimer']
   constructor(url) {
     this.urlFetch = url
   }
