@@ -169,7 +169,7 @@ class DatabaseSeeder extends Seeder
         //menus
         $menuSteakFrite = Menu::create([
             'name' => 'Steak frites',
-            'price' => 8
+            'price' => 10
         ]);
         $menuSteakFrite->dishes()->attach($steakFrite);
         $restaurant2->menus()->attach($menuSteakFrite->id);

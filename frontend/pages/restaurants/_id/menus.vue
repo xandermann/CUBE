@@ -6,12 +6,13 @@
 
     <template v-if="restaurant">
       <h2>{{ restaurant.name }}</h2>
-      <p>Note: 4/5</p>
+      <p>Note: {{ restaurant.note }}</p>
 
       <div class="border">
-        <div>Restaurant: {{ restaurant.name }}</div>
         <div>Adresse: {{ restaurant.coordinate.full_address }}</div>
-        <div>Téléphone: {{ restaurant.coordinate.number_phone }}</div>
+        <div>Code postal: {{ restaurant.coordinate.postal_code }}</div>
+        <div>Ville: {{ restaurant.coordinate.city }}</div>
+        <div>Numéro de téléphone: {{ restaurant.coordinate.number_phone }}</div>
       </div>
 
       <hr />
@@ -111,7 +112,7 @@ export default {
               return acc + dish.quantity * dish.price
             }, 0)
           )
-        }, 0) + 0.5
+        }, 0)
       )
     },
   },

@@ -20,7 +20,7 @@ class Authenticate extends Middleware
 
         // TODO : change localhost by env var
         if (! $request->expectsJson()) {
-            return 'http://localhost:8000';
+            return 'https://goodfood.alexandre-hublau.com/';
         }
 
     }

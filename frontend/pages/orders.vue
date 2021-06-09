@@ -16,7 +16,16 @@
         >Voir la facture</b-button
       >
 
-      <p>Liste des plats commandés:</p>
+      <p v-if="order.menus.length > 0">Liste des menus commandés:</p>
+
+      <table class="table">
+        <tr v-for="menu in order.menus" :key="menu.id">
+          <td>{{ menu.name }}</td>
+          <td>{{ menu.price | price }}</td>
+        </tr>
+      </table>
+
+      <p v-if="order.dishes.length > 0">Liste des plats commandés:</p>
 
       <table class="table">
         <tr v-for="dish in order.dishes" :key="dish.id">

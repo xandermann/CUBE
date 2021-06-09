@@ -27,6 +27,8 @@
               v-model="time"
               locale="fr"
               label-no-time-selected="Pas d'heure séléctionnée"
+              label-close-button="Fermer"
+              label-hours="Heures"
             ></b-form-timepicker>
           </b-form-group>
         </b-col>
